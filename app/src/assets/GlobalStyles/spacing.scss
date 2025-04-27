@@ -1,0 +1,6 @@
+:root {
+  --spacing-nav-item-size: 32px;
+  --spacing-nav-padding: 12px;
+  --spacing-nav-size: var(--spacing-nav-item-size) +
+    (var(--spacing-nav-padding) * 2);
+}

@@ -1,0 +1,21 @@
+.menu {
+  .menu-btn {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: var(--spacing-nav-item-size);
+    height: var(--spacing-nav-item-size);
+    border: 1px solid var(--color-border-main-trans);
+    border-radius: 4px;
+    color: var(--color-sec-trans);
+    cursor: pointer;
+
+    &:hover {
+      background-color: var(--color-bg-sec-2);
+    }
+  }
+}
+
+.logo {
+  height: var(--spacing-nav-item-size);
+}

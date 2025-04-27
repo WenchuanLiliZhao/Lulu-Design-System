@@ -1,0 +1,6 @@
+.icon {
+  pointer-events: none;
+  &::selection {
+    background: none;
+  }
+}
