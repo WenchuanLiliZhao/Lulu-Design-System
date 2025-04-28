@@ -1,20 +1,63 @@
-/* eslint-disable react-refresh/only-export-components */
+/*
+# About this Component
+
+## Overview
+
+- **Primary Functionality**: `MessageBox` is a message display component used to show grouped message lists and supports filtering by unread status.
+
+- **Sub-Features**:
+  1. Group messages by time (e.g., Today, Yesterday, This Week, etc.).
+  2. Toggle to show only unread messages.
+  3. Format message timestamps into relative time (e.g., "5 minutes ago").
+  4. Provide hover interaction for messages.
+
+## Notes & Challenges
+
+- **Time Grouping Logic**: Requires dynamically calculating groups based on message timestamps to ensure accuracy.
+- **Performance Optimization**: Filtering and grouping logic may need optimization for large message lists to avoid performance bottlenecks.
+- **Styling**: Needs to dynamically apply different styles based on the read/unread status of messages.
+
+## Additional Information
+
+- **Design Intent**: The component aims to provide a clear message display and filtering functionality to enhance user experience.
+- **Known Issues**: The current time grouping logic assumes the `ago` property of messages is always accurate, which may require additional validation mechanisms.
+*/
+
+/*
+# 关于这个组件
+
+## 简介
+
+- **主要功能**：`MessageBox` 是一个消息展示组件，用于显示分组的消息列表，并支持按未读状态筛选。
+
+- **子功能**：
+  1. 按时间分组消息（如今天、昨天、本周等）。
+  2. 支持切换是否仅显示未读消息。
+  3. 格式化消息的时间显示为相对时间（如“5分钟前”）。
+  4. 提供消息的悬停交互功能。
+
+## 注意 & 实现难点
+
+- **时间分组逻辑**：需要根据消息的时间戳动态计算分组，确保分组准确性。
+- **性能优化**：当消息列表较大时，可能需要优化筛选和分组逻辑以避免性能瓶颈。
+- **样式处理**：需要根据消息的已读/未读状态动态应用不同的样式。
+
+## 其他
+
+- **设计意图**：组件旨在提供清晰的消息展示和筛选功能，提升用户体验。
+- **已知问题**：目前的时间分组逻辑假设消息的 `ago` 属性始终准确，可能需要额外的校验机制。
+*/
+
 import React, { useState } from "react";
 import { HoverBox } from "./HoverBox";
 import styles from "./MessageBox.module.scss";
 import { Switch } from "./Switch";
 import { ClickToClose } from "./Dropdown";
-
-interface MessageProps {
-  title: string;
-  message: string;
-  ago: number; // Number of minutes ago
-  read: boolean; // New property to indicate if the message has been read
-}
+import { MessageType } from "../Types/MessageTypes";
 
 interface MessageBoxProps {
   title: string;
-  messageList: MessageProps[];
+  messageList: MessageType[];
 }
 
 export const MessageBox: React.FC<MessageBoxProps> = ({
@@ -26,6 +69,8 @@ export const MessageBox: React.FC<MessageBoxProps> = ({
   const filteredMessages = showUnreadOnly
     ? messageList.filter((message) => !message.read)
     : messageList;
+
+  const groupedMessages = groupMessagesByTime(filteredMessages);
 
   return (
     <div className={styles["message-box"]}>
@@ -44,24 +89,72 @@ export const MessageBox: React.FC<MessageBoxProps> = ({
       </div>
 
       <div className={styles["message-list"]}>
-        {filteredMessages.map((message, i: number) => (
-          <div
-            key={i}
-            className={`${styles["message"]} ${
-              message.read ? styles["read"] : styles["unread"]
-            }`}
-          >
-            <div className={styles["message-title"]}>{message.title}</div>
-            <div className={styles["message-text"]}>{message.message}</div>
-            <div className={styles["message-time"]}>
-              {formatAgo(message.ago)}
+        {Object.entries(groupedMessages)
+          .filter(([, messages]) => messages.length > 0)
+          .map(([group, messages]) => (
+            <div key={group} className={styles["message-group"]}>
+              <div className={styles["group-title"]}>{group}</div> {/* Group message with time; eg., today, this week */}
+              {messages.map((message, i) => (
+                <div
+                  key={i}
+                  className={`${styles["message"]} ${
+                    message.read ? styles["read"] : styles["unread"]
+                  }`}
+                >
+                  <div className={styles["message-title"]}>{message.title}</div>
+                  <div className={styles["message-text"]}>
+                    {message.message}
+                  </div>
+                  <div className={styles["message-time"]}>
+                    {formatAgo(message.ago)}
+                  </div>
+                  <HoverBox mode={"default"} className={`${ClickToClose}`} />
+                </div>
+              ))}
             </div>
-            <HoverBox mode={"default"} className={`${ClickToClose}`} />
-          </div>
-        ))}
+          ))}
       </div>
     </div>
   );
+};
+
+// Helper function to group messages by time
+// 辅助函数：按时间分组消息（如今天、昨天、本周等）
+const groupMessagesByTime = (messages: MessageType[]) => {
+  const now = new Date();
+  const groups: Record<string, MessageType[]> = {
+    Today: [], // Today group (今天分组)
+    Yesterday: [], // Yesterday group (昨天分组)
+    "This Week": [], // This Week group (本周分组)
+    "This Month": [], // This Month group (本月分组)
+    "This Year": [], // This Year group (今年分组)
+    Older: [], // Older group (更早分组)
+  };
+
+  messages.forEach((message) => {
+    const messageDate = new Date();
+    messageDate.setMinutes(messageDate.getMinutes() - message.ago);
+
+    const diffInDays = Math.floor(
+      (now.getTime() - messageDate.getTime()) / (1000 * 60 * 60 * 24)
+    );
+
+    if (diffInDays === 0) {
+      groups["Today"].push(message); // 分组到“今天”
+    } else if (diffInDays === 1) {
+      groups["Yesterday"].push(message); // 分组到“昨天”
+    } else if (diffInDays <= 7) {
+      groups["This Week"].push(message); // 分组到“本周”
+    } else if (diffInDays <= 30) {
+      groups["This Month"].push(message); // 分组到“本月”
+    } else if (diffInDays <= 365) {
+      groups["This Year"].push(message); // 分组到“今年”
+    } else {
+      groups["Older"].push(message); // 分组到“更早”
+    }
+  });
+
+  return groups;
 };
 
 // Helper function to format the "ago" property
@@ -76,127 +169,3 @@ const formatAgo = (minutesAgo: number): string => {
     return `${days} day${days === 1 ? "" : "s"} ago`;
   }
 };
-
-export const Example_Messages: MessageProps[] = [
-  {
-    title: "System Update",
-    message: "Your system has been updated successfully.",
-    ago: 5,
-    read: true,
-  },
-  {
-    title: "New Message",
-    message:
-      "Lorem ipsum dolor sit amet consectetur adipisicing elit. Perferendis minus aperiam repudiandae consequuntur ut quaerat soluta impedit nihil, sed ullam necessitatibus veritatis eaque, unde sit nesciunt dicta corporis, dolorem voluptates.",
-    ago: 10,
-    read: false,
-  },
-  {
-    title: "Payment Received",
-    message: "Your payment of $50 has been received.",
-    ago: 30,
-    read: true,
-  },
-  {
-    title: "Reminder",
-    message: "Don't forget your meeting at 3 PM.",
-    ago: 60,
-    read: false,
-  },
-  {
-    title: "Friend Request",
-    message: "Anna has sent you a friend request.",
-    ago: 120,
-    read: false,
-  },
-  {
-    title: "Password Changed",
-    message: "Your password was changed successfully.",
-    ago: 180,
-    read: true,
-  },
-  {
-    title: "New Comment",
-    message: "Someone commented on your post.",
-    ago: 240,
-    read: false,
-  },
-  {
-    title: "Subscription Expiring",
-    message: "Your subscription will expire in 3 days.",
-    ago: 360,
-    read: true,
-  },
-  {
-    title: "Event Invitation",
-    message: "You are invited to the annual gala.",
-    ago: 480,
-    read: false,
-  },
-  {
-    title: "Security Alert",
-    message: "A login attempt was detected from a new device.",
-    ago: 600,
-    read: true,
-  },
-  {
-    title: "Delivery Update",
-    message: "Your package is out for delivery.",
-    ago: 720,
-    read: false,
-  },
-  {
-    title: "Achievement Unlocked",
-    message: "You reached a new milestone!",
-    ago: 1440,
-    read: true,
-  },
-  {
-    title: "System Maintenance",
-    message: "Scheduled maintenance will occur at midnight.",
-    ago: 2880,
-    read: true,
-  },
-  {
-    title: "New Follower",
-    message: "You have a new follower on your profile.",
-    ago: 4320,
-    read: false,
-  },
-  {
-    title: "Weekly Summary",
-    message: "Here’s your activity summary for the week.",
-    ago: 5760,
-    read: true,
-  },
-  {
-    title: "Promotion Alert",
-    message: "Get 20% off on your next purchase!",
-    ago: 7200,
-    read: false,
-  },
-  {
-    title: "Bug Report",
-    message: "A bug you reported has been resolved.",
-    ago: 8640,
-    read: true,
-  },
-  {
-    title: "Account Verification",
-    message: "Your account has been successfully verified.",
-    ago: 10080,
-    read: true,
-  },
-  {
-    title: "Survey Request",
-    message: "We’d love your feedback on our service.",
-    ago: 20160,
-    read: false,
-  },
-  {
-    title: "Welcome!",
-    message: "Thank you for joining our platform.",
-    ago: 43200,
-    read: true,
-  },
-];

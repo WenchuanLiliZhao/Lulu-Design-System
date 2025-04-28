@@ -10,7 +10,8 @@ import styles from "./CDD_Home.module.scss";
 import React from "react";
 import { Menu } from "../../../Components/Menu";
 import { ThemeMenu } from "../../../Components/ThemeMenu";
-import { Example_Messages, MessageBox } from "../../../Components/MessageBox";
+import { MessageBox } from "../../../Components/MessageBox";
+import { Example_MessagesList } from "../../../Types/ExampleData/Example_MessagesList";
 
 const MenuBtnToRemove = () => {
   return (
@@ -138,7 +139,7 @@ const CDD_Home: Page = {
                   deco={"arrow_drop_down"}
                 />
               }
-              dropdownContent={<MessageBox title="Notification" messageList={Example_Messages} />}
+              dropdownContent={<MessageBox title="Notification" messageList={Example_MessagesList.NonEmpty} />}
               position={"left"}
               dropdownSize={"large"}
             />,
