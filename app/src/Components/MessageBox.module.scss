@@ -1,0 +1,53 @@
+.message-box {
+  width: 100%; // because the width adapts to the father element
+  padding: 8px 0;
+  border: 1px solid var(--color-border-main);
+  background-color: var(--color-bg-main);
+
+  border-radius: 4px;
+  box-shadow: 0 4px 16px rgba(black, 0.16);
+
+  .box-title-bar {
+    .box-title {
+      font-size: 20px;
+      font-weight: bold;
+      padding: 8px 0;
+      margin: 0 16px;
+      padding-bottom: 16px;
+      border-bottom: 1px solid var(--color-border-main);
+    }
+  }
+
+  .message-list {
+    padding: 0 8px;
+    overflow-y: scroll;
+    max-height: 70vh;
+    margin-top: 8px;
+
+
+    .message {
+      
+      padding: 8px 8px;
+      overflow: hidden;
+      border-radius: 2px;
+      font-size: 14px;
+      line-height: 1.5;
+
+      .message-title {
+        font-weight: bold;
+        color: var(--color-main);
+      }
+
+      .message-text {
+        font-weight: normal;
+        color: var(--color-sec);
+      }
+
+      .message-time {
+        font-size: 12px;
+        font-weight: bold;
+        color: var(--color-neg);
+      }
+    }
+  }
+}

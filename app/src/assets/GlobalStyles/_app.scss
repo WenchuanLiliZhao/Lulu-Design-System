@@ -3,3 +3,22 @@
 @forward "./color.scss";
 @forward "./spacing.scss";
 @forward "./z-index.scss";
+
+* {
+  /* Scrollbar styling */
+  scrollbar-width: thin; /* For Firefox: makes the scrollbar thinner */
+  scrollbar-color: var(--color-neg) transparent; /* For Firefox: thumb and track colors */
+
+  &::-webkit-scrollbar {
+    width: 8px; /* Adjust width as needed */
+  }
+
+  &::-webkit-scrollbar-thumb {
+    background-color: var(--color-neg); /* Scrollbar thumb color */
+    border-radius: 6px; /* Optional: Rounded corners */
+  }
+
+  &::-webkit-scrollbar-track {
+    background-color: transparent; /* Transparent track */
+  }
+}

@@ -1,5 +1,5 @@
 .nav {
-  .nav-background {
+  .nav-placehoder {
     height: var(--spacing-nav-size);
     padding: var(--spacing-nav-padding);
   }
@@ -9,14 +9,14 @@
     height: var(--spacing-nav-size);
     padding: var(--spacing-nav-padding);
     z-index: var(--z-index-nav);
-    background-color: var(--color-bg-main);
+    background-color: var(--color-bg-sec);
     top: 0;
     left: 0;
     //
     display: flex;
     justify-content: space-between;
     align-items: center;
-    border-bottom: 1px solid var(--color-border-main-trans);
+    box-shadow: 0 1px 0 var(--color-border-main-trans);
 
     .item-container {
       display: flex;

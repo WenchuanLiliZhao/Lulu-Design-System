@@ -1,0 +1,47 @@
+.menu {
+  position: absolute;
+  width: 100%; // 因为这个组件需要父组件设置宽度，所以这里设置100%
+  padding: 8px 0;
+  border: 1px solid var(--color-border-main);
+  background-color: var(--color-bg-main);
+
+  border-radius: 4px;
+  box-shadow: 0 4px 16px rgba(black, 0.16);
+  
+  .group {
+    &:not(:first-child) {
+      border-top: 1px solid var(--color-border-main);
+      padding-top: 8px;
+      margin-top: 8px;
+    }
+
+    .group-title {
+      padding: 8px 16px;
+      font-size: 12px;
+      line-height: 1;
+      font-weight: bold;
+      color: var(--color-neg);
+    }
+
+    .items {
+      padding: 0 8px;
+      .item {
+        padding: 8px;
+        font-size: 14px;
+        line-height: 18px;
+        border-radius: 2px;
+        overflow: hidden;
+
+        cursor: pointer;
+
+        .icon {
+          display: inline-block;
+          vertical-align: text-bottom;
+          font-size: 16px;
+          line-height: 18px;
+          margin-right: 0.5em;
+        }
+      }
+    }
+  }
+}

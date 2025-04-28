@@ -1,5 +1,7 @@
 .icon {
   pointer-events: none;
+  vertical-align: middle;
+  font-size: inherit;
   &::selection {
     background: none;
   }

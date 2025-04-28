@@ -1,0 +1,21 @@
+.btn {
+  &.nav-btn {
+    $nav-btn-font-size: 20px;
+    border: 1px solid var(--color-border-main);
+
+    $nav-btn-padding: calc((var(--spacing-nav-item-size) - $nav-btn-font-size) / 2 - 1px);
+
+    padding: $nav-btn-padding;
+
+    border-radius: 4px;
+
+    display: flex;
+    gap: calc($nav-btn-padding / 2);
+    justify-content: center;
+    align-items: center;
+    font-size: $nav-btn-font-size;
+    
+    color: var(--color-sec);
+    
+  }
+}

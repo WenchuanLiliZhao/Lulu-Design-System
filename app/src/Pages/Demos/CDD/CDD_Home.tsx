@@ -1,55 +1,109 @@
-import { Logo } from "../../../assets/LogoIndex/LogoIndex";
+import { Logo } from "../../../assets/Img/Logo";
+import { Placeholder } from "../../../assets/Img/Placeholder";
+import { Btn } from "../../../Components/Btn";
+import { HoverBox } from "../../../Components/HoverBox";
 import { Icon } from "../../../Components/Icon";
+import { Dropdown } from "../../../Components/Dropdown";
 import { Nav } from "../../../Components/Nav";
 import { Page } from "../../../Types/PageType";
 import styles from "./CDD_Home.module.scss";
-import { useState, useEffect } from "react";
+import React from "react";
+import { Menu } from "../../../Components/Menu";
+import { ThemeMenu } from "../../../Components/ThemeMenu";
+import { Example_Messages, MessageBox } from "../../../Components/MessageBox";
 
-const Menu = () => {
+const MenuBtnToRemove = () => {
   return (
     <div className={styles["menu"]}>
       <div className={styles["menu-btn"]}>
         <Icon icon="menu" />
       </div>
+      <HoverBox mode={"default"} />
     </div>
   );
 };
 
-const ThemeSwitcher = () => {
-  const [theme, setTheme] = useState(() => {
-    // 从 localStorage 获取初始值
-    return localStorage.getItem("theme") || "system";
-  });
 
-  useEffect(() => {
-    // 根据主题设置 data-theme 属性
-    if (theme === "light") {
-      document.documentElement.setAttribute("data-theme", "light");
-    } else if (theme === "dark") {
-      document.documentElement.setAttribute("data-theme", "dark");
-    } else {
-      document.documentElement.removeAttribute("data-theme");
-    }
 
-    // 将主题存储到 localStorage
-    localStorage.setItem("theme", theme);
-  }, [theme]);
+interface NavItem_SiteTitleBarProps {
+  text: string;
+}
 
+const NavItem_SiteTitleBar: React.FC<NavItem_SiteTitleBarProps> = ({
+  text,
+}) => {
   return (
-    <div className={styles["theme-switcher"]}>
-      <select
-        value={theme}
-        onChange={(e) => setTheme(e.target.value)}
-        aria-label="Theme Switcher"
-      >
-        <option value="system">Adapt System</option>
-        <option value="light">Light Mode</option>
-        <option value="dark">Dark Mode</option>
-      </select>
+    <a href={`/${CDD_Home.info.slug}`} className={styles["logo-bar"]}>
+      <Logo mode="FullColorNoText" className={styles["logo"]} />
+      <div className={styles["text"]}>{text}</div>
+    </a>
+  );
+};
+
+interface NavItem_UserAvatarProps {
+  avatarUrl: string | undefined;
+  onClick?: () => void;
+}
+
+const NavItem_UserAvatar: React.FC<NavItem_UserAvatarProps> = ({
+  avatarUrl,
+}) => {
+  return (
+    <div className={styles["user-avatar"]}>
+      {avatarUrl ? (
+        <img src={avatarUrl} alt="User Avatar" className={styles["avatar"]} />
+      ) : (
+        <Placeholder element="UserAvatar" className={styles["avatar"]} />
+      )}
+      <HoverBox mode={"default"} />
     </div>
   );
 };
 
+interface NavItem_DropdownProps {
+  btn: React.ReactNode;
+  menu: React.ReactNode;
+  onClick?: () => void;
+}
+
+const NavItem_Dropdown: React.FC<NavItem_DropdownProps> = ({
+  btn,
+  menu,
+  onClick,
+}) => {
+  console.log(menu);
+  return (
+    <div className={styles["dropdown"]}>
+      <div className={styles["btn"]} onClick={onClick}>
+        {btn}
+      </div>
+    </div>
+  );
+};
+
+const TestMenuContent = [
+  {
+    groupTitle: "User Settings",
+    groupItems: [
+      { icon: "account_circle", text: "Profile" },
+      { icon: "settings", text: "Settings" },
+      { icon: "logout", text: "Logout" },
+    ],
+  },
+  {
+    groupTitle: "Resources",
+    groupItems: [
+      { icon: "help", text: "Help Center" },
+      { icon: "info", text: "About Us" },
+    ],
+  },
+  {
+    groupItems: [
+      { icon: "feedback", text: "Send Feedback" },
+      { icon: "bug_report", text: "Report a Bug" },
+    ],
+  },
+];
 
 const CDD_Home: Page = {
   info: {
@@ -61,9 +115,39 @@ const CDD_Home: Page = {
     <>
       <Nav
         items={{
-          left: [<Menu />, <Logo mode="FullColorNoText" className={styles["logo"]} />, <p>China Data Discover</p> ],
-          middle: undefined,
-          right: [<ThemeSwitcher />],
+          left: [
+            <MenuBtnToRemove />,
+            <NavItem_SiteTitleBar text={"China Data Discover"} />,
+          ],
+          middle: [],
+          right: [
+            <ThemeMenu />,
+            <Dropdown
+              trigger={
+                <Btn icon={"settings"} mode={"nav-btn"} deco={"arrow_drop_down"} />
+              }
+              dropdownContent={<Menu items={TestMenuContent} />}
+              position={"left"}
+              dropdownSize={"small"}
+            />,
+            <Dropdown
+              trigger={
+                <Btn
+                  icon={"notifications"}
+                  mode={"nav-btn"}
+                  deco={"arrow_drop_down"}
+                />
+              }
+              dropdownContent={<MessageBox title="Notification" messageList={Example_Messages} />}
+              position={"left"}
+              dropdownSize={"large"}
+            />,
+            <NavItem_Dropdown
+              btn={<Btn icon={"info"} mode={"nav-btn"} />}
+              menu={undefined}
+            />,
+            <NavItem_UserAvatar avatarUrl={undefined} />,
+          ],
         }}
       />
     </>

@@ -13,7 +13,7 @@ interface NavProps {
 export const Nav = ({ items }: NavProps) => {
   return (
     <nav className={styles["nav"]}>
-      <div className={styles["nav-background"]}></div>
+      <div className={styles["nav-placehoder"]}></div>
       <div className={styles["nav-container"]}>
         <div className={styles["item-container"]}>
           {items.left && (
