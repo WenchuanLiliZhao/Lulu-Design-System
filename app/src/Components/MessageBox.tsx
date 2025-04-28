@@ -1,3 +1,4 @@
+/* eslint-disable react-refresh/only-export-components */
 import React, { useState } from "react";
 import { HoverBox } from "./HoverBox";
 import styles from "./MessageBox.module.scss";
@@ -30,13 +31,15 @@ export const MessageBox: React.FC<MessageBoxProps> = ({
     <div className={styles["message-box"]}>
       <div className={styles["box-title-bar"]}>
         <div className={styles["box-title"]}>{title}</div>
-        <div>
-          <span>Only show unread</span>
-          <Switch
-            checked={showUnreadOnly}
-            onChange={setShowUnreadOnly}
-            size={"small"}
-          />
+        <div className={styles["box-option-container"]}>
+          <div className={styles["box-switch"]}>
+            <span className={styles["label"]}>Only show unread</span>
+            <Switch
+              checked={showUnreadOnly}
+              onChange={setShowUnreadOnly}
+              size={"small"}
+            />
+          </div>
         </div>
       </div>
 
