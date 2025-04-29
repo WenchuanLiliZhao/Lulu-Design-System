@@ -18,7 +18,7 @@ import { TagType } from "../../../Types/TagType";
 import { Tag } from "../../../Components/Tag";
 import { KanbanGroup } from "../../../Components/KanbanGroup";
 import { DataList } from "../../../Components/DataList";
-import { Example_DataElementArray } from '../../../Types/ExampleData/Example_DataElement';
+import { Example_DataElementArray } from "../../../Types/ExampleData/Example_DataElement";
 
 const MenuBtnToRemove = () => {
   return (
@@ -239,10 +239,25 @@ const CDD_Home: Page = {
             title={"Browsing history"}
             kanbanList={[
               {
-                title: "Optimization",
-                icon: "model_training",
-                content: <DataList list={Example_DataElementArray.Long} displayMode={"simplified"} listMode={"ordered"} />
-              }
+                title: "Report",
+                icon: "monitoring",
+                content: (
+                  <DataList
+                    list={Example_DataElementArray.Report}
+                    displayMode={"simplified"}
+                  />
+                ),
+              },
+              {
+                title: "Dataset",
+                icon: "dataset",
+                content: (
+                  <DataList
+                    list={Example_DataElementArray.DataSet}
+                    displayMode={"simplified"}
+                  />
+                ),
+              },
             ]}
             style={{ height: "600px", gridColumn: "span 4" }}
           />
@@ -250,10 +265,25 @@ const CDD_Home: Page = {
             title={"Browsing history"}
             kanbanList={[
               {
-                title: "Optimization",
-                icon: "model_training",
-                content: <DataList list={Example_DataElementArray.Long} displayMode={"simplified"} listMode={"ordered"} />
-              }
+                title: "Resently Viewed",
+                icon: "visibility",
+                content: (
+                  <DataList
+                    list={Example_DataElementArray.ResentlyViewed}
+                    displayMode={"semi-detailed"}
+                  />
+                ),
+              },
+              {
+                title: "Starred",
+                icon: "star",
+                content: (
+                  <DataList
+                    list={Example_DataElementArray.Empty}
+                    displayMode={"semi-detailed"}
+                  />
+                ),
+              },
             ]}
             style={{ height: "600px", gridColumn: "span 8" }}
           />

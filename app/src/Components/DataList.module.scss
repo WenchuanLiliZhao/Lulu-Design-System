@@ -1,0 +1,39 @@
+.data-list {
+  .data-list-item {
+    display: block;
+    padding: 8px;
+    border-radius: 4px;
+    overflow: hidden;
+
+    .header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+
+      .data-title-container {
+        .marker {
+          font-size: 16px;
+          line-height: 1;
+          vertical-align: text-bottom;
+          margin-right: 8px;
+          color: var(--color-sec);
+        }
+  
+        .data-title {
+          font-size: 14px;
+          line-height: 22px;
+        }
+      }
+
+      .date-and-time {
+        font-size: 12px;
+        line-height: 20px;
+        font-family: var(--ff-mono);
+        color: var(--color-sec);
+
+        display: flex;
+        gap: 8px;
+      }
+    }
+  }
+}
