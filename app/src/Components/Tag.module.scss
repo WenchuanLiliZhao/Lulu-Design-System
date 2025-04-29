@@ -1,0 +1,11 @@
+.tag {
+  border-radius: 100px;
+  overflow: hidden;
+
+  &.medium {
+    font-size: 14px;
+    line-height: 22px;
+    padding: 4px 12px;
+    background-color: var(--color-bg-sec-2);
+  }
+}

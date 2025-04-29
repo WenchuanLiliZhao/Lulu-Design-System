@@ -12,6 +12,13 @@ import { Menu } from "../../../Components/Menu";
 import { ThemeMenu } from "../../../Components/ThemeMenu";
 import { MessageBox } from "../../../Components/MessageBox";
 import { Example_MessagesList } from "../../../Types/ExampleData/Example_MessagesList";
+import SearchBar from "../../../Components/SearchBar";
+import { Example_TagList } from "../../../Types/ExampleData/Example_TagSet";
+import { TagType } from "../../../Types/TagType";
+import { Tag } from "../../../Components/Tag";
+import { KanbanGroup } from "../../../Components/KanbanGroup";
+import { DataList } from "../../../Components/DataList";
+import { Example_DataElementArray } from '../../../Types/ExampleData/Example_DataElement';
 
 const MenuBtnToRemove = () => {
   return (
@@ -23,8 +30,6 @@ const MenuBtnToRemove = () => {
     </div>
   );
 };
-
-
 
 interface NavItem_SiteTitleBarProps {
   text: string;
@@ -125,7 +130,11 @@ const CDD_Home: Page = {
             <ThemeMenu />,
             <Dropdown
               trigger={
-                <Btn icon={"settings"} mode={"nav-btn"} deco={"arrow_drop_down"} />
+                <Btn
+                  icon={"settings"}
+                  mode={"nav-btn"}
+                  deco={"arrow_drop_down"}
+                />
               }
               dropdownContent={<Menu items={TestMenuContent} />}
               position={"left"}
@@ -139,7 +148,12 @@ const CDD_Home: Page = {
                   deco={"arrow_drop_down"}
                 />
               }
-              dropdownContent={<MessageBox title="Notification" messageList={Example_MessagesList.NonEmpty} />}
+              dropdownContent={
+                <MessageBox
+                  title="Notification"
+                  messageList={Example_MessagesList.NonEmpty}
+                />
+              }
               position={"left"}
               dropdownSize={"large"}
             />,
@@ -151,6 +165,100 @@ const CDD_Home: Page = {
           ],
         }}
       />
+
+      <main className={`${styles["content"]} ${styles["post-like"]}`}>
+        <div className={styles["page-title-container"]}>
+          <h1 className={styles["page-title"]}>Welcome to CDD Home</h1>
+          <p className={styles["page-description"]}>
+            A fair mood may dawn with a search bar's grace, yet a foul mood,
+            too, may find its trace therein.
+          </p>
+        </div>
+
+        <div
+          style={{
+            maxWidth: "800px",
+            margin: "0 auto",
+            padding: "0 48px",
+          }}
+        >
+          <SearchBar
+            placeholder="Search China Data Discover..."
+            onSearch={(query: string): void => {
+              console.log("Search query:", query);
+            }}
+          />
+
+          {/**
+           * This component 👇 has been updated to limit the display of tags to a maximum of ten tags.
+           * If there are more than 10 tags, the last tag in the second row will be replaced with a tag displaying `···`.
+           * This ensures a clean and concise UI, especially when dealing with a large number of tags.
+           * The logic uses `slice` to limit the number of tags displayed and conditionally adds the `···` tag if the total number of tags exceeds 14.
+           */}
+          {/**
+           * 此组件 👇 已更新为将标签的显示限制为最多 10 个 tags。
+           * 如果标签数量超过 10 个，第二行的最后一个标签将被替换为显示 `···` 的标签。
+           * 这样可以确保在处理大量标签时，界面保持简洁和美观。
+           * 逻辑使用 `slice` 限制显示的标签数量，并在总标签数超过 14 时有条件地添加 `···` 标签。
+           */}
+          <div
+            style={{
+              display: "flex",
+              flexWrap: "wrap",
+              gap: "8px",
+              marginTop: "16px",
+              justifyContent: "center",
+            }}
+          >
+            {Example_TagList.slice(0, 10).map((tag: TagType, index: number) => (
+              <React.Fragment key={index}>
+                <Tag tag={tag} size={"medium"} />
+              </React.Fragment>
+            ))}
+            {Example_TagList.length > 14 && (
+              <React.Fragment key="more">
+                <Tag tag={{ name: "···" }} size={"medium"} />
+              </React.Fragment>
+            )}
+          </div>
+
+          <div style={{ marginTop: "32px" }}>
+            {/* <Kanban title={""} subKanbanList={[]} /> */}
+          </div>
+        </div>
+
+        <div
+          style={{
+            marginTop: "40px",
+            display: "grid",
+            gridTemplateColumns: "repeat(12, 1fr)",
+            gap: "16px",
+          }}
+        >
+          <KanbanGroup
+            title={"Browsing history"}
+            kanbanList={[
+              {
+                title: "Optimization",
+                icon: "model_training",
+                content: <DataList list={Example_DataElementArray.Long} displayMode={"simplified"} listMode={"ordered"} />
+              }
+            ]}
+            style={{ height: "600px", gridColumn: "span 4" }}
+          />
+          <KanbanGroup
+            title={"Browsing history"}
+            kanbanList={[
+              {
+                title: "Optimization",
+                icon: "model_training",
+                content: <DataList list={Example_DataElementArray.Long} displayMode={"simplified"} listMode={"ordered"} />
+              }
+            ]}
+            style={{ height: "600px", gridColumn: "span 8" }}
+          />
+        </div>
+      </main>
     </>
   ),
 };
