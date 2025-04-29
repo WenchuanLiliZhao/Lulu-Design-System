@@ -1,3 +1,33 @@
+.data-list-empty {
+  padding: 24px;
+  .hint {
+    .img {
+      margin: 0 auto;
+      width: 100%;
+      height: 320px;
+      object-fit: contain;
+    }
+
+    .text {
+      .title {
+        font-size: 16px;
+        line-height: 24px;
+        color: var(--color-sec);
+        text-align: center;
+        font-weight: bold;
+      }
+
+      .subtitle {
+        font-size: 14px;
+        line-height: 22px;
+        color: var(--color-sec);
+        text-align: center;
+        margin-top: 8px;
+      }
+    }
+  }
+}
+
 .data-list {
   .data-list-item {
     display: block;
@@ -18,7 +48,7 @@
           margin-right: 8px;
           color: var(--color-sec);
         }
-  
+
         .data-title {
           font-size: 14px;
           line-height: 22px;

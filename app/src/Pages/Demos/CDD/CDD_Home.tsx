@@ -19,6 +19,7 @@ import { Tag } from "../../../Components/Tag";
 import { KanbanGroup } from "../../../Components/KanbanGroup";
 import { DataList } from "../../../Components/DataList";
 import { Example_DataElementArray } from "../../../Types/ExampleData/Example_DataElement";
+import { ChatBotBtn } from "../../../Components/ChatBotBtn";
 
 const MenuBtnToRemove = () => {
   return (
@@ -289,6 +290,8 @@ const CDD_Home: Page = {
           />
         </div>
       </main>
+
+      <ChatBotBtn />
     </>
   ),
 };
