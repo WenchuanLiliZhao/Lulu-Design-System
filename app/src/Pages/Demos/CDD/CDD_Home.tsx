@@ -178,9 +178,8 @@ const CDD_Home: Page = {
 
         <div
           style={{
-            maxWidth: "800px",
+            maxWidth: "720px",
             margin: "0 auto",
-            padding: "0 48px",
           }}
         >
           <SearchBar
