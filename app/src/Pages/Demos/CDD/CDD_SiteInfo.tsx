@@ -1,10 +1,4 @@
-interface SiteInfoType {
-  title: string;
-  description: string;
-  currentVersion: string;
-  buildDate: Date;
-  expiryDate: Date; // 到期时间
-}
+import { SiteInfoType } from "../../../Types/SiteInfoType";
 
 export const CDD_SiteInfo: SiteInfoType = {
   title: 'China Data Dictionary',

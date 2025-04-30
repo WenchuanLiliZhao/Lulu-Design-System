@@ -1,19 +1,24 @@
-.searchBar {
-  --searchbar-hight: 44px;
-  --searchbar-font-size: 16px;
-  border-radius: 8px;
+.search-bar {
+  
 
   display: flex;
   align-items: center;
   gap: 8px;
-  height: var(--searchbar-hight);
+  
   padding: 0 8px;
   border: 1px solid var(--color-border-main);
   
-  font-size: var(--searchbar-font-size);
+  height: 44px;
+  font-size: 16px;
+  border-radius: 8px;
+  &.on-nav {
+    height: var(--spacing-nav-item-size);
+    font-size: 14px;
+    border-radius: 4px;
+  }
 
   &:hover {
-    background-color: var(--color-bg-sec);
+    background-color: var(--color-bg-sec-trans);
   }
 
   .input {

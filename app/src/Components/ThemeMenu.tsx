@@ -32,7 +32,7 @@ export const ThemeMenu: React.FC = () => {
 
   return (
     <Dropdown
-      trigger={<Btn icon={getIconForTheme()} mode={"nav-btn"} deco={"arrow_drop_down"} />}
+      trigger={<Btn icon={getIconForTheme()} place={"nav-btn"} deco={"arrow_drop_down"} />}
       dropdownContent={<Menu items={[
         {
           groupTitle: "Theme Preferences",

@@ -2,9 +2,8 @@ import { Logo } from "../../../assets/Img/Logo";
 import { Placeholder } from "../../../assets/Img/Placeholder";
 import { Btn } from "../../../Components/Btn";
 import { HoverBox } from "../../../Components/HoverBox";
-import { Icon } from "../../../Components/Icon";
 import { Dropdown } from "../../../Components/Dropdown";
-import { Nav } from "../../../Components/Nav";
+import { Nav, NavDivider } from "../../../Components/Nav";
 import { Page } from "../../../Types/PageType";
 import styles from "./CDD_Home.module.scss";
 import React from "react";
@@ -21,18 +20,9 @@ import { DataList } from "../../../Components/DataList";
 import { Example_DataElementArray } from "../../../Types/ExampleData/Example_DataElement";
 import { ChatBotBtn } from "../../../Components/ChatBotBtn";
 import { Footer } from "../../../Components/Footer";
-// import { Sidebar } from "../../../Components/Sidebar";
-
-const MenuBtnToRemove = () => {
-  return (
-    <div className={styles["menu"]}>
-      <div className={styles["menu-btn"]}>
-        <Icon icon="menu" />
-      </div>
-      <HoverBox mode={"default"} />
-    </div>
-  );
-};
+import { SideMenu } from "../../../Components/SideMenu";
+import { Example_Pages } from "../../../Types/ExampleData/Example_Pages";
+import { CDD_SiteInfo } from "./CDD_SiteInfo";
 
 interface NavItem_SiteTitleBarProps {
   text: string;
@@ -65,27 +55,6 @@ const NavItem_UserAvatar: React.FC<NavItem_UserAvatarProps> = ({
         <Placeholder element="UserAvatar" className={styles["avatar"]} />
       )}
       <HoverBox mode={"default"} />
-    </div>
-  );
-};
-
-interface NavItem_DropdownProps {
-  btn: React.ReactNode;
-  menu: React.ReactNode;
-  onClick?: () => void;
-}
-
-const NavItem_Dropdown: React.FC<NavItem_DropdownProps> = ({
-  btn,
-  menu,
-  onClick,
-}) => {
-  console.log(menu);
-  return (
-    <div className={styles["dropdown"]}>
-      <div className={styles["btn"]} onClick={onClick}>
-        {btn}
-      </div>
     </div>
   );
 };
@@ -125,29 +94,37 @@ const CDD_Home: Page = {
       <Nav
         items={{
           left: [
-            <MenuBtnToRemove />,
+            <SideMenu
+              siteInfo={CDD_SiteInfo}
+              itemGroups={[
+                {
+                  groupTitle: "",
+                  items: Example_Pages.Group1,
+                },
+                {
+                  groupTitle: "",
+                  items: Example_Pages.Group2,
+                },
+                {
+                  groupTitle: "Group 3",
+                  items: Example_Pages.Group3,
+                },
+              ]}
+            />,
             <NavItem_SiteTitleBar text={"China Data Discover"} />,
           ],
           middle: [],
           right: [
+            <SearchBar place="on-nav" onSearch={function (): void {
+              throw new Error("Function not implemented.");
+            } } />,
+            <NavDivider />,
             <ThemeMenu />,
             <Dropdown
               trigger={
                 <Btn
-                  icon={"settings"}
-                  mode={"nav-btn"}
-                  deco={"arrow_drop_down"}
-                />
-              }
-              dropdownContent={<Menu items={TestMenuContent} />}
-              position={"left"}
-              dropdownSize={"small"}
-            />,
-            <Dropdown
-              trigger={
-                <Btn
                   icon={"notifications"}
-                  mode={"nav-btn"}
+                  place={"nav-btn"}
                   deco={"arrow_drop_down"}
                 />
               }
@@ -160,11 +137,12 @@ const CDD_Home: Page = {
               position={"left"}
               dropdownSize={"large"}
             />,
-            <NavItem_Dropdown
-              btn={<Btn icon={"info"} mode={"nav-btn"} />}
-              menu={undefined}
+            <Dropdown
+              trigger={<NavItem_UserAvatar avatarUrl={undefined} />}
+              dropdownContent={<Menu items={TestMenuContent} />}
+              position={"left"}
+              dropdownSize={"small"}
             />,
-            <NavItem_UserAvatar avatarUrl={undefined} />,
           ],
         }}
       />
@@ -295,8 +273,6 @@ const CDD_Home: Page = {
       <Footer />
 
       <ChatBotBtn />
-
-      {/* <Sidebar /> */}
     </>
   ),
 };

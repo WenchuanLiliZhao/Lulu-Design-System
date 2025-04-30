@@ -1,6 +1,6 @@
 import styles from "./Nav.module.scss";
 
-import { ReactNode } from "react";
+import React, { ReactNode } from "react";
 
 interface NavProps {
   items: {
@@ -10,7 +10,7 @@ interface NavProps {
   };
 }
 
-export const Nav = ({ items }: NavProps) => {
+export const Nav: React.FC<NavProps> = ({ items }) => {
   return (
     <nav className={styles["nav"]}>
       <div className={styles["nav-placehoder"]}></div>
@@ -40,5 +40,13 @@ export const Nav = ({ items }: NavProps) => {
         </div>
       </div>
     </nav>
+  );
+};
+
+export const NavDivider: React.FC = () => {
+  return (
+    <div className={styles["nav-divider"]}>
+      <div className={styles["stroke"]}></div>
+    </div>
   );
 };

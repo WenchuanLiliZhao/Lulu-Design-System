@@ -5,7 +5,7 @@ import { Icon } from "./Icon";
 
 export interface BtnProps {
   icon: string;
-  mode: "default" | "nav-btn";
+  place: "default" | "nav-btn";
   className?: string;
   text?: string;
   deco?: string;
@@ -14,14 +14,14 @@ export interface BtnProps {
 
 export const Btn: React.FC<BtnProps> = ({
   icon,
-  mode,
+  place,
   deco,
   text,
   className,
   onClick,
 }) => {
   return (
-    <div className={`${styles["btn"]} ${styles[mode]} ${className}`} onClick={onClick}>
+    <div className={`${styles["btn"]} ${styles[place]} ${className}`} onClick={onClick}>
       <Icon icon={icon} />
       {text && <span>{text}</span>}
       {deco && (
