@@ -30,19 +30,9 @@
     z-index: calc(var(--z-index-nav) + 1);
   }
 
-  & {
-    .dropdown-content {
-      visibility: hidden;
-      opacity: 0;
-      transform: translate(0, -8px);
-      transition: 0.2s;
-    }
-  }
-  &.open {
-    .dropdown-content {
-      visibility: visible;
-      opacity: 1;
-      transform: translate(0, 0);
+  .dropdown-content {
+    &:not(.open) {
+      display: none;
     }
   }
 

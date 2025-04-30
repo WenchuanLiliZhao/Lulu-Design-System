@@ -49,7 +49,6 @@
 - 任何需要触发器与菜单结合的交互场景。
 */
 
-
 import React, { useState, useEffect, useRef } from "react";
 import styles from "./Dropdown.module.scss";
 
@@ -62,9 +61,7 @@ interface DropdownProps {
   onClick?: () => void;
 }
 
-
 export const ClickToClose = "click-to-close";
-
 
 export const Dropdown: React.FC<DropdownProps> = ({
   trigger,
@@ -117,15 +114,12 @@ export const Dropdown: React.FC<DropdownProps> = ({
   }, [dropdownContent]);
 
   return (
-    <div
-      ref={menuRef}
-      className={`${styles["dropdown-btn"]} ${
-        isOpen ? styles["open"] : ""
-      } ${className}`}
-    >
+    <div ref={menuRef} className={`${styles["dropdown-btn"]} ${className}`}>
       <div onClick={handleBtnClick}>{trigger}</div>
       <div
-        className={`${styles["dropdown-content"]} ${styles[position]} ${styles[dropdownSize]}`}
+        className={`${styles["dropdown-content"]} ${styles[position]} ${
+          styles[dropdownSize]
+        } ${isOpen ? styles["open"] : ""}`}
       >
         {dropdownContent}
       </div>

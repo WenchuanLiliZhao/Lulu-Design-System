@@ -42,14 +42,8 @@
       box-shadow: 0 4px 24px rgba(black, 0.16);
       border-radius: 8px;
 
-      transition: 0.2s;
-      visibility: hidden;
-      opacity: 0;
-      transform: translate(0, 8px);
-      &.open {
-        visibility: visible;
-        opacity: 1;
-        transform: translate(0, 0);
+      &:not(.open) {
+        display: none;
       }
 
       .to-you {

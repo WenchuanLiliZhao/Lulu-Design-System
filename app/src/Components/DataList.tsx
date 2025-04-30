@@ -2,6 +2,7 @@ import styles from "./DataList.module.scss";
 import { DataElementType } from "../Types/DataElementType";
 import { Icon } from "./Icon";
 import { HoverBox } from "./HoverBox";
+import { FormattedDate } from "./FormattedDate";
 
 export interface DataListProps {
   list: DataElementType[];
@@ -41,11 +42,8 @@ export const DataList: React.FC<DataListProps> = ({ list, displayMode }) => {
               <span className={styles["data-title"]}>{dataElement.title}</span>
             </div>
             {displayMode !== "simplified" && (
-              <div className={styles["date-and-time"]}>
-                <span className={styles["date"]}>
-                  {dataElement.date.toLocaleDateString()}
-                </span>
-                <span className={styles["time"]}>{dataElement.time}</span>
+              <div className={styles["date"]}>
+                <FormattedDate date={dataElement.date}/>
               </div>
             )}
           </div>

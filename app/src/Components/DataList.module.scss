@@ -55,14 +55,11 @@
         }
       }
 
-      .date-and-time {
+      .date {
         font-size: 12px;
-        line-height: 20px;
+        // line-height: 20px;
         font-family: var(--ff-mono);
         color: var(--color-sec);
-
-        display: flex;
-        gap: 8px;
       }
     }
   }
