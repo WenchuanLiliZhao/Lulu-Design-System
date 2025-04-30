@@ -21,6 +21,7 @@ import { DataList } from "../../../Components/DataList";
 import { Example_DataElementArray } from "../../../Types/ExampleData/Example_DataElement";
 import { ChatBotBtn } from "../../../Components/ChatBotBtn";
 import { Footer } from "../../../Components/Footer";
+// import { Sidebar } from "../../../Components/Sidebar";
 
 const MenuBtnToRemove = () => {
   return (
@@ -294,6 +295,8 @@ const CDD_Home: Page = {
       <Footer />
 
       <ChatBotBtn />
+
+      {/* <Sidebar /> */}
     </>
   ),
 };
