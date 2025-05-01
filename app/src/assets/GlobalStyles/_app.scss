@@ -3,14 +3,16 @@
 @forward "./color.scss";
 @forward "./spacing.scss";
 @forward "./z-index.scss";
+@forward "./shadow.scss";
 
-* {
+body, * {
   /* Scrollbar styling */
   scrollbar-width: thin; /* For Firefox: makes the scrollbar thinner */
   scrollbar-color: var(--color-neg) transparent; /* For Firefox: thumb and track colors */
 
   &::-webkit-scrollbar {
     width: 8px; /* Adjust width as needed */
+    box-shadow: -1px 0 0 red;
   }
 
   &::-webkit-scrollbar-thumb {

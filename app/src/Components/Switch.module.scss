@@ -40,7 +40,7 @@
   }
 
   input:checked + .slider {
-    background-color: var(--brand-color);
+    background-color: var(--color-semantic-active);
   }
 
   input:checked + .slider::before {

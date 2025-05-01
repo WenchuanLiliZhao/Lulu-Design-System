@@ -10,7 +10,7 @@
     background-color: var(--color-bg-sec);
     border: 1px solid var(--color-border-main-trans);
     border-radius: 1000px;
-    box-shadow: 0 4px 24px rgba(black, 0.16), 0 2px 4px rgba(black, 0.08);
+    box-shadow: var(--pop-shaodw);
     overflow: hidden;
 
     position: relative;
@@ -39,7 +39,7 @@
       background-color: var(--color-bg-sec);
       width: 450px;
       height: 450px;
-      box-shadow: 0 4px 24px rgba(black, 0.16);
+      box-shadow: var(--pop-shaodw);
       border-radius: 8px;
 
       &:not(.open) {

@@ -11,7 +11,7 @@ import { Menu } from "../../../Components/Menu";
 import { ThemeMenu } from "../../../Components/ThemeMenu";
 import { MessageBox } from "../../../Components/MessageBox";
 import { Example_MessagesList } from "../../../Types/ExampleData/Example_MessagesList";
-import SearchBar from "../../../Components/SearchBar";
+import { SearchBar } from "../../../Components/SearchBar";
 import { Example_TagList } from "../../../Types/ExampleData/Example_TagSet";
 import { TagType } from "../../../Types/TagType";
 import { Tag } from "../../../Components/Tag";
@@ -115,9 +115,12 @@ const CDD_Home: Page = {
           ],
           middle: [],
           right: [
-            <SearchBar place="on-nav" onSearch={function (): void {
-              throw new Error("Function not implemented.");
-            } } />,
+            <SearchBar
+              place="on-nav"
+              onSearch={function (): void {
+                throw new Error("Function not implemented.");
+              }}
+            />,
             <NavDivider />,
             <ThemeMenu />,
             <Dropdown

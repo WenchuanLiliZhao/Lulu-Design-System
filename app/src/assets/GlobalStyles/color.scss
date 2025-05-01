@@ -1,5 +1,7 @@
 :root {
   --brand-color: #FF4646;
+
+  --color-semantic-active: royalblue;
 }
 
 @mixin light-theme {
@@ -8,8 +10,6 @@
   --color-sec-trans: rgba(0, 0, 0, 0.48);
   --color-neg: #ADADAD;
   --color-neg-trans: rgba(0, 0, 0, 0.32);
-
-  --color-bg-hover-main: rgba(0, 0, 0, 0.04);
 
   --color-bg-main: white;
 
@@ -21,6 +21,8 @@
 
   --color-border-main: #ebebeb;
   --color-border-main-trans: rgba(0, 0, 0, 0.08);
+
+  --color-border-darken-trans: rgba(0, 0, 0, 0.16);
 }
 
 @mixin dark-theme {
@@ -30,8 +32,6 @@
 
   --color-neg: #4d4d4d; // 深色模式下的中性色
   --color-neg-trans: rgba(255, 255, 255, 0.32); // 半透明白色，适合深色背景
-
-  --color-bg-hover-main: rgba(255, 255, 255, 0.04);
 
   --color-bg-main: #121212;
 
@@ -43,6 +43,8 @@
 
   --color-border-main: #333333;
   --color-border-main-trans: rgba(255, 255, 255, 0.08);
+
+  --color-border-darken-trans: rgba(255, 255, 255, 0.16);
 }
 
 :root {
