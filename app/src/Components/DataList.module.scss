@@ -41,6 +41,14 @@
       align-items: center;
 
       .data-title-container {
+
+        overflow: hidden;
+        text-overflow: ellipsis;
+        display: -webkit-box;
+        -webkit-line-clamp: 1;
+        line-clamp: 1;
+        -webkit-box-orient: vertical;
+
         .marker {
           font-size: 16px;
           line-height: 1;
@@ -60,6 +68,13 @@
         // line-height: 20px;
         font-family: var(--ff-mono);
         color: var(--color-sec);
+
+        overflow: hidden;
+        text-overflow: ellipsis;
+        display: -webkit-box;
+        -webkit-line-clamp: 1;
+        line-clamp: 1;
+        -webkit-box-orient: vertical;
       }
     }
   }
