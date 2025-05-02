@@ -23,6 +23,20 @@ import { Footer } from "../../../Components/Footer";
 import { SideMenu } from "../../../Components/SideMenu";
 import { Example_Pages } from "../../../Types/ExampleData/Example_Pages";
 import { CDD_SiteInfo } from "./CDD_SiteInfo";
+import { SearchHintGroupType } from "../../../Types/SearchHintType";
+
+
+const SearchHintGroups: SearchHintGroupType[] = [
+  {
+    groupTitle: "Set Theory",
+    hintList: Example_Pages.Group2.slice(0, 3),
+  },
+  {
+    groupTitle: "General Topology",
+    hintList: Example_Pages.Group3.slice(0, 5),
+  },
+]
+
 
 interface NavItem_SiteTitleBarProps {
   text: string;
@@ -120,6 +134,7 @@ const CDD_Home: Page = {
               onSearch={function (): void {
                 throw new Error("Function not implemented.");
               }}
+              searchHintGroups={SearchHintGroups}
             />,
             <NavDivider />,
             <ThemeMenu />,
@@ -170,6 +185,7 @@ const CDD_Home: Page = {
             onSearch={(query: string): void => {
               console.log("Search query:", query);
             }}
+            searchHintGroups={SearchHintGroups}
           />
 
           {/**
