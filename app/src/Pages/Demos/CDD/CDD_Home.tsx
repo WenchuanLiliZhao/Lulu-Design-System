@@ -154,6 +154,10 @@ const CDD_Home: Page = {
               }
               position={"left"}
               dropdownSize={"large"}
+              unreadCount={Example_MessagesList.NonEmpty.filter(
+                (message) => !message.read
+              ).length}
+              unreadMode={"number"}
             />,
             <Dropdown
               trigger={<NavItem_UserAvatar avatarUrl={undefined} />}

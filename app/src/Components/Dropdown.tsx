@@ -28,6 +28,8 @@
 - `position`：菜单的位置，可以是 "left" 或 "right"。
 - `className`：可选的额外样式类。
 - `onClick`：可选的点击事件处理函数。
+- `unreadCount`：未读数量。
+- `unreadMode`：提示模式，可以是 "number" 或 "dot"。
 
 ## 内部状态与逻辑
 1. **状态管理**：
@@ -59,6 +61,8 @@ interface DropdownProps {
   position: "left" | "right";
   className?: string;
   onClick?: () => void;
+  unreadCount?: number; // 新增：未读数量
+  unreadMode?: "number" | "dot"; // 新增：提示模式
 }
 
 export const ClickToClose = "click-to-close";
@@ -70,6 +74,8 @@ export const Dropdown: React.FC<DropdownProps> = ({
   position,
   className,
   onClick,
+  unreadCount = 0, // 默认未读数量为 0
+  unreadMode = "dot", // 默认提示模式为红点
 }) => {
   const [isOpen, setIsOpen] = useState(false);
   const menuRef = useRef<HTMLDivElement>(null);
@@ -114,8 +120,21 @@ export const Dropdown: React.FC<DropdownProps> = ({
   }, [dropdownContent]);
 
   return (
-    <div ref={menuRef} className={`${styles["dropdown-btn"]} ${className}`}>
-      <div onClick={handleBtnClick}>{trigger}</div>
+    <div ref={menuRef} className={`${styles["dropdown"]} ${className}`}>
+      <div onClick={handleBtnClick} className={styles["trigger-container"]}>
+        {trigger}
+        {/* begin unread-indicator */}
+        {unreadCount > 0 && (
+          <div
+            className={`${styles["unread-indicator"]} ${
+              unreadMode === "dot" ? styles["dot"] : styles["number"]
+            }`}
+          >
+            {unreadMode === "number" ? (unreadCount > 99 ? "99" : unreadCount) : ""}
+          </div>
+        )}
+        {/* end unread-indicator */}
+      </div>
       <div
         className={`${styles["dropdown-content"]} ${styles[position]} ${
           styles[dropdownSize]
