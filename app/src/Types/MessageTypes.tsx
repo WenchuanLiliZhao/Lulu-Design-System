@@ -1,5 +1,7 @@
+import { UserType } from "./UserType";
 
 export interface MessageType {
+  from: UserType;
   title: string;
   message: string;
   ago: number; // Number of minutes ago

@@ -6,7 +6,7 @@ import FullColorWithWhiteText from "./Logo/FullColorWithWhiteText.svg";
 import WhiteNoText from "./Logo/WhiteNoText.svg";
 import WhiteWithWhiteText from "./Logo/WhiteWithWhiteText.svg";
 
-const LogoMap = {
+export const LogoMap = {
   BlackNoText,
   BlackWithBlackText,
   FullColorNoText,

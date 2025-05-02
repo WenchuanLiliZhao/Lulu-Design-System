@@ -93,23 +93,43 @@ export const MessageBox: React.FC<MessageBoxProps> = ({
           .filter(([, messages]) => messages.length > 0)
           .map(([group, messages]) => (
             <div key={group} className={styles["message-group"]}>
-              <div className={styles["group-title"]}>{group}</div> {/* Group message with time; eg., today, this week */}
+              <div className={styles["group-title"]}>{group}</div>{" "}
+              {/* Group message with time; eg., today, this week */}
               {messages.map((message, i) => (
+                // ===================
+                // Begin: Message item
                 <div
                   key={i}
                   className={`${styles["message"]} ${
                     message.read ? styles["read"] : styles["unread"]
                   }`}
                 >
-                  <div className={styles["message-title"]}>{message.title}</div>
-                  <div className={styles["message-text"]}>
-                    {message.message}
+                  <div className={styles["message-header"]}>
+                    <div className={`${styles["message-mark"]} ${message.read ? styles["read"] : styles["unread"]}`}>
+                    </div>
+                    <div className={styles["message-avatar"]}>
+                      <img
+                        src={message.from.avatar}
+                        alt={message.from.name}
+                        className={styles["avatar"]}
+                      />
+                    </div>
                   </div>
-                  <div className={styles["message-time"]}>
-                    {formatAgo(message.ago)}
+                  <div className={styles["message-content"]}>
+                    <div className={styles["message-title"]}>
+                      {message.title}
+                    </div>
+                    <div className={styles["message-text"]}>
+                      {message.message}
+                    </div>
+                    <div className={styles["message-time"]}>
+                      {formatAgo(message.ago)}
+                    </div>
                   </div>
                   <HoverBox mode={"default"} className={`${ClickToClose}`} />
                 </div>
+                // End: Message item
+                // =================
               ))}
             </div>
           ))}
