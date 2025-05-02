@@ -61,8 +61,8 @@ interface DropdownProps {
   position: "left" | "right";
   className?: string;
   onClick?: () => void;
-  unreadCount?: number; // 新增：未读数量
-  unreadMode?: "number" | "dot"; // 新增：提示模式
+  unreadCount?: number;
+  unreadMode?: "number" | "dot";
 }
 
 export const ClickToClose = "click-to-close";
@@ -74,44 +74,67 @@ export const Dropdown: React.FC<DropdownProps> = ({
   position,
   className,
   onClick,
-  unreadCount = 0, // 默认未读数量为 0
-  unreadMode = "dot", // 默认提示模式为红点
+  unreadCount = 0,
+  unreadMode = "dot",
 }) => {
   const [isOpen, setIsOpen] = useState(false);
   const menuRef = useRef<HTMLDivElement>(null);
 
+  // Toggles the `.open` class to control the visibility of the dropdown.
+  // This class is added or removed based on user interactions.
+  // 切换 `.open` 类以控制下拉菜单的可见性。
+  // 该类根据用户交互被添加或移除。
   const handleBtnClick = () => {
-    setIsOpen(!isOpen);
-    if (onClick) onClick();
+    setIsOpen(!isOpen); // Toggles the dropdown open/close state. // 切换下拉菜单的打开/关闭状态。
+    if (onClick) onClick(); // Executes the optional onClick callback if provided. // 如果提供了 onClick 回调，则执行该回调。
   };
 
+  // Handles clicks outside the dropdown to close it by removing the `.open` class.
+  // This ensures that dropdowns close when the user clicks elsewhere on the page.
+  // 处理点击下拉菜单外部的操作，通过移除 `.open` 类来关闭菜单。
+  // 这确保了当用户点击页面其他地方时，下拉菜单会关闭。
   const handleClickOutside = (event: MouseEvent) => {
     if (menuRef.current && !menuRef.current.contains(event.target as Node)) {
-      setIsOpen(false);
+      setIsOpen(false); // Closes the dropdown when clicking outside. // 当点击外部时关闭下拉菜单。
+      
     }
   };
 
+  // Handles clicks on dropdown items with the `.click-to-close` class.
+  // This allows dropdowns to close when specific items are clicked.
+  // 处理点击带有 `.click-to-close` 类的下拉菜单项的操作。
+  // 这允许在点击特定项时关闭下拉菜单。
   const handleItemClick = () => {
-    setIsOpen(false);
+    setIsOpen(false); // Closes the dropdown when a menu item is clicked. // 当点击菜单项时关闭下拉菜单。
   };
 
   useEffect(() => {
+    // Adds a global event listener to detect clicks outside the dropdown.
+    // 添加全局事件监听器以检测点击下拉菜单外部的操作。
     document.addEventListener("mousedown", handleClickOutside);
     return () => {
+      // Removes the event listener to prevent memory leaks.
+      // 移除事件监听器以防止内存泄漏。
       document.removeEventListener("mousedown", handleClickOutside);
     };
   }, []);
 
   useEffect(() => {
     if (menuRef.current) {
+      // Selects all elements with the `.click-to-close` class inside the dropdown.
+      // 选择下拉菜单中所有带有 `.click-to-close` 类的元素。
       const clickToCloseElements = menuRef.current.querySelectorAll(
         `.${ClickToClose}`
       );
       clickToCloseElements.forEach((element) => {
+        // Adds a click event listener to close the dropdown when these elements are clicked。
+        // 添加点击事件监听器，当点击这些元素时关闭下拉菜单。
         element.addEventListener("click", handleItemClick);
       });
 
       return () => {
+        // Removes the click event listeners to prevent memory leaks.
+        // 移除点击事件监听器以防止内存泄漏。
         clickToCloseElements.forEach((element) => {
           element.removeEventListener("click", handleItemClick);
         });
@@ -123,17 +146,21 @@ export const Dropdown: React.FC<DropdownProps> = ({
     <div ref={menuRef} className={`${styles["dropdown"]} ${className}`}>
       <div onClick={handleBtnClick} className={styles["trigger-container"]}>
         {trigger}
-        {/* begin unread-indicator */}
+        {/* Renders an unread indicator if `unreadCount` is greater than 0. */}
+        {/* The indicator can either be a dot or a number, based on the `unreadMode` prop. */}
+        {/* 如果 `unreadCount` 大于 0，则渲染未读指示器。 */}
+        {/* 指示器可以是一个点或一个数字，取决于 `unreadMode` 属性。 */}
         {unreadCount > 0 && (
           <div
             className={`${styles["unread-indicator"]} ${
               unreadMode === "dot" ? styles["dot"] : styles["number"]
             }`}
           >
+            {/* Displays the unread count if `unreadMode` is set to "number". */}
+            {/* 如果 `unreadMode` 设置为 "number"，则显示未读数量。 */}
             {unreadMode === "number" ? (unreadCount > 99 ? "99" : unreadCount) : ""}
           </div>
         )}
-        {/* end unread-indicator */}
       </div>
       <div
         className={`${styles["dropdown-content"]} ${styles[position]} ${

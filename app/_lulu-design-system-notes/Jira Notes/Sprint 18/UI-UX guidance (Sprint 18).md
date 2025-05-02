@@ -58,7 +58,9 @@ Navigation 的组件位于 `Nav.tsx` 中。其中没有什么特别值得注意�
 
 ## Dropdown
 
-Navigation 上有若干 dropdown。注意事项如下：
+Navigation 上有若干 dropdown。其主文件是 `Dropdown.tsx`。其中编写了详细的注释。你可以自己阅读它，也可以将它作为人工智能编译的参考。
+
+注意事项如下：
 
 1. 我是通过 class name `.open` 的 toggle 来实现 dropdown 的打开和关闭的。
 2. 任何 dropdown 的元素只要包含 class name `.click-to-close`（存放于 const `ClickToClose` 中以便到处引用），那么，点击它就可以关闭 dropdown；即，去掉 class name `.open`。这部分代码由函数 `handleItemClick` 触发。
