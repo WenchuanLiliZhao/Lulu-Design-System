@@ -1,3 +1,5 @@
+# How to make a Dropdown
+
 ### How to Implement a Dropdown with Toggle and Outside Click Behavior
 
 This tutorial explains how to create a dropdown component where:

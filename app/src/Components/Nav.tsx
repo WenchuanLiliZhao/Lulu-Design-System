@@ -13,7 +13,7 @@ interface NavProps {
 export const Nav: React.FC<NavProps> = ({ items }) => {
   return (
     <nav className={styles["nav"]}>
-      <div className={styles["nav-placehoder"]}></div>
+      <div className={styles["nav-bg"]}></div>
       <div className={styles["nav-container"]}>
         <div className={styles["item-container"]}>
           {items.left && (

@@ -1,3 +1,5 @@
+// 首先，通过 SCSS 的 `@mixin` 分别设置 light mode 以及 dark mode 的配色方案：
+
 :root {
   --brand-color: #FF4646;
 
@@ -30,8 +32,8 @@
   --color-sec: #b3b3b3;
   --color-sec-trans: rgba(255, 255, 255, 0.48);
 
-  --color-neg: #4d4d4d; // 深色模式下的中性色
-  --color-neg-trans: rgba(255, 255, 255, 0.32); // 半透明白色，适合深色背景
+  --color-neg: #4d4d4d;
+  --color-neg-trans: rgba(255, 255, 255, 0.32);
 
   --color-bg-main: #121212;
 
@@ -47,6 +49,8 @@
   --color-border-darken-trans: rgba(255, 255, 255, 0.16);
 }
 
+// 其次，通过 SCSS 的 `@include` 将它们分别引用到 light mode 以及 dark mode 中：
+
 :root {
   @include light-theme;
 }
@@ -55,7 +59,7 @@
   @include dark-theme;
 }
 
-/* Add system theme detection */
+// 为了安全起见，我们增加一组 system theme detection 设置：
 @media (prefers-color-scheme: light) {
   :root:not([data-theme]) {
     @include light-theme;
