@@ -20,11 +20,11 @@
 
 我在许多文件上都写下了详细的注释，有些甚至很啰嗦。其原因一方面是出于开发传统，另一方面是为了让人工智能可以帮助我们进行项目查询——有时候，有些对我们来说显而易见的代码对人工智能而言反而会有些“晦涩”。
 
----
+## 交互指南
 
-一下，我将逐一写出当前 demo 的交互指南。
+以下，我将逐一写出当前 demo 的交互指南。
 
-## Light/dark mode
+### Light/dark mode
 
 在 navigation bar 上，我增加了一个切换 light/dark mode 的按钮。其中包含三个模式：
 
@@ -48,7 +48,7 @@
 
 至于 light/dark mode 所对应的色值变化，则全部存在于 `color.scss` 文件中，实现思路同样简单。
 
-## Navigation
+### Navigation
 
 Navigation 的组件位于 `Nav.tsx` 中。其中没有什么特别值得注意的，唯独一点：
 
@@ -56,7 +56,7 @@ Navigation 的组件位于 `Nav.tsx` 中。其中没有什么特别值得注意�
 
 这个元素是为了确保 Navigation 在 position 为 fixed 的情况下，依然可以占据一个纵向空间，使得页面的起始位置可以从 navigation 的底部开始，而不是页面顶部。这样就不需要在其他地方重新计算页面的 padding 或 margin。可以将问题简单化很多。
 
-## Dropdown
+### Dropdown
 
 Navigation 上有若干 dropdown。其主文件是 `Dropdown.tsx`。其中编写了详细的注释。你可以自己阅读它，也可以将它作为人工智能编译的参考。
 
@@ -69,18 +69,29 @@ Navigation 上有若干 dropdown。其主文件是 `Dropdown.tsx`。其中编写
 
 下面，我叙述目前几类不同的 dropdown。
 
-### Dropdown Menu
+#### Dropdown menu
 
 主代码位于 `Menu.tsx` 中。注意事项如下：
 
 1. Menu items 是被分组的。并且，group title 是一个可选项，即可以为 undefined；只有当 group title 被定义时，group title 才会被前端渲染。
 2. 每一个 group item 都包含 class name `.click-to-close`。
 
-## Message Box
+#### Message box
 
-## Search bar
+即 navigation 上的通知。主文件位于 `MessageBox.tsx`。我在该文件中写了非常详细的 comment 用来介绍其基本功能。
 
-## Kanban
+### Search bar
 
+Search bar 的主文件位于 `SearchBar.tsx`。其中，我放置了一个 search hint box，其中是分组的 search hints，由可选属性 `searchHintGroups` 所反应。
+
+%% Begin AI ignore %%
+目前，我只设计了当每一个 hint 均为一个页面 link 的情况——这也是此类 search bar UX 中最常见的几种之一。此外，以 tag 搜索的功能我讲根据情况进行另外设计。
+%% End AI ignore %%
+
+### Kanban
+
+也就是搜索栏下面的两个 data list 区域。主文件位于 `KanbanGroup.tsx`。仅注意两点：
+
+1. 当 list 为空时，需要展示展位图。
 
 

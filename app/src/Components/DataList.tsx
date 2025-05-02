@@ -2,7 +2,7 @@ import styles from "./DataList.module.scss";
 import { DataElementType } from "../Types/DataElementType";
 import { Icon } from "./Icon";
 import { HoverBox } from "./HoverBox";
-import { FormattedDate } from "./FormattedDate";
+import { FormattedDate } from "../Functions/FormattedDate";
 
 export interface DataListProps {
   list: DataElementType[];

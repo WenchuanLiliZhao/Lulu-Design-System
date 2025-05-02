@@ -7,7 +7,7 @@ interface FormattedDateProps {
   useNaturalLanguage?: boolean; // 新增属性，决定是否使用自然语言显示模式
 }
 
-export const FormattedDate: React.FC<FormattedDateProps> = ({ date, locale = "en_GB", displayMode = "both", useNaturalLanguage = true }) => {
+export const FormattedDate: React.FC<FormattedDateProps> = ({ date, locale = "en_GB", displayMode = "both", useNaturalLanguage = false }) => {
   const formatter = new Intl.DateTimeFormat(locale.replace('_', '-'), {
     year: 'numeric',
     month: useNaturalLanguage ? 'short' : '2-digit',

@@ -10,12 +10,14 @@
   2. Toggle to show only unread messages.
   3. Format message timestamps into relative time (e.g., "5 minutes ago").
   4. Provide hover interaction for messages.
+  5. Close the dropdown when clicking outside or on specific elements with the class name imported from `ClickToClose`.
 
 ## Notes & Challenges
 
 - **Time Grouping Logic**: Requires dynamically calculating groups based on message timestamps to ensure accuracy.
 - **Performance Optimization**: Filtering and grouping logic may need optimization for large message lists to avoid performance bottlenecks.
 - **Styling**: Needs to dynamically apply different styles based on the read/unread status of messages.
+- **Dropdown Behavior**: Relies on the `Dropdown` component's class name imported from `ClickToClose` to manage dropdown visibility.
 
 ## Additional Information
 
@@ -35,12 +37,14 @@
   2. 支持切换是否仅显示未读消息。
   3. 格式化消息的时间显示为相对时间（如“5分钟前”）。
   4. 提供消息的悬停交互功能。
+  5. 点击外部或带有由 `ClickToClose` 所导入的类名的特定元素时关闭下拉菜单。
 
 ## 注意 & 实现难点
 
 - **时间分组逻辑**：需要根据消息的时间戳动态计算分组，确保分组准确性。
 - **性能优化**：当消息列表较大时，可能需要优化筛选和分组逻辑以避免性能瓶颈。
 - **样式处理**：需要根据消息的已读/未读状态动态应用不同的样式。
+- **下拉菜单行为**：依赖 `Dropdown` 组件中由 `ClickToClose` 所导入的类名来管理下拉菜单的可见性。
 
 ## 其他
 
