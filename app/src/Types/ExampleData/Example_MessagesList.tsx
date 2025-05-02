@@ -144,6 +144,41 @@ export const NonEmpty: MessageType[] = [
     ago: 43200,
     read: true,
   },
+  {
+    from: Example_Users[2],
+    title: "Archived Notification",
+    message: "This is an archived notification from last year.",
+    ago: 525600, // 1 year ago
+    read: true,
+  },
+  {
+    from: Example_Users[3],
+    title: "Old Reminder",
+    message: "This is a reminder from several months ago.",
+    ago: 432000, // 10 months ago
+    read: true,
+  },
+  {
+    from: Example_Users[4],
+    title: "Past Event",
+    message: "You attended this event last year.",
+    ago: 876000, // 20 months ago
+    read: true,
+  },
+  {
+    from: Example_Users[5],
+    title: "System Notice",
+    message: "System maintenance was completed successfully.",
+    ago: 1008000, // 2 years ago
+    read: true,
+  },
+  {
+    from: Example_Users[6],
+    title: "Old Survey",
+    message: "Survey results from two years ago are now available.",
+    ago: 1051200, // 2 years ago
+    read: true,
+  },
 ];
 
 export const Example_MessagesList = {
