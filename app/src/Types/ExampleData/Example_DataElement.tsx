@@ -1,4 +1,5 @@
 import { DataElementType } from "../DataElementType";
+import { Page } from "../PageType";
 
 export const ResentlyViewed: DataElementType[] = [
   {
@@ -311,3 +312,186 @@ export const Example_DataElementArray = {
   DataSet,
   Empty,
 }
+
+export const Example_DataPages: Page[] = [
+  {
+    info: {
+      slug: "employee_performance_review",
+      title: "Employee Performance Review",
+      title_display: "Employee Performance Review",
+      icon: undefined,
+    },
+    content: null,
+  },
+  {
+    info: {
+      slug: "monthly_sales_report",
+      title: "Monthly Sales Report",
+      title_display: "Monthly Sales Report",
+      icon: undefined,
+    },
+    content: null,
+  },
+  {
+    info: {
+      slug: "customer_feedback_analysis",
+      title: "Customer Feedback Analysis",
+      title_display: "Customer Feedback Analysis",
+      icon: undefined,
+    },
+    content: null,
+  },
+  {
+    info: {
+      slug: "inventory_management_dashboard",
+      title: "Inventory Management Dashboard",
+      title_display: "Inventory Management Dashboard",
+      icon: undefined,
+    },
+    content: null,
+  },
+  {
+    info: {
+      slug: "quarterly_financial_summary",
+      title: "Quarterly Financial Summary",
+      title_display: "Quarterly Financial Summary",
+      icon: undefined,
+    },
+    content: null,
+  },
+  {
+    info: {
+      slug: "product_performance_metrics",
+      title: "Product Performance Metrics",
+      title_display: "Product Performance Metrics",
+      icon: undefined,
+    },
+    content: null,
+  },
+  {
+    info: {
+      slug: "marketing_campaign_dashboard",
+      title: "Marketing Campaign Dashboard",
+      title_display: "Marketing Campaign Dashboard",
+      icon: undefined,
+    },
+    content: null,
+  },
+  {
+    info: {
+      slug: "customer_retention_report",
+      title: "Customer Retention Report",
+      title_display: "Customer Retention Report",
+      icon: undefined,
+    },
+    content: null,
+  },
+  {
+    info: {
+      slug: "supply_chain_analysis",
+      title: "Supply Chain Analysis",
+      title_display: "Supply Chain Analysis",
+      icon: undefined,
+    },
+    content: null,
+  },
+  {
+    info: {
+      slug: "revenue_forecast_dashboard",
+      title: "Revenue Forecast Dashboard",
+      title_display: "Revenue Forecast Dashboard",
+      icon: undefined,
+    },
+    content: null,
+  },
+  {
+    info: {
+      slug: "employee_engagement_report",
+      title: "Employee Engagement Report",
+      title_display: "Employee Engagement Report",
+      icon: undefined,
+    },
+    content: null,
+  },
+  {
+    info: {
+      slug: "product_launch_analysis",
+      title: "Product Launch Analysis",
+      title_display: "Product Launch Analysis",
+      icon: undefined,
+    },
+    content: null,
+  },
+  {
+    info: {
+      slug: "customer_segmentation_dashboard",
+      title: "Customer Segmentation Dashboard",
+      title_display: "Customer Segmentation Dashboard",
+      icon: undefined,
+    },
+    content: null,
+  },
+  {
+    info: {
+      slug: "financial_risk_assessment",
+      title: "Financial Risk Assessment",
+      title_display: "Financial Risk Assessment",
+      icon: undefined,
+    },
+    content: null,
+  },
+  {
+    info: {
+      slug: "market_trend_analysis",
+      title: "Market Trend Analysis",
+      title_display: "Market Trend Analysis",
+      icon: undefined,
+    },
+    content: null,
+  },
+  {
+    info: {
+      slug: "team_performance_dashboard",
+      title: "Team Performance Dashboard",
+      title_display: "Team Performance Dashboard",
+      icon: undefined,
+    },
+    content: null,
+  },
+  {
+    info: {
+      slug: "annual_budget_report",
+      title: "Annual Budget Report",
+      title_display: "Annual Budget Report",
+      icon: undefined,
+    },
+    content: null,
+  },
+  {
+    info: {
+      slug: "logistics_efficiency_metrics",
+      title: "Logistics Efficiency Metrics",
+      title_display: "Logistics Efficiency Metrics",
+      icon: undefined,
+    },
+    content: null,
+  },
+  {
+    info: {
+      slug: "sales_growth_dashboard",
+      title: "Sales Growth Dashboard",
+      title_display: "Sales Growth Dashboard",
+      icon: undefined,
+    },
+    content: null,
+  },
+  {
+    info: {
+      slug: "customer_loyalty_report",
+      title: "Customer Loyalty Report",
+      title_display: "Customer Loyalty Report",
+      icon: undefined,
+    },
+    content: null,
+  },
+];
