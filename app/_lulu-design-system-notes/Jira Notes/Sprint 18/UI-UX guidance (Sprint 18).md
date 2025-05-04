@@ -10,11 +10,21 @@
 
 在早期的版本中，我们并不自己设计 icons，而使用 Google 的 Material Design 团队的 icon 库。你可以在 https://fonts.google.com/icons 中查看如何使用这些 icon。
 
+在当前代码库中，组件 `<Icon />`（位于 `Icon.tsx`）可以帮你直接生成以下结构：
+
+```html
+<span class="material-symbols-outlined">{icon}</span>
+```
+
+其中，`{icon}` 是一个 string。
+
+它所对应的 VUE 的写法很简单，这里就不赘述了。
+
 ## 首先，让我们看看样式代码
 
 该项目由 Vite + React + Typescript 构建。如果你所使用的是 VUE + Typescript，那么 repository 中，最重要的部分莫过于那些 `.scss` 文件了。首先，`_app.scss`（通过文件查询你可以轻松找到这个文件）是整个项目的通用样式部分。其中包括了样式重制，以及许多 CSS 变量，例如，字体、颜色、常用间距等。这样，如果你在未来需要进行响应式样式开发，那么，你只需要针对这些变量进行调试就可以了，而不需要在整个项目中逐一调整。
 
-此外，大多数组件都对应了至少一个 `.module.scss` 文件。在易用性方面，有一半的设计思路都体现在这些 `.module.scss` 文件中。之所以在这些组件上使用 `.module.scss` 而不是 `.scss` 文件，是因为，它可以有效地隔离 html tags 的 class names，防止样式发生不必要的互相干涉或冲突。（对于大型项目，这点尤其重要！）
+此外，大多数组件都对应了至少一个 `.module.scss` 文件。在易用性方面，有一半的设计思路都体现在这些 `.module.scss` 文件中。之所以在这些组件上使用 `.module.scss` 而不是 `.scss` 文件，是因为，它可以有效地隔离 html tags 的 class names，防止样式发生不必要的互相干涉或冲突。<mark>（对于大型项目，这点尤其重要！）</mark>
 
 既然一半的的设计思路都体现在这些 `.module.scss` 中，而这个 demo 的首要任务是强调易用性，那么，可以说：**一半的易用性都体现在这些 `.module.scss` 中**——只有少部分不得不用 Javascript（Typescript）操作的部分除外。
 
@@ -84,9 +94,9 @@ Navigation 上有若干 dropdown。其主文件是 `Dropdown.tsx`。其中编写
 
 即 navigation 上的通知。主文件位于 `MessageBox.tsx`。我在该文件中写了非常详细的 comment 用来介绍其基本功能。
 
-### Search bar
+### Search Bar
 
-Search bar 的主文件位于 `SearchBar.tsx`。其中，我放置了一个 search hint box，其中是分组的 search hints，由可选属性 `searchHintGroups` 所反应。
+Search Bar 的主文件位于 `SearchBar.tsx`。其中，我放置了一个 search hint box，其中是分组的 search hints，由可选属性 `searchHintGroups` 所反应。`searchHintGroups` 必须是一个 XML 形式的东西，但同样可以为空。当它为空的时候，Search Bar 不会渲染任何 Search Hint。因此，你可以根据需要决定是否需要生成 Search Hints。
 
 目前，我只设计了当每一个 hint 均为一个页面 link 的情况——这也是此类 search bar UX 中最常见的几种之一。此外，以 tag 搜索的功能我讲根据情况进行另外设计。
 
@@ -94,6 +104,6 @@ Search bar 的主文件位于 `SearchBar.tsx`。其中，我放置了一个 sear
 
 也就是搜索栏下面的两个 data list 区域。主文件位于 `KanbanGroup.tsx`。仅注意两点：
 
-1. 当 list 为空时，需要展示展位图。
+1. 当 list 为空时，需要展示占位图。
 
 
