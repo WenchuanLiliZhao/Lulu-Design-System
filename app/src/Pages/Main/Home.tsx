@@ -5,6 +5,7 @@ const Home: Page = {
     slug: "",
     title: "Home",
     title_display: undefined,
+    date: new Date('2025-04-24'),
   },
   content: (
     <>

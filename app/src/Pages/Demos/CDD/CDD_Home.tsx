@@ -17,7 +17,7 @@ import { TagType } from "../../../Types/TagType";
 import { Tag } from "../../../Components/Tag";
 import { KanbanGroup } from "../../../Components/KanbanGroup";
 import { DataList } from "../../../Components/DataList";
-import { Example_DataElementArray } from "../../../Types/ExampleData/Example_DataElement";
+import { Example_DataPageLists } from "../../../Types/ExampleData/Example_DataElement";
 import { ChatBotBtn } from "../../../Components/ChatBotBtn";
 import { Footer } from "../../../Components/Footer";
 import { SideMenu } from "../../../Components/SideMenu";
@@ -102,6 +102,7 @@ const CDD_Home: Page = {
     slug: "cdd-home",
     title: "CDD Home",
     title_display: undefined,
+    date: new Date("2025-04-16 10:00:00"),
   },
   content: (
     <>
@@ -246,7 +247,7 @@ const CDD_Home: Page = {
                 icon: "monitoring",
                 content: (
                   <DataList
-                    list={Example_DataElementArray.Report}
+                    list={Example_DataPageLists.Reports}
                     displayMode={"simplified"}
                   />
                 ),
@@ -256,7 +257,7 @@ const CDD_Home: Page = {
                 icon: "dataset",
                 content: (
                   <DataList
-                    list={Example_DataElementArray.DataSet}
+                    list={Example_DataPageLists.DataSets}
                     displayMode={"simplified"}
                   />
                 ),
@@ -272,7 +273,7 @@ const CDD_Home: Page = {
                 icon: "visibility",
                 content: (
                   <DataList
-                    list={Example_DataElementArray.ResentlyViewed}
+                    list={Example_DataPageLists.ResentlyViewed}
                     displayMode={"semi-detailed"}
                   />
                 ),
@@ -282,7 +283,7 @@ const CDD_Home: Page = {
                 icon: "star",
                 content: (
                   <DataList
-                    list={Example_DataElementArray.Empty}
+                    list={Example_DataPageLists.Empty}
                     displayMode={"semi-detailed"}
                   />
                 ),

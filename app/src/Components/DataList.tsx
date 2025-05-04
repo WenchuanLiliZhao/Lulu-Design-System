@@ -1,11 +1,11 @@
 import styles from "./DataList.module.scss";
-import { DataElementType } from "../Types/DataElementType";
 import { Icon } from "./Icon";
 import { HoverBox } from "./HoverBox";
 import { FormattedDate } from "../Functions/FormattedDate";
+import { Page } from "../Types/PageType";
 
 export interface DataListProps {
-  list: DataElementType[];
+  list: Page[];
   displayMode: "simplified" | "semi-detailed" | "detailed";
 }
 
@@ -31,19 +31,19 @@ export const DataList: React.FC<DataListProps> = ({ list, displayMode }) => {
 
   return (
     <div className={styles["data-list"]}>
-      {list.map((dataElement: DataElementType, index: number) => (
-        <a href="" className={`${styles["data-list-item"]}`} key={index}>
+      {list.map((dataElement: Page, index: number) => (
+        <a href={`/${dataElement.info.slug}`} className={`${styles["data-list-item"]}`} key={index}>
           <div className={styles["header"]}>
             <div className={styles["data-title-container"]}>
               <span className={`${styles["marker"]} ${styles["icon"]}`}>
-                <Icon icon={dataElement.type} />
+                <Icon icon={dataElement.info.icon ? dataElement.info.icon : "description"} />
               </span>
 
-              <span className={styles["data-title"]}>{dataElement.title}</span>
+              <span className={styles["data-title"]}>{dataElement.info.title}</span>
             </div>
             {displayMode !== "simplified" && (
               <div className={styles["date"]}>
-                <FormattedDate date={dataElement.date}/>
+                <FormattedDate date={dataElement.info.date}/>
               </div>
             )}
           </div>

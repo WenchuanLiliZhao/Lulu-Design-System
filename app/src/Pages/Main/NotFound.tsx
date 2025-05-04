@@ -4,7 +4,8 @@ const NotFound: Page = {
   info: {
     slug: "*",
     title: "404 Not Found",
-    title_display: undefined
+    title_display: undefined,
+    date: new Date('2025-04-24'),
   },
   content: (
     <div>
