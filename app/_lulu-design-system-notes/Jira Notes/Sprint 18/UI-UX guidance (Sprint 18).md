@@ -88,9 +88,7 @@ Navigation 上有若干 dropdown。其主文件是 `Dropdown.tsx`。其中编写
 
 Search bar 的主文件位于 `SearchBar.tsx`。其中，我放置了一个 search hint box，其中是分组的 search hints，由可选属性 `searchHintGroups` 所反应。
 
-%% Begin AI ignore %%
 目前，我只设计了当每一个 hint 均为一个页面 link 的情况——这也是此类 search bar UX 中最常见的几种之一。此外，以 tag 搜索的功能我讲根据情况进行另外设计。
-%% End AI ignore %%
 
 ### Kanban
 
