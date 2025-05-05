@@ -1,3 +1,23 @@
+/* 
+## Component Overview
+- `KanbanGroup` is a React component designed to display a group of Kanban boards with tabbed navigation.
+- Each tab represents a Kanban board, and clicking on a tab switches the displayed content.
+- Supports dynamic rendering of Kanban boards based on the `kanbanList` prop, which includes the title, icon, and content for each board.
+
+### Key Implementation Challenges
+- **Dynamic Tab Navigation**: The component uses the `useState` hook to manage the active tab and dynamically updates the displayed content based on user interaction.
+- **Scroll Reset on Tab Switch**: A `useRef` is used to reference the Kanban content container, allowing the scroll position to reset when switching tabs.
+
+## 组件功能概览
+- `KanbanGroup` 是一个 React 组件，用于展示带有标签导航的看板组。
+- 每个标签对应一个看板，点击标签可以切换显示的内容。
+- 支持根据 `kanbanList` 属性动态渲染看板，`kanbanList` 包括每个看板的标题、图标和内容。
+
+### 主要实现难点
+- **动态标签导航**：通过 `useState` 钩子管理当前激活的标签，并根据用户交互动态更新显示内容。
+- **切换标签时的滚动重置**：使用 `useRef` 引用看板内容容器，在切换标签时重置滚动位置。
+*/
+
 import React from "react";
 import { KanbanType } from "../Types/KanbanType";
 import { HoverBox } from "./HoverBox";

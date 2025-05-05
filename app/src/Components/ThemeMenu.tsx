@@ -1,3 +1,31 @@
+/* 
+## Component Overview
+- `ThemeMenu` is a React functional component designed to provide a dropdown menu for selecting theme preferences (e.g., light mode, dark mode, or system-adapted mode).
+- It dynamically updates the `data-theme` attribute on the `<html>` element to reflect the selected theme.
+- The component uses localStorage to persist the user's theme preference across sessions.
+
+### Key Implementation Challenges
+- **Dynamic Theme Switching**: The component ensures seamless updates to the `data-theme` attribute on the `<html>` element, enabling global theme changes without reloading the page.
+- **State Persistence**: It retrieves and stores the theme preference in `localStorage`, ensuring the user's choice is remembered across browser sessions.
+- **Cross-Component Interaction**: 
+  - Utilizes the `Dropdown` component to render the menu.
+  - Uses the `Btn` component as the trigger for the dropdown.
+  - Leverages the `Menu` component to display grouped menu items with icons and click handlers.
+
+## 组件功能概览
+- `ThemeMenu` 是一个 React 函数组件，用于提供主题偏好选择的下拉菜单（例如，浅色模式、深色模式或适配系统模式）。
+- 它动态更新 `<html>` 元素上的 `data-theme` 属性，以反映所选主题。
+- 组件使用 localStorage 持久化用户的主题偏好，以便在会话之间保持一致。
+
+### 主要实现难点
+- **动态主题切换**：组件确保无缝更新 `<html>` 元素上的 `data-theme` 属性，从而实现全局主题更改，无需刷新页面。
+- **状态持久化**：通过 localStorage 获取和存储主题偏好，确保用户的选择在浏览器会话之间得以保留。
+- **跨组件交互**：
+  - 使用 `Dropdown` 组件渲染下拉菜单。
+  - 使用 `Btn` 组件作为下拉菜单的触发器。
+  - 使用 `Menu` 组件显示带有图标和点击事件处理器的分组菜单项。
+*/
+
 import React, { useEffect, useState } from "react";
 import { Menu } from "./Menu";
 import { Btn } from "./Btn";

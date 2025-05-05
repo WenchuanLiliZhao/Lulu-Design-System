@@ -1,3 +1,28 @@
+/* 
+## Component Overview
+- `ChatBotBtn` is a React functional component designed to render a chatbot button with a toggleable chatbox.
+- The button displays different symbols (🤖 and 🧠) based on the open/close state of the chatbox.
+- The chatbox includes a placeholder message and supports click-outside functionality to close the chatbox.
+
+### Key Implementation Challenges
+- **State Management**: Uses `useState` to manage the open/close state of the chatbox.
+- **Click-Outside Detection**: Implements `useRef` and `useEffect` to detect clicks outside the chatbox and close it accordingly.
+- **Event Listener Cleanup**: Ensures proper cleanup of `mousedown` event listeners to avoid memory leaks.
+
+---
+
+## 组件功能概览
+- `ChatBotBtn` 是一个 React 函数组件，用于渲染一个带有可切换聊天框的聊天机器人按钮。
+- 按钮根据聊天框的打开/关闭状态显示不同的符号（🤖 和 🧠）。
+- 聊天框包含占位消息，并支持点击外部区域关闭聊天框的功能。
+
+### 主要实现难点
+- **状态管理**：使用 `useState` 管理聊天框的打开/关闭状态。
+- **点击外部检测**：通过 `useRef` 和 `useEffect` 实现点击聊天框外部区域时关闭聊天框的功能。
+- **事件监听器清理**：确保对 `mousedown` 事件监听器的正确清理，避免内存泄漏。
+*/
+
+
 import { useState, useEffect, useRef } from "react";
 import styles from "./ChatBotBtn.module.scss";
 import { HoverBox } from "./HoverBox";

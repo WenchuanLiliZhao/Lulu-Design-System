@@ -4,6 +4,28 @@ import { HoverBox } from "./HoverBox";
 import { FormattedDate } from "../Functions/FormattedDate";
 import { Page } from "../Types/PageType";
 
+/* 
+## Component Overview
+- The `DataList` component is a React functional component designed to display a list of data items. 
+- It supports three display modes: "simplified", "semi-detailed", and "detailed".
+- When the list is empty, it renders a friendly placeholder message with an image and text.
+- Each data item is rendered as a clickable link, displaying its title, an optional icon, and a formatted date (depending on the display mode).
+
+### Key Implementation Challenges
+- **Dynamic Rendering Based on Props**: The component dynamically adjusts its layout and content based on the `displayMode` prop, requiring careful conditional rendering logic.
+- **Styling and Responsiveness**: The component relies on modular SCSS styles for consistent and responsive design, ensuring proper alignment and spacing across different display modes.
+
+## 组件功能概览
+- `DataList` 是一个 React 函数组件，用于展示数据项列表。
+- 支持三种显示模式："简化"、"半详细" 和 "详细"。
+- 当列表为空时，会渲染一个友好的占位消息，包括图片和文本。
+- 每个数据项以可点击链接的形式展示，显示标题、可选图标，以及格式化日期（取决于显示模式）。
+
+### 主要实现难点
+- **基于属性的动态渲染**：组件根据 `displayMode` 属性动态调整布局和内容，需要精心设计条件渲染逻辑。
+- **样式和响应式设计**：组件依赖模块化 SCSS 样式，确保在不同显示模式下的一致性和响应式设计。
+*/
+
 export interface DataListProps {
   list: Page[];
   displayMode: "simplified" | "semi-detailed" | "detailed";
