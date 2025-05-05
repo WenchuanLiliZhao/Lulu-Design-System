@@ -24,20 +24,28 @@ import React from "react";
 import styles from "./Switch.module.scss";
 
 interface SwitchProps {
-  checked: boolean;
-  size: "small" | "medium" | "large";
-  onChange: (checked: boolean) => void;
+  checked: boolean; // Indicates whether the switch is on or off
+  // 指示开关是打开还是关闭
+  size: "small" | "medium" | "large"; // Defines the size of the switch
+  // 定义开关的尺寸
+  onChange: (checked: boolean) => void; // Callback function triggered when the switch state changes
+  // 当开关状态改变时触发的回调函数
 }
 
 export const Switch: React.FC<SwitchProps> = ({ checked, size, onChange }) => {
   return (
     <label className={`${styles["switch"]} ${styles[size]}`}>
+      {/* Render a hidden checkbox to manage the switch state */}
+      {/* 渲染一个隐藏的复选框来管理开关状态 */}
       <input
         type="checkbox"
         checked={checked}
         onChange={(e) => onChange(e.target.checked)}
-        aria-label="Toggle switch"
+        aria-label="Toggle switch" // Provides an accessible label for screen readers
+        // 为屏幕阅读器提供可访问的标签
       />
+      {/* Render the visual slider for the switch */}
+      {/* 渲染开关的视觉滑块 */}
       <span className={styles["slider"]}></span>
     </label>
   );

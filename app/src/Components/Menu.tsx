@@ -38,8 +38,12 @@ export interface MenuProps {
 export const Menu: React.FC<MenuProps> = ({ items, className }) => {
   return (
     <div className={`${styles["menu"]} ${className}`}>
+      {/* Render each group of menu items */}
+      {/* 渲染每个菜单项分组 */}
       {Object.values(items).map((group, i) => (
         <div key={i} className={styles["group"]}>
+          {/* Render the group title if it exists */}
+          {/* 如果分组标题存在，则渲染分组标题 */}
           {group.groupTitle && (
             <>
               <div className={`${styles["group-title"]} ${styles["cell"]}`}>
@@ -48,10 +52,18 @@ export const Menu: React.FC<MenuProps> = ({ items, className }) => {
             </>
           )}
           <div className={styles["items"]}>
+            {/* Render each item in the group */}
+            {/* 渲染分组中的每个菜单项 */}
             {group.groupItems.map((item, j) => (
               <div key={j} className={`${styles["item"]} ${styles["cell"]}`} onClick={item.onClick}>
+                {/* Render the icon if it exists */}
+                {/* 如果图标存在，则渲染图标 */}
                 {item.icon && <Icon className={styles["icon"]} icon={item.icon} />}
+                {/* Render the text of the menu item */}
+                {/* 渲染菜单项的文本 */}
                 {item.text}
+                {/* Render a hover effect for the menu item */}
+                {/* 为菜单项渲染悬停效果 */}
                 <HoverBox mode={"default"} className={ClickToClose} />
               </div>
             ))}

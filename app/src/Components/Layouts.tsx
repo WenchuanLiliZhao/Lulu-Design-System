@@ -1,3 +1,6 @@
+// ingore this file please, it is useless yet
+// 请忽略这个文件，它还没有用处
+
 import { ReactNode } from "react";
 
 interface LayoutProps {

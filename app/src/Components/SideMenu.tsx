@@ -41,38 +41,50 @@ interface SideMenuProps {
 }
 
 export const SideMenu: React.FC<SideMenuProps> = ({ siteInfo, itemGroups }) => {
-  const [isOpen, setIsOpen] = useState(false);
-  const menuRef = useRef<HTMLDivElement>(null);
+  const [isOpen, setIsOpen] = useState(false); // Track the open/close state of the menu
+  // 跟踪菜单的打开/关闭状态
+  const menuRef = useRef<HTMLDivElement>(null); // Reference to the menu DOM element
+  // 菜单 DOM 元素的引用
 
   const handleBtnClick = () => {
-    setIsOpen((prev) => !prev);
+    setIsOpen((prev) => !prev); // Toggle the menu open/close state
+    // 切换菜单的打开/关闭状态
   };
 
   const handleClickOutside = (event: MouseEvent) => {
     if (menuRef.current && !menuRef.current.contains(event.target as Node)) {
-      setIsOpen(false);
+      setIsOpen(false); // Close the menu if a click occurs outside of it
+      // 如果点击发生在菜单外部，则关闭菜单
     }
   };
 
   useEffect(() => {
-    document.addEventListener("mousedown", handleClickOutside);
+    document.addEventListener("mousedown", handleClickOutside); // Add event listener for outside clicks
+    // 添加事件监听器以检测外部点击
     return () => {
-      document.removeEventListener("mousedown", handleClickOutside);
+      document.removeEventListener("mousedown", handleClickOutside); // Cleanup event listener on unmount
+      // 在组件卸载时清理事件监听器
     };
   }, []);
 
   useEffect(() => {
-    ToggleBodyScroll(isOpen);
+    ToggleBodyScroll(isOpen); // Manage body scroll behavior based on menu state
+    // 根据菜单状态管理页面滚动行为
     return () => ToggleBodyScroll(false); // Ensure scroll is enabled on unmount
+    // 确保在组件卸载时启用滚动
   }, [isOpen]);
 
   return (
     <div className={styles["side-menu"]}>
       <Btn icon={"menu"} place={"nav-btn"} onClick={handleBtnClick} />
+      {/* Render a button to toggle the menu */}
+      {/* 渲染一个按钮以切换菜单 */}
 
       <div
         className={`${styles["bg-btn"]} ${isOpen ? styles["open"] : ""}`}
       ></div>
+      {/* Render a background overlay when the menu is open */}
+      {/* 当菜单打开时渲染一个背景覆盖层 */}
 
       <div
         ref={menuRef}
@@ -80,7 +92,11 @@ export const SideMenu: React.FC<SideMenuProps> = ({ siteInfo, itemGroups }) => {
       >
         <div className={styles["menu-header"]}>
           <Logo mode={"FullColorNoText"} className={styles["logo"]} />
+          {/* Render the site logo */}
+          {/* 渲染站点 Logo */}
           <div className={styles["text"]}>{siteInfo.title}</div>
+          {/* Render the site title */}
+          {/* 渲染站点标题 */}
         </div>
 
         <div className={styles["menu-body"]}>
@@ -88,6 +104,8 @@ export const SideMenu: React.FC<SideMenuProps> = ({ siteInfo, itemGroups }) => {
             <div key={index} className={styles["menu-group"]}>
               {group.groupTitle !== "" && (
                 <div className={styles["group-title"]}>{group.groupTitle}</div>
+                // Render the group title if it exists
+                // 如果分组标题存在，则渲染分组标题
               )}
               <div className={styles["menu-items"]}>
                 {group.items.map((item) => (
@@ -96,9 +114,18 @@ export const SideMenu: React.FC<SideMenuProps> = ({ siteInfo, itemGroups }) => {
                     className={styles["menu-item"]}
                     href={`/${item.info.slug}`}
                   >
-                    <Icon icon={item.info.icon ? `${item.info.icon}` : "description"} className={styles["icon"]} />
+                    <Icon
+                      icon={item.info.icon ? `${item.info.icon}` : "description"}
+                      className={styles["icon"]}
+                    />
+                    {/* Render the item's icon */}
+                    {/* 渲染项目的图标 */}
                     {item.info.title}
+                    {/* Render the item's title */}
+                    {/* 渲染项目的标题 */}
                     <HoverBox />
+                    {/* Render a hover effect for the item */}
+                    {/* 为项目渲染悬停效果 */}
                   </a>
                 ))}
               </div>

@@ -41,9 +41,16 @@ interface NavProps {
 export const Nav: React.FC<NavProps> = ({ items }) => {
   return (
     <nav className={styles["nav"]}>
+      {/* Render a background element to maintain vertical space for the navigation bar */}
+      {/* 渲染一个背景元素以保持导航栏的垂直空间 */}
       <div className={styles["nav-bg"]}></div>
+
+      {/* Render the main container for the navigation bar */}
+      {/* 渲染导航栏的主容器 */}
       <div className={styles["nav-container"]}>
         <div className={styles["item-container"]}>
+          {/* Render the left section of the navigation bar if items are provided */}
+          {/* 如果提供了项目，则渲染导航栏的左侧部分 */}
           {items.left && (
             <div className={styles["item-group"]}>
               {items.left.map((item, index) => (
@@ -51,6 +58,9 @@ export const Nav: React.FC<NavProps> = ({ items }) => {
               ))}
             </div>
           )}
+
+          {/* Render the middle section of the navigation bar if items are provided */}
+          {/* 如果提供了项目，则渲染导航栏的中间部分 */}
           {items.middle && (
             <div className={styles["item-group"]}>
               {items.middle.map((item, index) => (
@@ -58,6 +68,9 @@ export const Nav: React.FC<NavProps> = ({ items }) => {
               ))}
             </div>
           )}
+
+          {/* Render the right section of the navigation bar if items are provided */}
+          {/* 如果提供了项目，则渲染导航栏的右侧部分 */}
           {items.right && (
             <div className={styles["item-group"]}>
               {items.right.map((item, index) => (
@@ -74,6 +87,8 @@ export const Nav: React.FC<NavProps> = ({ items }) => {
 export const NavDivider: React.FC = () => {
   return (
     <div className={styles["nav-divider"]}>
+      {/* Render a stroke element to visually separate sections */}
+      {/* 渲染一个线条元素以在视觉上分隔部分 */}
       <div className={styles["stroke"]}></div>
     </div>
   );

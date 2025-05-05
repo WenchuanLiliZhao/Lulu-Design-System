@@ -65,7 +65,12 @@ export const SearchBar: React.FC<SearchBarProps> = ({
         isFocused ? styles["focused"] : ""
       }`}
     >
+      {/* Render a search icon */}
+      {/* 渲染一个搜索图标 */}
       <Icon icon={"search"} />
+
+      {/* Render the input field for search queries */}
+      {/* 渲染用于搜索查询的输入框 */}
       <input
         type="text"
         value={query}
@@ -77,24 +82,40 @@ export const SearchBar: React.FC<SearchBarProps> = ({
         className={styles.input}
       />
 
-      {/* 这个地方的 scss 我单独处理，因为可能需要调换位置 */}
+      {/* Render the hint box if searchHintGroups are provided */}
+      {/* 如果提供了 searchHintGroups，则渲染提示框 */}
       {searchHintGroups !== undefined && (
         <div
           className={`${styles["hint-box"]} ${
             isFocused ? styles["focused"] : ""
           }`}
         >
+          {/* Render each group of search hints */}
+          {/* 渲染每个搜索提示分组 */}
           {searchHintGroups.map((group, i: number) => (
             <div key={i} className={styles["hint-group"]}>
+              {/* Render the title of the hint group */}
+              {/* 渲染提示分组的标题 */}
               <div className={styles["hint-group-title"]}>
                 {group.groupTitle}
               </div>
               <div className={styles["hint-list"]}>
+                {/* Render each hint item in the group */}
+                {/* 渲染分组中的每个提示项 */}
                 {group.hintList.length > 0 &&
                   group.hintList.map((item: Page, k: number) => (
                     <div key={k} className={styles["hint-item"]}>
-                      <Icon className={styles["icon"]} icon={item.info.icon ? item.info.icon : "description" } />
+                      {/* Render the icon for the hint item */}
+                      {/* 渲染提示项的图标 */}
+                      <Icon
+                        className={styles["icon"]}
+                        icon={item.info.icon ? item.info.icon : "description"}
+                      />
+                      {/* Render the title of the hint item */}
+                      {/* 渲染提示项的标题 */}
                       <span>{item.info.title}</span>
+                      {/* Render a hover effect for the hint item */}
+                      {/* 为提示项渲染悬停效果 */}
                       <HoverBox />
                     </div>
                   ))}

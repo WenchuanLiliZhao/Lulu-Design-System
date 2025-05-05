@@ -25,12 +25,13 @@ import { Icon } from "./Icon";
 import styles from "./KanbanGroup.module.scss";
 import { useState, useRef } from "react";
 
-
-
 export interface KanbanGroupProps {
-  title: string;
-  kanbanList: KanbanType[];
-  style?: React.CSSProperties;
+  title: string; // The title of the Kanban group
+  // 看板组的标题
+  kanbanList: KanbanType[]; // The list of Kanban boards to display
+  // 要显示的看板列表
+  style?: React.CSSProperties; // Optional custom styles for the component
+  // 组件的可选自定义样式
 }
 
 export const KanbanGroup: React.FC<KanbanGroupProps> = ({
@@ -38,22 +39,34 @@ export const KanbanGroup: React.FC<KanbanGroupProps> = ({
   kanbanList,
   style,
 }) => {
-  const [activeTab, setActiveTab] = useState(0);
-  const kanbanContentRef = useRef<HTMLDivElement>(null);
+  const [activeTab, setActiveTab] = useState(0); 
+  // State to track the currently active tab
+  // 用于跟踪当前激活的标签的状态
 
-  // 👇 The `ref` here is used to reference the DOM element of the kanban content container. This allows programmatic access to the element, such as resetting its scroll position when switching tabs.
+  const kanbanContentRef = useRef<HTMLDivElement>(null); 
+  // Reference to the Kanban content container for programmatic access
+  // 用于引用看板内容容器的引用，便于编程访问
 
-  // 👇 这里的 `ref` 用于引用看板内容容器的 DOM 元素。这使得可以通过编程方式访问该元素，例如在切换标签时重置其滚动位置。
   const handleTabClick = (index: number) => {
-    setActiveTab(index);
+    setActiveTab(index); 
+    // Update the active tab index
+    // 更新激活的标签索引
+
     if (kanbanContentRef.current) {
-      kanbanContentRef.current.scrollTop = 0;
+      kanbanContentRef.current.scrollTop = 0; 
+      // Reset the scroll position of the content container
+      // 重置内容容器的滚动位置
     }
   };
 
   return (
     <div className={styles["kanban-group"]} style={style}>
+      {/* Render the title of the Kanban group */}
+      {/* 渲染看板组的标题 */}
       <div className={styles["kanban-group-title"]}>{title}</div>
+
+      {/* Render the tabs for each Kanban board */}
+      {/* 为每个看板渲染标签 */}
       <div className={styles["kanban-tabs"]}>
         {kanbanList.map((kanban, index) => (
           <div
@@ -65,6 +78,8 @@ export const KanbanGroup: React.FC<KanbanGroupProps> = ({
             }
             onClick={() => handleTabClick(index)}
           >
+            {/* Render the icon for the Kanban tab if available */}
+            {/* 如果有图标，则渲染看板标签的图标 */}
             {kanban.icon && (
               <Icon className={styles["icon"]} icon={kanban.icon} />
             )}
@@ -74,6 +89,8 @@ export const KanbanGroup: React.FC<KanbanGroupProps> = ({
         ))}
       </div>
 
+      {/* Render the content of the active Kanban board */}
+      {/* 渲染当前激活看板的内容 */}
       <div className={styles["kanban-group-content"]} ref={kanbanContentRef}>
         <div className={styles["kanban"]}>
           {kanbanList[activeTab].content}

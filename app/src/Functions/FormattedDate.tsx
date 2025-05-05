@@ -31,29 +31,47 @@ interface FormattedDateProps {
   useNaturalLanguage?: boolean; // 新增属性，决定是否使用自然语言显示模式
 }
 
+// `FormattedDate` component formats and displays a date and/or time based on the provided props
+// `FormattedDate` 组件根据提供的属性格式化并显示日期和/或时间
 export const FormattedDate: React.FC<FormattedDateProps> = ({ date, locale = "en_GB", displayMode = "both", useNaturalLanguage = false }) => {
+  // Create a formatter for the date based on the locale and natural language preference
+  // 根据语言环境和自然语言偏好创建日期格式化器
   const formatter = new Intl.DateTimeFormat(locale.replace('_', '-'), {
     year: 'numeric',
     month: useNaturalLanguage ? 'short' : '2-digit',
     day: '2-digit',
   });
 
+  // Create a formatter for the time based on the locale
+  // 根据语言环境创建时间格式化器
   const timeFormatter = new Intl.DateTimeFormat(locale.replace('_', '-'), {
     hour: '2-digit',
     minute: '2-digit',
     second: '2-digit',
   });
 
+  // Format the date using natural language or numeric representation
+  // 使用自然语言或数字表示法格式化日期
   const formattedDate = useNaturalLanguage
     ? formatter.format(date)
     : `${date.getFullYear()}/${(date.getMonth() + 1).toString().padStart(2, '0')}/${date.getDate().toString().padStart(2, '0')}`;
 
+  // Format the time
+  // 格式化时间
   const formattedTime = timeFormatter.format(date);
 
   return (
     <span>
+      {/* Render only the date if displayMode is 'date' */}
+      {/* 如果 displayMode 是 'date'，则仅渲染日期 */}
       {displayMode === 'date' && <span>{formattedDate}</span>}
+
+      {/* Render only the time if displayMode is 'time' */}
+      {/* 如果 displayMode 是 'time'，则仅渲染时间 */}
       {displayMode === 'time' && <span>{formattedTime}</span>}
+
+      {/* Render both date and time if displayMode is 'both' */}
+      {/* 如果 displayMode 是 'both'，则同时渲染日期和时间 */}
       {displayMode === 'both' && (
         <span>
           <span>{formattedDate}</span> <span>{formattedTime}</span>

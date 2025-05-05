@@ -29,13 +29,22 @@ import { HoverBox } from "./HoverBox";
 // import { Icon } from './Icon';
 
 export const ChatBotBtn = () => {
+  // Manage the open/close state of the chatbox
+  // 管理聊天框的打开/关闭状态
   const [isOpen, setIsOpen] = useState(false);
+
+  // Reference to the chatbox container for detecting outside clicks
+  // 聊天框容器的引用，用于检测外部点击
   const chatboxRef = useRef<HTMLDivElement>(null);
 
+  // Toggle the chatbox open/close state
+  // 切换聊天框的打开/关闭状态
   const toggleChatbox = () => {
     setIsOpen(!isOpen);
   };
 
+  // Handle clicks outside the chatbox to close it
+  // 处理聊天框外部的点击事件以关闭聊天框
   const handleClickOutside = (event: MouseEvent) => {
     if (
       chatboxRef.current &&
@@ -45,6 +54,8 @@ export const ChatBotBtn = () => {
     }
   };
 
+  // Add and clean up the event listener for outside clicks
+  // 添加和清理用于检测外部点击的事件监听器
   useEffect(() => {
     document.addEventListener("mousedown", handleClickOutside);
     return () => {
@@ -54,7 +65,11 @@ export const ChatBotBtn = () => {
 
   return (
     <div className={styles["chatbot-btn"]} ref={chatboxRef}>
+      {/* Render the button to toggle the chatbox */}
+      {/* 渲染用于切换聊天框的按钮 */}
       <div className={styles["btn"]} onClick={toggleChatbox}>
+        {/* Display the 🤖 symbol when the chatbox is closed */}
+        {/* 当聊天框关闭时显示 🤖 符号 */}
         <div
           className={`${styles["symbol"]}  ${
             isOpen !== true ? styles["show"] : ""
@@ -62,13 +77,19 @@ export const ChatBotBtn = () => {
         >
           🤖
         </div>
+        {/* Display the 🧠 symbol when the chatbox is open */}
+        {/* 当聊天框打开时显示 🧠 符号 */}
         <div className={`${styles["symbol"]} ${isOpen ? styles["show"] : ""}`}>
           🧠
         </div>
 
+        {/* Render a hover effect for the button */}
+        {/* 渲染按钮的悬停效果 */}
         <HoverBox mode={"default"} />
       </div>
       <div className={`${styles["chatbox-container"]}`}>
+        {/* Render the chatbox with a placeholder message */}
+        {/* 渲染带有占位消息的聊天框 */}
         <div className={`${styles["chatbox"]} ${isOpen ? styles["open"] : ""}`}>
           <div className={styles["to-you"]}>
             オケーア，アミンゴー！这是 chatbox 的占位。我不确定这个 chatbox
