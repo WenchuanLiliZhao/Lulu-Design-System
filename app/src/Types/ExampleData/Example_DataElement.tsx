@@ -1,6 +1,6 @@
-import { Page } from "../PageType";
+import { PageType } from "../PageType";
 
-const ResentlyViewed: Page[] = [
+const ResentlyViewed: PageType[] = [
   {
     info: {
       slug: "employee_performance_review",
@@ -203,7 +203,7 @@ const ResentlyViewed: Page[] = [
   },
 ];
 
-const Reports: Page[] = [
+const Reports: PageType[] = [
   {
     info: {
       slug: "team_meeting_schedule",
@@ -296,7 +296,7 @@ const Reports: Page[] = [
   },
 ];
 
-const DataSets: Page[] = [
+const DataSets: PageType[] = [
   {
     info: {
       slug: "project_timeline_dashboard",

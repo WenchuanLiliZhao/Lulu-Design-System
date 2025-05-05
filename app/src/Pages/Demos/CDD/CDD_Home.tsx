@@ -4,7 +4,7 @@ import { Btn } from "../../../Components/Btn";
 import { HoverBox } from "../../../Components/HoverBox";
 import { Dropdown } from "../../../Components/Dropdown";
 import { Nav, NavDivider } from "../../../Components/Nav";
-import { Page } from "../../../Types/PageType";
+import { PageType } from "../../../Types/PageType";
 import styles from "./CDD_Home.module.scss";
 import React from "react";
 import { Menu } from "../../../Components/Menu";
@@ -97,7 +97,7 @@ const TestMenuContent = [
   },
 ];
 
-const CDD_Home: Page = {
+const CDD_Home: PageType = {
   info: {
     slug: "cdd-home",
     title: "CDD Home",

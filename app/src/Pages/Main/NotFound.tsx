@@ -1,6 +1,6 @@
-import { Page } from "../../Types/PageType";
+import { PageType } from "../../Types/PageType";
 
-const NotFound: Page = {
+const NotFound: PageType = {
   info: {
     slug: "*",
     title: "404 Not Found",

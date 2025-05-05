@@ -1,6 +1,6 @@
-import { Page } from "./PageType";
+import { PageType } from "./PageType";
 
-export type SearchHintType = Page
+export type SearchHintType = PageType
 
 export interface SearchHintGroupType {
   groupTitle: string;

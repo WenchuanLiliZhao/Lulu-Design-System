@@ -1,6 +1,6 @@
-import { Page } from "../PageType";
+import { PageType } from "../PageType";
 
-const Group1: Page[] = [
+const Group1: PageType[] = [
   {
     info: {
       slug: "CDD-home",
@@ -53,7 +53,7 @@ const Group1: Page[] = [
   },
 ];
 
-const Group2: Page[] = [
+const Group2: PageType[] = [
   {
     info: {
       slug: "faq",
@@ -106,7 +106,7 @@ const Group2: Page[] = [
   },
 ];
 
-const Group3: Page[] = [
+const Group3: PageType[] = [
   {
     info: {
       slug: "pricing",

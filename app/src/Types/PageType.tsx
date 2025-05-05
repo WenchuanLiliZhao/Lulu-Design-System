@@ -8,7 +8,7 @@ export interface PageInfo {
   icon?: string
 }
 
-export interface Page {
+export interface PageType {
   info: PageInfo
   content: ReactNode
 }

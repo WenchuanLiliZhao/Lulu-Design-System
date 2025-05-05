@@ -1,6 +1,6 @@
-import { Page } from "../../Types/PageType";
+import { PageType } from "../../Types/PageType";
 
-const About: Page = {
+const About: PageType = {
   info: {
     slug: "about",
     title: "About",

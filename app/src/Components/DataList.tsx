@@ -2,7 +2,7 @@ import styles from "./DataList.module.scss";
 import { Icon } from "./Icon";
 import { HoverBox } from "./HoverBox";
 import { FormattedDate } from "../Functions/FormattedDate";
-import { Page } from "../Types/PageType";
+import { PageType } from "../Types/PageType";
 
 /* 
 ## Component Overview
@@ -27,7 +27,7 @@ import { Page } from "../Types/PageType";
 */
 
 export interface DataListProps {
-  list: Page[];
+  list: PageType[];
   displayMode: "simplified" | "semi-detailed" | "detailed";
 }
 
@@ -61,7 +61,7 @@ export const DataList: React.FC<DataListProps> = ({ list, displayMode }) => {
   // 渲染数据项列表
   return (
     <div className={styles["data-list"]}>
-      {list.map((dataElement: Page, index: number) => (
+      {list.map((dataElement: PageType, index: number) => (
         <a
           href={`/${dataElement.info.slug}`}
           className={`${styles["data-list-item"]}`}

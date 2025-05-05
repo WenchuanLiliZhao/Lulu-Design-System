@@ -23,7 +23,7 @@
 import React, { useState, useRef, useEffect } from "react";
 import styles from "./SideMenu.module.scss";
 import { Btn } from "./Btn";
-import { Page } from "../Types/PageType";
+import { PageType } from "../Types/PageType";
 import { HoverBox } from "./HoverBox";
 import { ToggleBodyScroll } from "../Functions/ToggleBodyScroll";
 import { Logo } from "../assets/Img/Logo";
@@ -32,7 +32,7 @@ import { Icon } from "./Icon";
 
 interface SideMenuItemGroup {
   groupTitle: string;
-  items: Page[];
+  items: PageType[];
 }
 
 interface SideMenuProps {

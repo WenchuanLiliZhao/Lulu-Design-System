@@ -22,7 +22,7 @@ import React, { useState } from "react";
 import styles from "./SearchBar.module.scss";
 import { Icon } from "./Icon";
 import { SearchHintGroupType } from "../Types/SearchHintType";
-import { Page } from "../Types/PageType";
+import { PageType } from "../Types/PageType";
 import { HoverBox } from "./HoverBox";
 
 type SearchBarProps = {
@@ -103,7 +103,7 @@ export const SearchBar: React.FC<SearchBarProps> = ({
                 {/* Render each hint item in the group */}
                 {/* 渲染分组中的每个提示项 */}
                 {group.hintList.length > 0 &&
-                  group.hintList.map((item: Page, k: number) => (
+                  group.hintList.map((item: PageType, k: number) => (
                     <div key={k} className={styles["hint-item"]}>
                       {/* Render the icon for the hint item */}
                       {/* 渲染提示项的图标 */}
