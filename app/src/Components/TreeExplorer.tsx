@@ -2,18 +2,21 @@
 ## Component Overview
 - The `TreeExplorer` component is a React component designed to render a hierarchical tree structure. It displays nodes with expandable/collapsible functionality.
 - The `TreeNodeComponent` is a subcomponent responsible for rendering individual tree nodes, including their children recursively.
+- The component includes "Expand All" and "Collapse All" controls to manage the global expand/collapse state.
 
 ### Key Implementation Challenges
 - Managing the state of expanded/collapsed nodes using React's `useState` hook.
+- Synchronizing the global expand/collapse state with individual nodes.
 - Implementing recursive rendering for nested child nodes while maintaining performance and avoiding excessive re-renders.
-
 
 ## 组件功能概览
 - `TreeExplorer` 是一个 React 组件，用于渲染分层的树形结构。它支持节点的展开/折叠功能。
 - `TreeNodeComponent` 是一个子组件，负责渲染单个树节点，包括递归渲染其子节点。
+- 组件包含“全部展开”和“全部折叠”控件，用于管理全局的展开/折叠状态。
 
 ### 主要实现难点
 - 使用 React 的 `useState` 钩子管理节点的展开/折叠状态。
+- 同步全局展开/折叠状态与各个节点的状态。
 - 实现嵌套子节点的递归渲染，同时保持性能并避免过多的重新渲染。
 */
 
