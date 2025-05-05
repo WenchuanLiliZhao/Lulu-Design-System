@@ -41,12 +41,12 @@
             "state": {
               "type": "markdown",
               "state": {
-                "file": "Tutorials and AI requests/Comment Generator.md",
+                "file": "Jira Notes/Sprint 18/UI-UX guidance (Sprint 18).md",
                 "mode": "source",
                 "source": false
               },
               "icon": "lucide-file",
-              "title": "Comment Generator"
+              "title": "UI-UX guidance (Sprint 18)"
             }
           }
         ],
@@ -197,10 +197,10 @@
       "command-palette:Open command palette": false
     }
   },
-  "active": "545c547a4a6d3196",
+  "active": "74d78fc828828175",
   "lastOpenFiles": [
-    "Tutorials and AI requests/Component Insight Generator.md",
     "Tutorials and AI requests/Comment Generator.md",
+    "Tutorials and AI requests/Component Insight Generator.md",
     "Tutorials and AI requests/Auto-update File Annotation Paths Prompt.md",
     "Tutorials and AI requests/Auto-update File Annotation Paths Prompt (zh).md",
     "Tutorials and AI requests/Component Insight Generator (zh).md",
