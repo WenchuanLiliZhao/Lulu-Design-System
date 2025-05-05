@@ -1,0 +1,23 @@
+.tree-explorer {
+  font-family: Arial, sans-serif;
+  font-size: 14px;
+  color: #333;
+}
+
+.tree-node {
+  margin-left: 16px;
+}
+
+.node-header {
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+}
+
+.expand-icon {
+  margin-right: 8px;
+}
+
+.node-children {
+  margin-left: 16px;
+}

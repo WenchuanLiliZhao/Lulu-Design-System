@@ -1,6 +1,6 @@
 import { PageType } from "./PageType";
 
-export interface TreeNodeType {
+export interface TreeNodesType {
   page: PageType; // The PageType object associated with this node
-  children: TreeNodeType[]; // Array of child nodes
+  children: TreeNodesType[]; // Array of child nodes
 }
