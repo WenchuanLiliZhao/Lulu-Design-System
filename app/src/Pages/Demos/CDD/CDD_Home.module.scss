@@ -1,49 +1,4 @@
-.menu {
-  .menu-btn {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    width: var(--spacing-nav-item-size);
-    height: var(--spacing-nav-item-size);
-    border: 1px solid var(--color-border-main-trans);
-    border-radius: 4px;
-    cursor: pointer;
 
-    overflow: hidden;
-
-    color: var(--color-sec);
-
-    * {
-      font-size: 20px;
-    }
-  }
-}
-
-.logo-bar {
-  display: flex;
-  justify-content: flex-start;
-  align-items: center;
-  gap: 8px;
-
-  .logo {
-    height: var(--spacing-nav-item-size);
-  }
-
-  .text {
-    font-size: 16px;
-    font-weight: bold;
-  }
-}
-
-
-.user-avatar {
-  height: var(--spacing-nav-item-size);
-  width: var(--spacing-nav-item-size);
-  border-radius: 1000px;
-  overflow: hidden;
-
-  background-color: var(--color-bg-sec);
-}
 
 main.content {
   display: block;

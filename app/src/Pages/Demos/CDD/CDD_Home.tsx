@@ -1,16 +1,8 @@
-import { Logo } from "../../../assets/Img/Logo";
-import { Placeholder } from "../../../assets/Img/Placeholder";
-import { Btn } from "../../../Components/Btn";
-import { HoverBox } from "../../../Components/HoverBox";
-import { Dropdown } from "../../../Components/Dropdown";
-import { Nav, NavDivider } from "../../../Components/Nav";
+
+import { CDD_BasicLayout, SearchHintGroups } from "./CDD_SiteInfo";
 import { PageType } from "../../../Types/PageType";
 import styles from "./CDD_Home.module.scss";
 import React from "react";
-import { Menu } from "../../../Components/Menu";
-import { ThemeMenu } from "../../../Components/ThemeMenu";
-import { MessageBox } from "../../../Components/MessageBox";
-import { Example_MessagesList } from "../../../Types/ExampleData/Example_MessagesList";
 import { SearchBar } from "../../../Components/SearchBar";
 import { Example_TagList } from "../../../Types/ExampleData/Example_TagSet";
 import { TagType } from "../../../Types/TagType";
@@ -19,83 +11,7 @@ import { KanbanGroup } from "../../../Components/KanbanGroup";
 import { DataList } from "../../../Components/DataList";
 import { Example_DataPageLists } from "../../../Types/ExampleData/Example_DataElement";
 import { ChatBotBtn } from "../../../Components/ChatBotBtn";
-import { Footer } from "../../../Components/Footer";
-import { SideMenu } from "../../../Components/SideMenu";
-import { Example_Pages } from "../../../Types/ExampleData/Example_Pages";
-import { CDD_SiteInfo } from "./CDD_SiteInfo";
-import { SearchHintGroupType } from "../../../Types/SearchHintType";
 
-
-const SearchHintGroups: SearchHintGroupType[] = [
-  {
-    groupTitle: "Set Theory",
-    hintList: Example_Pages.Group2.slice(0, 3),
-  },
-  {
-    groupTitle: "General Topology",
-    hintList: Example_Pages.Group3.slice(0, 5),
-  },
-]
-
-
-interface NavItem_SiteTitleBarProps {
-  text: string;
-}
-
-const NavItem_SiteTitleBar: React.FC<NavItem_SiteTitleBarProps> = ({
-  text,
-}) => {
-  return (
-    <a href={`/${CDD_Home.info.slug}`} className={styles["logo-bar"]}>
-      <Logo mode="FullColorNoText" className={styles["logo"]} />
-      <div className={styles["text"]}>{text}</div>
-    </a>
-  );
-};
-
-interface NavItem_UserAvatarProps {
-  avatarUrl: string | undefined;
-  onClick?: () => void;
-}
-
-const NavItem_UserAvatar: React.FC<NavItem_UserAvatarProps> = ({
-  avatarUrl,
-}) => {
-  return (
-    <div className={styles["user-avatar"]}>
-      {avatarUrl ? (
-        <img src={avatarUrl} alt="User Avatar" className={styles["avatar"]} />
-      ) : (
-        <Placeholder element="UserAvatar" className={styles["avatar"]} />
-      )}
-      <HoverBox mode={"default"} />
-    </div>
-  );
-};
-
-const TestMenuContent = [
-  {
-    groupTitle: "User Settings",
-    groupItems: [
-      { icon: "account_circle", text: "Profile" },
-      { icon: "settings", text: "Settings" },
-      { icon: "logout", text: "Logout" },
-    ],
-  },
-  {
-    groupTitle: "Resources",
-    groupItems: [
-      { icon: "help", text: "Help Center" },
-      { icon: "info", text: "About Us" },
-    ],
-  },
-  {
-    groupItems: [
-      { icon: "feedback", text: "Send Feedback" },
-      { icon: "bug_report", text: "Report a Bug" },
-    ],
-  },
-];
 
 const CDD_Home: PageType = {
   info: {
@@ -105,71 +21,7 @@ const CDD_Home: PageType = {
     date: new Date("2025-04-16 10:00:00"),
   },
   content: (
-    <>
-      <Nav
-        items={{
-          left: [
-            <SideMenu
-              siteInfo={CDD_SiteInfo}
-              itemGroups={[
-                {
-                  groupTitle: "",
-                  items: Example_Pages.Group1,
-                },
-                {
-                  groupTitle: "",
-                  items: Example_Pages.Group2,
-                },
-                {
-                  groupTitle: "Group 3",
-                  items: Example_Pages.Group3,
-                },
-              ]}
-            />,
-            <NavItem_SiteTitleBar text={"China Data Discover"} />,
-          ],
-          middle: [],
-          right: [
-            <SearchBar
-              place="on-nav"
-              onSearch={function (): void {
-                throw new Error("Function not implemented.");
-              }}
-              searchHintGroups={SearchHintGroups}
-            />,
-            <NavDivider />,
-            <ThemeMenu />,
-            <Dropdown
-              trigger={
-                <Btn
-                  icon={"notifications"}
-                  place={"nav-btn"}
-                  deco={"arrow_drop_down"}
-                />
-              }
-              dropdownContent={
-                <MessageBox
-                  title="Notification"
-                  messageList={Example_MessagesList.NonEmpty}
-                />
-              }
-              position={"left"}
-              dropdownSize={"large"}
-              unreadCount={Example_MessagesList.NonEmpty.filter(
-                (message) => !message.read
-              ).length}
-              unreadMode={"number"}
-            />,
-            <Dropdown
-              trigger={<NavItem_UserAvatar avatarUrl={undefined} />}
-              dropdownContent={<Menu items={TestMenuContent} />}
-              position={"left"}
-              dropdownSize={"small"}
-            />,
-          ],
-        }}
-      />
-
+    <CDD_BasicLayout>
       <main className={`${styles["content"]} ${styles["post-like"]}`}>
         <div className={styles["page-title-container"]}>
           <h1 className={styles["page-title"]}>Welcome to CDD Home</h1>
@@ -294,10 +146,8 @@ const CDD_Home: PageType = {
         </div>
       </main>
 
-      <Footer />
-
       <ChatBotBtn />
-    </>
+    </CDD_BasicLayout>
   ),
 };
 

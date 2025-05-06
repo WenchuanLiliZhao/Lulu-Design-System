@@ -24,13 +24,18 @@ import React, { useState, useEffect } from "react";
 import styles from "./TreeExplorer.module.scss";
 import { TreeNodesType } from "../Types/TreeNodeType";
 import { Icon } from "./Icon";
+import { NavLink } from "react-router";
+import { HoverBox } from "./HoverBox";
 
 interface TreeExplorerProps {
   data: TreeNodesType[];
   expand?: boolean;
 }
 
-const TreeNodeComponent: React.FC<{ node: TreeNodesType; expand: boolean }> = ({ node, expand }) => {
+const TreeNodeComponent: React.FC<{ node: TreeNodesType; expand: boolean }> = ({
+  node,
+  expand,
+}) => {
   const [isExpanded, setIsExpanded] = useState<boolean>(expand);
 
   const toggleExpand = () => {
@@ -43,11 +48,23 @@ const TreeNodeComponent: React.FC<{ node: TreeNodesType; expand: boolean }> = ({
 
   return (
     <div className={styles["tree-node"]}>
-      <div className={styles["node-header"]} onClick={toggleExpand}>
-        {node.children.length > 0 && (
-          <Icon icon={isExpanded ? "add_box" : "chips"} />
+      <div className={styles["node-header"]}>
+        {node.children.length > 0 ? (
+          <div className={styles["node-icon"]} onClick={toggleExpand}>
+            <Icon icon={isExpanded ? "add_box" : "chips"} />
+            <HoverBox />
+          </div>
+        ) : (
+          <div className={styles["node-icon"]} onClick={toggleExpand}>
+            <Icon icon={"description"} />
+            <HoverBox />
+          </div>
         )}
-        {node.page.info.title}
+        <NavLink className={styles["node-link"]} to={`/${node.page.info.slug}`}>
+          {node.page.info.title}
+          <HoverBox />  
+        </NavLink>
+        
       </div>
       {isExpanded && node.children.length > 0 && (
         <div className={styles["node-children"]}>
@@ -60,7 +77,10 @@ const TreeNodeComponent: React.FC<{ node: TreeNodesType; expand: boolean }> = ({
   );
 };
 
-export const TreeExplorer: React.FC<TreeExplorerProps> = ({ data, expand = true }) => {
+export const TreeExplorer: React.FC<TreeExplorerProps> = ({
+  data,
+  expand = true,
+}) => {
   const [globalExpand, setGlobalExpand] = useState<boolean>(expand);
 
   const handleExpandAll = () => {
@@ -74,11 +94,14 @@ export const TreeExplorer: React.FC<TreeExplorerProps> = ({ data, expand = true 
   return (
     <div className={styles["tree-explorer"]}>
       <div className={styles["controls"]}>
-        <button onClick={handleExpandAll}>
+        <div onClick={handleExpandAll}>
           <Icon icon={"shadow_add"} />
           Expand All
-          </button>
-        <button onClick={handleCollapseAll}><Icon icon={"shadow_minus"} />Collapse All</button>
+        </div>
+        <div onClick={handleCollapseAll}>
+          <Icon icon={"shadow_minus"} />
+          Collapse All
+        </div>
       </div>
       {data.map((node, index) => (
         <TreeNodeComponent key={index} node={node} expand={globalExpand} />

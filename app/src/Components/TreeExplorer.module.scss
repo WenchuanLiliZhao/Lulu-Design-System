@@ -1,23 +1,21 @@
-.tree-explorer {
-  font-family: Arial, sans-serif;
-  font-size: 14px;
-  color: #333;
+.node-link {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  display: -webkit-box;
+  -webkit-line-clamp: 1;
+  line-clamp: 1;
+  -webkit-box-orient: vertical;
 }
 
 .tree-node {
-  margin-left: 16px;
-}
+  font-size: 14px;
+  margin-left: 1em;
 
-.node-header {
-  cursor: pointer;
-  display: flex;
-  align-items: center;
-}
+  .node-header {
+    cursor: pointer;
+    display: grid;
+    grid-template-columns: 24px auto;
 
-.expand-icon {
-  margin-right: 8px;
-}
-
-.node-children {
-  margin-left: 16px;
+    line-height: 24px;
+  }
 }

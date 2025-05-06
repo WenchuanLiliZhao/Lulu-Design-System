@@ -1,4 +1,6 @@
+/* eslint-disable react-refresh/only-export-components */
 /* 
+
 ## Component Overview
 - The `Nav` component is a React functional component designed to render a navigation bar with three customizable sections: `left`, `middle`, and `right`.
   - Each section can contain an array of React nodes, allowing for flexible content placement.
@@ -26,6 +28,9 @@
   - `Nav` 组件通常与其他组件（如 `SearchBar`、`Dropdown` 和 `ThemeMenu`）结合使用，这些组件通过 `items` 属性作为子元素传递，从而在导航栏中无缝集成额外功能。
 */
 
+import { Logo } from "../assets/Img/Logo";
+import { Placeholder } from "../assets/Img/Placeholder";
+import { HoverBox } from "./HoverBox";
 import styles from "./Nav.module.scss";
 
 import React, { ReactNode } from "react";
@@ -84,12 +89,50 @@ export const Nav: React.FC<NavProps> = ({ items }) => {
   );
 };
 
-export const NavDivider: React.FC = () => {
+export const NavItem_Divider: React.FC = () => {
   return (
-    <div className={styles["nav-divider"]}>
+    <div className={styles["nav-item--divider"]}>
       {/* Render a stroke element to visually separate sections */}
       {/* 渲染一个线条元素以在视觉上分隔部分 */}
       <div className={styles["stroke"]}></div>
     </div>
   );
 };
+
+
+interface NavItem_SiteTitleBarProps {
+  text: string;
+  to: string;
+}
+
+export const NavItem_SiteTitleBar: React.FC<NavItem_SiteTitleBarProps> = ({
+  text, to
+}) => {
+  return (
+    <a href={`/${to}`} className={styles["nav-item--logo-bar"]}>
+      <Logo mode="FullColorNoText" className={styles["logo"]} />
+      <div className={styles["text"]}>{text}</div>
+    </a>
+  );
+};
+
+interface NavItem_UserAvatarProps {
+  avatarUrl: string | undefined;
+  onClick?: () => void;
+}
+
+export const NavItem_UserAvatar: React.FC<NavItem_UserAvatarProps> = ({
+  avatarUrl,
+}) => {
+  return (
+    <div className={styles["nav-item--user-avatar"]}>
+      {avatarUrl ? (
+        <img src={avatarUrl} alt="User Avatar" className={styles["avatar"]} />
+      ) : (
+        <Placeholder element="UserAvatar" className={styles["avatar"]} />
+      )}
+      <HoverBox mode={"default"} />
+    </div>
+  );
+};
+
