@@ -1,21 +1,48 @@
-.node-link {
-  overflow: hidden;
-  text-overflow: ellipsis;
-  display: -webkit-box;
-  -webkit-line-clamp: 1;
-  line-clamp: 1;
-  -webkit-box-orient: vertical;
-}
-
 .tree-node {
-  font-size: 14px;
-  margin-left: 1em;
+  display: block;
+
+  --font-size: 14px;
+  --line-height: calc(var(--font-size) * 1.5);
+  --v-padding: 8px;
+  --h-padding: 8px;
+  --node-height: calc(var(--v-padding) * 2 + var(--line-height));
 
   .node-header {
-    cursor: pointer;
-    display: grid;
-    grid-template-columns: 24px auto;
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    font-size: var(--font-size);
+    line-height: var(--line-height);
+    position: relative;
 
-    line-height: 24px;
+    .level-marker {
+      width: 12px;
+      height: var(--node-height);
+      border-right: 1px solid var(--color-border-main-trans);
+      flex-shrink: 0;
+
+      &.last {
+        margin-right: 6px;
+      }
+    }
+
+    .node-icon-btn {
+      z-index: 1;
+    }
+
+    .node-title {
+      overflow: hidden;
+      text-overflow: ellipsis;
+      display: -webkit-box;
+      -webkit-line-clamp: 1;
+      line-clamp: 1;
+      -webkit-box-orient: vertical;
+    }
   }
+}
+
+
+.tree-explorer {
+  overflow-y: scroll;
+  height: calc(100vh - var(--spacing-nav-size));
 }

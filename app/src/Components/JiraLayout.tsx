@@ -87,7 +87,9 @@ export const JiraLayout: React.FC<JiraLayoutProps> = ({
       {/* 渲染具有动态宽度和可调整大小功能的侧边栏 */}
       <div
         className={`${styles["sidebar"]}`}
-        style={{ width: `${isHidden ? `24px` : `${sidebarWidth}px`}` }} // Adjust the sidebar width dynamically
+        style={{
+          width: isHidden ? `24px` : `${sidebarWidth}px`,
+        }} // Adjust the sidebar width dynamically
         // 动态调整侧边栏宽度
       >
         <div className={`${styles["sidebar-top-padding"]}`}></div>

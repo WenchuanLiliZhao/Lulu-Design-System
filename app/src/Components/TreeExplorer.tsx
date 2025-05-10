@@ -24,7 +24,6 @@ import React, { useState, useEffect } from "react";
 import styles from "./TreeExplorer.module.scss";
 import { TreeNodesType } from "../Types/TreeNodeType";
 import { Icon } from "./Icon";
-import { NavLink } from "react-router";
 import { HoverBox } from "./HoverBox";
 
 interface TreeExplorerProps {
@@ -32,10 +31,11 @@ interface TreeExplorerProps {
   expand?: boolean;
 }
 
-const TreeNodeComponent: React.FC<{ node: TreeNodesType; expand: boolean }> = ({
-  node,
-  expand,
-}) => {
+const TreeNodeComponent: React.FC<{
+  node: TreeNodesType;
+  expand: boolean;
+  level: number;
+}> = ({ node, expand, level }) => {
   const [isExpanded, setIsExpanded] = useState<boolean>(expand);
 
   const toggleExpand = () => {
@@ -47,29 +47,35 @@ const TreeNodeComponent: React.FC<{ node: TreeNodesType; expand: boolean }> = ({
   }, [expand]);
 
   return (
-    <div className={styles["tree-node"]}>
+    <div
+      // to={`/${node.page.info.slug}`}
+      className={`${styles["tree-node"]}`}
+    >
       <div className={styles["node-header"]}>
+        {Array.from({ length: level }).map((_, index) => (
+          <div key={index} className={`${styles["level-marker"]} ${index + 1 == level ? styles["last"]: ""}`}></div>
+        ))}
         {node.children.length > 0 ? (
-          <div className={styles["node-icon"]} onClick={toggleExpand}>
+          <div className={styles["node-icon-btn"]} onClick={toggleExpand}>
             <Icon icon={isExpanded ? "add_box" : "chips"} />
-            <HoverBox />
           </div>
         ) : (
-          <div className={styles["node-icon"]} onClick={toggleExpand}>
+          <div className={styles["node-icon-btn"]} onClick={toggleExpand}>
             <Icon icon={"description"} />
-            <HoverBox />
           </div>
         )}
-        <NavLink className={styles["node-link"]} to={`/${node.page.info.slug}`}>
-          {node.page.info.title}
-          <HoverBox />  
-        </NavLink>
-        
+        <div className={styles["node-title"]}>{node.page.info.title}</div>
+        <HoverBox />
       </div>
       {isExpanded && node.children.length > 0 && (
         <div className={styles["node-children"]}>
           {node.children.map((child, index) => (
-            <TreeNodeComponent key={index} node={child} expand={expand} />
+            <TreeNodeComponent
+              key={index}
+              node={child}
+              expand={expand}
+              level={level + 1}
+            />
           ))}
         </div>
       )}
@@ -104,7 +110,12 @@ export const TreeExplorer: React.FC<TreeExplorerProps> = ({
         </div>
       </div>
       {data.map((node, index) => (
-        <TreeNodeComponent key={index} node={node} expand={globalExpand} />
+        <TreeNodeComponent
+          key={index}
+          node={node}
+          expand={globalExpand}
+          level={0}
+        />
       ))}
     </div>
   );
