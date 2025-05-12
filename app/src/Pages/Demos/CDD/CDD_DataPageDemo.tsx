@@ -1,5 +1,5 @@
 import { PageShape } from "../../../ObjectShapes/PageShape";
-import { CDD_DataPageLayout } from "./CDD_SiteInfo";
+import { CDD_DataPageLayout } from "./CDD_SiteConfig";
 
 const CDD_DataPageDemo: PageShape = {
   info: {

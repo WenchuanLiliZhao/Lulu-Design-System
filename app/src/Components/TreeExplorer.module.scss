@@ -1,7 +1,7 @@
 .tree-node {
   display: block;
 
-  --font-size: 14px;
+  --font-size: 13px;
   --line-height: calc(var(--font-size) * 1.5);
   --v-padding: 8px;
   --h-padding: 8px;
@@ -44,7 +44,7 @@
       flex-shrink: 0; // note: prevent shrinking
     }
 
-    .node-icon-btn {
+    .node-clopener {
       flex-shrink: 0; // note: prevent shrinking
       z-index: 1;
       height: var(--node-height);
@@ -55,7 +55,7 @@
       // margin-right: 4px;
       color: var(--color-sec-trans);
       
-      .icon {
+      .node-clopener-icon {
         flex: 0 0 100%;
         font-size: 20px;
         display: block;
@@ -76,6 +76,13 @@
       -webkit-line-clamp: 1;
       line-clamp: 1;
       -webkit-box-orient: vertical;
+
+      .page-icon {
+        margin-right: 4px;
+        font-size: calc(var(--font-size) * 1.2);
+        vertical-align: text-bottom;
+        color: var(--color-sec);
+      }
     }
   }
 }

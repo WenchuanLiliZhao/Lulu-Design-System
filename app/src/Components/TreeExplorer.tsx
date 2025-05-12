@@ -25,6 +25,7 @@ import styles from "./TreeExplorer.module.scss";
 import { TreeNodesType } from "../ObjectShapes/TreeNodeShape";
 import { Icon } from "./Icon";
 import { HoverBox } from "./HoverBox";
+import { PageIcon } from "../ObjectShapes/PageShape";
 
 interface TreeExplorerProps {
   data: TreeNodesType[];
@@ -67,12 +68,12 @@ const TreeNodeComponent: React.FC<{
             }`}
           ></div>
         ))}
-        {/* Render an icon button for nodes with children */}
-        {/* 为有子节点的节点渲染一个图标按钮 */}
+        {/* Render a button to toggle the expanded/collapsed state of the node */}
+        {/* 渲染一个按钮用于切换节点的展开/折叠状态 */}
         {node.children.length > 0 ? (
-          <div className={styles["node-icon-btn"]}>
+          <div className={styles["node-clopener"]}>
             <Icon
-              className={`${styles["icon"]} ${
+              className={`${styles["node-clopener-icon"]} ${
                 isExpanded ? styles["expanded"] : ""
               }`}
               icon={"arrow_drop_down"} // Display an arrow icon to indicate expand/collapse
@@ -81,12 +82,18 @@ const TreeNodeComponent: React.FC<{
             <HoverBox />
           </div>
         ) : (
-          <div className={styles["node-icon-btn"]} onClick={toggleExpand}>
+          <div className={styles["node-clopener"]}>
           </div>
         )}
         {/* Render the title of the node */}
         {/* 渲染节点的标题 */}
-        <div className={styles["node-title"]}>{node.page.info.title}</div>
+        <div className={styles["node-title"]}>
+          <PageIcon
+            icon={node.page.info.type}
+            className={styles["page-icon"]}
+          />
+          {node.page.info.title}
+        </div>
         <HoverBox />
       </div>
       {/* Recursively render child nodes if the current node is expanded */}

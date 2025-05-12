@@ -7,3 +7,7 @@
 - **根据 `info.type` 决定页面使用什么 icon**：新增组件 `<PageIcon icon={page.info.type}>`，根据其中的 argument `icon` 识别页面的类型（例如，database、dataset 等），从而决定到底使用什么 icon。
 
 ## 新增模块
+
+- **新布局 `JiraLayout.tsx` 增加**：该布局包含一个左侧 sidebar（站内域名为 `/cdd-data-page-demo`），包含功能
+	- 可以拖动这个 sidebar 边缘改变宽度。
+	- 可以打开/收起这个 sidebar。

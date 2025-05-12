@@ -157,13 +157,16 @@ export const CDD_DataPageLayout: React.FC<CDD_BasicLayoutProps> = ({
     <>
       <CDD_Nav />
       <JiraLayout
-        sidebarContent={<TreeExplorer data={Example_TreeNodeMaps.Math} />}
         mainContent={
           <main>
             {children}
             <Footer />
           </main>
         }
+        sidebar={{
+          title: "Data Dictionary",
+          content: <TreeExplorer data={Example_TreeNodeMaps.Math} />,
+        }}
       />
     </>
   );

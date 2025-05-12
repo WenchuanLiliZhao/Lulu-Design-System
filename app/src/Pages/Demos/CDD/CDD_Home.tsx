@@ -1,5 +1,5 @@
 
-import { CDD_BasicLayout, SearchHintGroups } from "./CDD_SiteInfo";
+import { CDD_BasicLayout, SearchHintGroups } from "./CDD_SiteConfig";
 import { PageShape } from "../../../ObjectShapes/PageShape";
 import styles from "./CDD_Home.module.scss";
 import React from "react";

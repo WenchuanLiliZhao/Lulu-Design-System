@@ -18,27 +18,49 @@
 - 实现鼠标事件监听器以支持流畅的调整大小功能。
 */
 
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import styles from "./JiraLayout.module.scss";
 import { Icon } from "./Icon";
+import { HoverBox } from "./HoverBox";
 
 interface JiraLayoutProps {
-  sidebarContent: React.ReactNode;
-  sidebarMinWidth?: number;
-  sidebarMaxWidth?: number;
+  sidebar: {
+    title?: string; // Optional title for the sidebar
+    // 侧边栏的可选标题
+    content: React.ReactNode;
+    minWidth?: number; // Minimum width for the sidebar
+    // 侧边栏的最小宽度
+    maxWidth?: number; // Maximum width for the sidebar
+    // 侧边栏的最大宽度
+  };
   mainContent: React.ReactNode;
 }
 
 export const JiraLayout: React.FC<JiraLayoutProps> = ({
-  sidebarContent,
+  sidebar: {
+    title: sidebarTitle = "Sidebar", // Default title for the sidebar
+    content: sidebarContent,
+    minWidth: sidebarMinWidth = 280, // Default minimum width for the sidebar
+    maxWidth: sidebarMaxWidth = 600, // Default maximum width for the sidebar
+  },
   mainContent,
-  sidebarMinWidth = 280, // Default minimum width for the sidebar
-  sidebarMaxWidth = 600, // Default maximum width for the sidebar
 }) => {
-  // Define the default width of the sidebar and allow it to be dynamically updated
-  // 定义侧边栏的默认宽度，并允许动态更新
-  const [sidebarWidth, setSidebarWidth] = useState(sidebarMinWidth); // Default sidebar width set to sidebarMinWidth
-  const [isHidden, setIsHidden] = useState(false); // State to toggle the hidden class
+  // Retrieve the initial sidebar width and visibility state from localStorage
+  const initialSidebarWidth = Number(localStorage.getItem("sidebarWidth")) || sidebarMinWidth;
+  const initialIsHidden = localStorage.getItem("isSidebarHidden") === "true";
+
+  const [sidebarWidth, setSidebarWidth] = useState(initialSidebarWidth);
+  const [isHidden, setIsHidden] = useState(initialIsHidden);
+
+  useEffect(() => {
+    // Save the sidebar width to localStorage whenever it changes
+    localStorage.setItem("sidebarWidth", sidebarWidth.toString());
+  }, [sidebarWidth]);
+
+  useEffect(() => {
+    // Save the sidebar visibility state to localStorage whenever it changes
+    localStorage.setItem("isSidebarHidden", isHidden.toString());
+  }, [isHidden]);
 
   // Handle the mouse down event to initiate resizing of the sidebar
   // 处理鼠标按下事件以开始调整侧边栏大小
@@ -76,7 +98,7 @@ export const JiraLayout: React.FC<JiraLayoutProps> = ({
 
   // Toggle the visibility of the sidebar
   // 切换侧边栏的可见性
-  const handleResizerClick = () => {
+  const handleDisplayClick = () => {
     setIsHidden((prev) => !prev); // Toggle the hidden state
     // 切换隐藏状态
   };
@@ -92,40 +114,43 @@ export const JiraLayout: React.FC<JiraLayoutProps> = ({
         }} // Adjust the sidebar width dynamically
         // 动态调整侧边栏宽度
       >
-        <div className={`${styles["sidebar-top-padding"]}`}></div>
-
-        <div className={`${styles["sidebar-header"]}`}>
-          Header
+        <div
+          className={`${styles["sidebar-switch-outside"]}`}
+          onClick={handleDisplayClick}
+          style={{ display: isHidden ? "flex" : "none" }} // Show switch when sidebar is collapsed
+          // 当侧边栏折叠时显示开关
+        >
+          <Icon className={styles["icon"]} icon={"arrow_right"} />
         </div>
 
         <div
-          className={`${styles["sidebar-content"]}`}
+          className={`${styles["sidebar-body"]}`}
           style={{ display: isHidden ? "none" : "block" }} // Hide content when sidebar is collapsed
           // 当侧边栏折叠时隐藏内容
         >
-          {sidebarContent}
-        </div>
-        {/* Render a resizer handle for the sidebar */}
-        {/* 渲染一个用于调整侧边栏大小的拖动条 */}
-        <div
-          className={styles["resizer"]}
-          onMouseDown={handleMouseDown} // Start resizing on mouse down
-          // 鼠标按下时开始调整大小
-          style={{ display: isHidden ? "none" : "block" }} // Hide resizer when sidebar is collapsed
-          // 当侧边栏折叠时隐藏调整大小条
-        ></div>
-        {/* Render a button to toggle the sidebar visibility */}
-        {/* 渲染一个按钮以切换侧边栏的可见性 */}
-        <div
-          className={`${styles["sidebar-switch-btn"]}`}
-          onClick={handleResizerClick} // Toggle sidebar visibility on click
-          // 点击时切换侧边栏可见性
-        >
-          <Icon
-            className={styles["icon"]}
-            icon={isHidden ? "last_page" : "first_page"} // Change icon based on sidebar state
-            // 根据侧边栏状态更改图标
-          />
+          <div className={`${styles["sidebar-top-padding"]}`}></div>
+
+          <div className={`${styles["sidebar-header"]}`}>
+            <div className={`${styles["sidebar-title"]}`}>{sidebarTitle}</div>
+            <div
+              className={`${styles["sidebar-switch"]}`}
+              onClick={handleDisplayClick}
+            >
+              <Icon className={styles["icon"]} icon={"side_navigation"} />
+              <HoverBox />
+            </div>
+          </div>
+
+          <div className={`${styles["sidebar-content"]}`}>{sidebarContent}</div>
+          {/* Render a resizer handle for the sidebar */}
+          {/* 渲染一个用于调整侧边栏大小的拖动条 */}
+          <div
+            className={styles["resizer"]}
+            onMouseDown={handleMouseDown} // Start resizing on mouse down
+            // 鼠标按下时开始调整大小
+            style={{ display: isHidden ? "none" : "block" }} // Hide resizer when sidebar is collapsed
+            // 当侧边栏折叠时隐藏调整大小条
+          ></div>
         </div>
       </div>
       {/* Render the main content area */}
