@@ -22,6 +22,10 @@ import React, { useState, useEffect } from "react";
 import styles from "./JiraLayout.module.scss";
 import { Icon } from "./Icon";
 import { HoverBox } from "./SmallElements/HoverBox";
+import { Dropdown } from "./Dropdown/Dropdown";
+import { Btn } from "./SmallElements/Btn";
+import { FilterableDropdown } from "./FilterableDropdown";
+import { Menu } from "./Dropdown/Menu";
 
 interface JiraLayoutProps {
   sidebar: {
@@ -46,7 +50,8 @@ export const JiraLayout: React.FC<JiraLayoutProps> = ({
   mainContent,
 }) => {
   // Retrieve the initial sidebar width and visibility state from localStorage
-  const initialSidebarWidth = Number(localStorage.getItem("sidebarWidth")) || sidebarMinWidth;
+  const initialSidebarWidth =
+    Number(localStorage.getItem("sidebarWidth")) || sidebarMinWidth;
   const initialIsHidden = localStorage.getItem("isSidebarHidden") === "true";
 
   const [sidebarWidth, setSidebarWidth] = useState(initialSidebarWidth);
@@ -132,6 +137,105 @@ export const JiraLayout: React.FC<JiraLayoutProps> = ({
 
           <div className={`${styles["sidebar-header"]}`}>
             <div className={`${styles["sidebar-title"]}`}>{sidebarTitle}</div>
+            <Dropdown
+              trigger={<Btn icon={"home"} place={"default"} />}
+              dropdownContent={
+                <Menu
+                  items={[
+                    {
+                      groupTitle: "Metamathematics",
+                      groupItems: [
+                        <FilterableDropdown
+                          defaultSelectedOption={"Set Theory"}
+                          placeholder={""}
+                          options={[
+                            "Set Theory",
+                            "Linear Algebra",
+                            "Abstract Algebra",
+                            "Geometry",
+                            "Topology",
+                            "Number Theory",
+                            "Calculus",
+                            "Probability",
+                            "Statistics",
+                            "Combinatorics",
+                          ]}
+                          onSelect={(selectedOption) => {
+                            console.log("Selected option:", selectedOption);
+                            // 在这里处理选中的选项
+                          }}
+                        />,
+                        <FilterableDropdown
+                          placeholder={"What do you want to learn?"}
+                          options={[
+                            "Set Theory",
+                            "Linear Algebra",
+                            "Abstract Algebra",
+                            "Geometry",
+                            "Topology",
+                            "Number Theory",
+                            "Calculus",
+                            "Probability",
+                            "Statistics",
+                            "Combinatorics",
+                          ]}
+                          onSelect={(selectedOption) => {
+                            console.log("Selected option:", selectedOption);
+                            // 在这里处理选中的选项
+                          }}
+                        />,
+                      ],
+                    },
+                    {
+                      groupTitle: "Foundations of Mathematics",
+                      groupItems: [
+                        <FilterableDropdown
+                          defaultSelectedOption={"Abstract Algebra"}
+                          placeholder={""}
+                          options={[
+                            "Set Theory",
+                            "Linear Algebra",
+                            "Abstract Algebra",
+                            "Geometry",
+                            "Topology",
+                            "Number Theory",
+                            "Calculus",
+                            "Probability",
+                            "Statistics",
+                            "Combinatorics",
+                          ]}
+                          onSelect={(selectedOption) => {
+                            console.log("Selected option:", selectedOption);
+                            // 在这里处理选中的选项
+                          }}
+                        />,
+                        <FilterableDropdown
+                          placeholder={"What do you want to learn?"}
+                          options={[
+                            "Set Theory",
+                            "Linear Algebra",
+                            "Abstract Algebra",
+                            "Geometry",
+                            "Topology",
+                            "Number Theory",
+                            "Calculus",
+                            "Probability",
+                            "Statistics",
+                            "Combinatorics",
+                          ]}
+                          onSelect={(selectedOption) => {
+                            console.log("Selected option:", selectedOption);
+                            // 在这里处理选中的选项
+                          }}
+                        />,
+                      ],
+                    },
+                  ]}
+                />
+              }
+              dropdownSize={"medium"}
+              position={"left"}
+            />
             <div
               className={`${styles["sidebar-switch"]}`}
               onClick={handleDisplayClick}

@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import { Menu } from "../Dropdown/Menu";
 import { Btn } from "./Btn";
 import { Dropdown } from "../Dropdown/Dropdown";
+import { MenuItem } from "../Dropdown/MenuItem";
 
 /* 
 ## Component Overview
@@ -54,32 +55,42 @@ export const ThemeMenu: React.FC = () => {
       trigger={<Btn icon={getIconForTheme()} place={"nav-btn"} deco={"arrow_drop_down"} />}
       // Render the dropdown menu content using the `Menu` component
       // 使用 `Menu` 组件渲染下拉菜单内容
-      dropdownContent={<Menu items={[
-        {
-          groupTitle: "Theme Preferences",
-          // 分组标题：主题偏好
-          groupItems: [
+      dropdownContent={
+        <Menu
+          items={[
             {
-              text: "Adapt System",
-              // 菜单项文本：适配系统
-              icon: "contrast",
-              onClick: () => setTheme("system"),
+              groupTitle: "Theme Preferences",
+              // 分组标题：主题偏好
+              groupItems: [
+                <MenuItem
+                  item={{
+                    text: "Adapt System",
+                    // 菜单项文本：适配系统
+                    icon: "contrast",
+                    onClick: () => setTheme("system"),
+                  }}
+                />,
+                <MenuItem
+                  item={{
+                    text: "Light Mode",
+                    // 菜单项文本：浅色模式
+                    icon: "light_mode",
+                    onClick: () => setTheme("light"),
+                  }}
+                />,
+                <MenuItem
+                  item={{
+                    text: "Dark Mode",
+                    // 菜单项文本：深色模式
+                    icon: "dark_mode",
+                    onClick: () => setTheme("dark"),
+                  }}
+                />,
+              ],
             },
-            {
-              text: "Light Mode",
-              // 菜单项文本：浅色模式
-              icon: "light_mode",
-              onClick: () => setTheme("light"),
-            },
-            {
-              text: "Dark Mode",
-              // 菜单项文本：深色模式
-              icon: "dark_mode",
-              onClick: () => setTheme("dark"),
-            },
-          ],
-        },
-      ]} />}
+          ]}
+        />
+      }
       position={"right"}
       // Set the dropdown menu position to the left
       // 将下拉菜单位置设置为左侧

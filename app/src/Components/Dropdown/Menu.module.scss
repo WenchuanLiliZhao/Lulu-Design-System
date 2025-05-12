@@ -3,7 +3,7 @@
   width: 100%; // 因为这个组件需要父组件设置宽度，所以这里设置100%
   padding: 8px 0;
   border: 1px solid var(--color-border-main);
-  background-color: var(--color-bg-main);
+  background-color: var(--color-bg-sec);
 
   border-radius: 4px;
   box-shadow: var(--pop-shaodw);
@@ -25,25 +25,25 @@
 
     .items {
       padding: 0 8px;
-      .item {
-        padding: 8px;
-        font-size: 14px;
-        line-height: 18px;
-        border-radius: 2px;
-        overflow: hidden;
+      // .item {
+      //   padding: 8px;
+      //   font-size: 14px;
+      //   line-height: 18px;
+      //   border-radius: 2px;
+      //   overflow: hidden;
 
-        cursor: pointer;
+      //   cursor: pointer;
 
-        .icon {
-          display: inline-block;
-          vertical-align: text-bottom;
-          font-size: 16px;
-          line-height: 16px;
-          padding-top: 2px;
-          height: 18px;
-          margin-right: 0.5em;
-        }
-      }
+      //   .icon {
+      //     display: inline-block;
+      //     vertical-align: text-bottom;
+      //     font-size: 16px;
+      //     line-height: 16px;
+      //     padding-top: 2px;
+      //     height: 18px;
+      //     margin-right: 0.5em;
+      //   }
+      // }
     }
   }
 }

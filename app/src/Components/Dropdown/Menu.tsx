@@ -18,19 +18,14 @@
   - 应用来自 `Dropdown.tsx` 的 `ClickToClose` 类，实现类似下拉菜单的行为，支持点击外部关闭菜单。
 */
 
-import { ClickToClose } from "./Dropdown";
-import { HoverBox } from "../SmallElements/HoverBox";
-import { Icon } from "../Icon";
+
 import styles from "./Menu.module.scss";
+import React, { ReactNode } from "react";
 
 export interface MenuProps {
   items: {
     groupTitle?: string;
-    groupItems: {
-      icon?: string;
-      text: string;
-      onClick?: () => void;
-    }[];
+    groupItems: ReactNode[];
   }[];
   className?: string;
 }
@@ -55,16 +50,8 @@ export const Menu: React.FC<MenuProps> = ({ items, className }) => {
             {/* Render each item in the group */}
             {/* 渲染分组中的每个菜单项 */}
             {group.groupItems.map((item, j) => (
-              <div key={j} className={`${styles["item"]} ${styles["cell"]}`} onClick={item.onClick}>
-                {/* Render the icon if it exists */}
-                {/* 如果图标存在，则渲染图标 */}
-                {item.icon && <Icon className={styles["icon"]} icon={item.icon} />}
-                {/* Render the text of the menu item */}
-                {/* 渲染菜单项的文本 */}
-                {item.text}
-                {/* Render a hover effect for the menu item */}
-                {/* 为菜单项渲染悬停效果 */}
-                <HoverBox mode={"default"} className={ClickToClose} />
+              <div className={`${styles["item"]}`} key={j}>
+                {item}
               </div>
             ))}
           </div>

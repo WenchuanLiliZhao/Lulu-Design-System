@@ -21,6 +21,7 @@ import { Footer } from "../../../Components/Footer";
 import { JiraLayout } from "../../../Components/JiraLayout";
 import { TreeExplorer } from "../../../Components/TreeExplorer/TreeExplorer";
 import { Example_TreeNodeMaps } from "../../../ObjectShapes/ExampleData/Example_TreeNodes";
+import { MenuItem } from "../../../Components/Dropdown/MenuItem";
 
 export const CDD_SiteInfo: SiteInfoType = {
   title: "China Data Dictionary",
@@ -45,22 +46,22 @@ export const TestMenuContent = [
   {
     groupTitle: "User Settings",
     groupItems: [
-      { icon: "account_circle", text: "Profile" },
-      { icon: "settings", text: "Settings" },
-      { icon: "logout", text: "Logout" },
+      <MenuItem item={{ icon: "account_circle", text: "Profile" }} />,
+      <MenuItem item={{ icon: "settings", text: "Settings" }} />,
+      <MenuItem item={{ icon: "logout", text: "Logout" }} />,
     ],
   },
   {
     groupTitle: "Resources",
     groupItems: [
-      { icon: "help", text: "Help Center" },
-      { icon: "info", text: "About Us" },
+      <MenuItem item={{ icon: "help", text: "Help Center" }} />,
+      <MenuItem item={{ icon: "info", text: "About Us" }} />,
     ],
   },
   {
     groupItems: [
-      { icon: "feedback", text: "Send Feedback" },
-      { icon: "bug_report", text: "Report a Bug" },
+      <MenuItem item={{ icon: "feedback", text: "Send Feedback" }} />,
+      <MenuItem item={{ icon: "bug_report", text: "Report a Bug" }} />,
     ],
   },
 ];

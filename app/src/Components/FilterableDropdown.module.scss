@@ -1,15 +1,20 @@
 .filterable-dropdown {
   position: relative;
   width: 100%;
+  padding: 4px;
 
   .dropdown-input {
     width: 100%;
     padding: 8px;
     border: 1px solid var(--color-border-main-trans);
     border-radius: 4px;
-    font-size: 12px;
+    font-size: 13px;
     outline: none;
     background: none;
+
+    &:hover {
+      border-color: var(--color-border-darken-trans);
+    }
 
     &:focus {
       border-color: var(--color-semantic-active);
