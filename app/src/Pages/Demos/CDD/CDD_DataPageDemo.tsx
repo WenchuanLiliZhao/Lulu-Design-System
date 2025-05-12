@@ -10,70 +10,11 @@ const CDD_DataPageDemo: PageShape = {
   },
   content: (
     <CDD_DataPageLayout>
-      ssss <br />
-      ssss <br />
-      ssss <br />
-      ssss <br />
-      ssss <br />
-      ssss <br />
-      ssss <br />
-      ssss <br />
-      ssss <br />
-      ssss <br />
-      ssss <br />
-      ssss <br />
-      ssss <br />
-      ssss <br />
-      ssss <br />
-      ssss <br />
-      ssss <br />
-      ssss <br />
-      ssss <br />
-      ssss <br />
-      ssss <br />
-      ssss <br />
-      ssss <br />
-      ssss <br />
-      ssss <br />
-      ssss <br />
-      ssss <br />
-      ssss <br />
-      ssss <br />
-      ssss <br />
-      ssss <br />
-      ssss <br />
-      ssss <br />
-      ssss <br />
-      ssss <br />
-      ssss <br />
-      ssss <br />
-      ssss <br />
-      ssss <br />
-      ssss <br />
-      ssss <br />
-      ssss <br />
-      ssss <br />
-      ssss <br />
-      ssss <br />
-      ssss <br />
-      ssss <br />
-      ssss <br />
-      ssss <br />
-      ssss <br />
-      ssss <br />
-      ssss <br />
-      ssss <br />
-      ssss <br />
-      ssss <br />
-      ssss <br />
-      ssss <br />
-      ssss <br />
-      ssss <br />
-      ssss <br />
-      ssss <br />
-      ssss <br />
-      ssss <br />
-      ssss <br />
+      <div style={{
+        height: "100vh",
+      }}>
+
+      </div>
     </CDD_DataPageLayout>
   ),
 };
