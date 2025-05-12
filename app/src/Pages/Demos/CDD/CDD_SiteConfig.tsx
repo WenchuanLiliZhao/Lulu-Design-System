@@ -2,7 +2,7 @@ import React from "react";
 import { SiteInfoType } from "../../../ObjectShapes/SiteInfoShape";
 import { Example_Pages } from "../../../ObjectShapes/ExampleData/Example_Pages";
 import { SearchHintGroupType } from "../../../ObjectShapes/SearchHintShape";
-import { Btn } from "../../../Components/Btn";
+import { Btn } from "../../../Components/SmallElements/Btn";
 import { MessageBox } from "../../../Components/MessageBox";
 import {
   Nav,
@@ -12,7 +12,7 @@ import {
 } from "../../../Components/Nav";
 import { SearchBar } from "../../../Components/SearchBar";
 import { SideMenu } from "../../../Components/SideMenu";
-import { ThemeMenu } from "../../../Components/ThemeMenu";
+import { ThemeMenu } from "../../../Components/SmallElements/ThemeMenu";
 import { Example_MessagesList } from "../../../ObjectShapes/ExampleData/Example_MessagesList";
 import { Dropdown } from "../../../Components/Dropdown";
 import { Menu } from "../../../Components/Menu";

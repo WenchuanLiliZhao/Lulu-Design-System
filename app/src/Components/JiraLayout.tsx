@@ -21,7 +21,7 @@
 import React, { useState, useEffect } from "react";
 import styles from "./JiraLayout.module.scss";
 import { Icon } from "./Icon";
-import { HoverBox } from "./HoverBox";
+import { HoverBox } from "./SmallElements/HoverBox";
 
 interface JiraLayoutProps {
   sidebar: {

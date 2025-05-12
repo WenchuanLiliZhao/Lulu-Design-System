@@ -25,7 +25,7 @@
 
 import { useState, useEffect, useRef } from "react";
 import styles from "./ChatBotBtn.module.scss";
-import { HoverBox } from "./HoverBox";
+import { HoverBox } from "./SmallElements/HoverBox";
 // import { Icon } from './Icon';
 
 export const ChatBotBtn = () => {

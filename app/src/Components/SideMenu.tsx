@@ -22,9 +22,9 @@
 
 import React, { useState, useRef, useEffect } from "react";
 import styles from "./SideMenu.module.scss";
-import { Btn } from "./Btn";
+import { Btn } from "./SmallElements/Btn";
 import { PageIcon, PageShape } from "../ObjectShapes/PageShape";
-import { HoverBox } from "./HoverBox";
+import { HoverBox } from "./SmallElements/HoverBox";
 import { ToggleBodyScroll } from "../Functions/ToggleBodyScroll";
 import { Logo } from "../assets/Img/Logo";
 import { SiteInfoType } from "../ObjectShapes/SiteInfoShape";

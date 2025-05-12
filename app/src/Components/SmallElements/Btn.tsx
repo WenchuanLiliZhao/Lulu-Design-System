@@ -1,7 +1,7 @@
 import styles from "./Btn.module.scss";
 
 import { HoverBox } from "./HoverBox";
-import { Icon } from "./Icon";
+import { Icon } from "../Icon";
 
 export interface BtnProps {
   icon: string;

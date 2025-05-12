@@ -6,7 +6,7 @@ import React from "react";
 import { SearchBar } from "../../../Components/SearchBar";
 import { Example_TagList } from "../../../ObjectShapes/ExampleData/Example_TagSet";
 import { TagType } from "../../../ObjectShapes/TagShape";
-import { Tag } from "../../../Components/Tag";
+import { Tag } from "../../../Components/SmallElements/Tag";
 import { KanbanGroup } from "../../../Components/KanbanGroup";
 import { DataList } from "../../../Components/DataList";
 import { Example_DataPageLists } from "../../../ObjectShapes/ExampleData/Example_DataElement";

@@ -53,9 +53,9 @@
 */
 
 import React, { useState } from "react";
-import { HoverBox } from "./HoverBox";
+import { HoverBox } from "./SmallElements/HoverBox";
 import styles from "./MessageBox.module.scss";
-import { Switch } from "./Switch";
+import { Switch } from "./SmallElements/Switch";
 import { ClickToClose } from "./Dropdown";
 import { MessageType } from "../ObjectShapes/MessageShape";
 

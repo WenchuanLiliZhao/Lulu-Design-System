@@ -1,5 +1,5 @@
 import styles from "./DataList.module.scss";
-import { HoverBox } from "./HoverBox";
+import { HoverBox } from "./SmallElements/HoverBox";
 import { FormattedDate } from "../Functions/FormattedDate";
 import { PageIcon, PageShape } from "../ObjectShapes/PageShape";
 

@@ -20,7 +20,7 @@
 
 import React from "react";
 import { KanbanType } from "../ObjectShapes/KanbanShape";
-import { HoverBox } from "./HoverBox";
+import { HoverBox } from "./SmallElements/HoverBox";
 import { Icon } from "./Icon";
 import styles from "./KanbanGroup.module.scss";
 import { useState, useRef } from "react";

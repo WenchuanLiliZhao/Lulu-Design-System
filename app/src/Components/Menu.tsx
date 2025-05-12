@@ -19,7 +19,7 @@
 */
 
 import { ClickToClose } from "./Dropdown";
-import { HoverBox } from "./HoverBox";
+import { HoverBox } from "./SmallElements/HoverBox";
 import { Icon } from "./Icon";
 import styles from "./Menu.module.scss";
 

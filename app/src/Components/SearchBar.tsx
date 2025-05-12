@@ -27,7 +27,7 @@ import styles from "./SearchBar.module.scss";
 import { Icon } from "./Icon";
 import { SearchHintGroupType } from "../ObjectShapes/SearchHintShape";
 import { PageShape } from "../ObjectShapes/PageShape";
-import { HoverBox } from "./HoverBox";
+import { HoverBox } from "./SmallElements/HoverBox";
 
 type SearchBarProps = {
   placeholder?: string;

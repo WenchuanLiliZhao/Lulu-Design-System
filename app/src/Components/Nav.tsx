@@ -30,7 +30,7 @@
 
 import { Logo } from "../assets/Img/Logo";
 import { Placeholder } from "../assets/Img/Placeholder";
-import { HoverBox } from "./HoverBox";
+import { HoverBox } from "./SmallElements/HoverBox";
 import styles from "./Nav.module.scss";
 
 import React, { ReactNode } from "react";

@@ -24,7 +24,7 @@ import React, { useState, useEffect } from "react";
 import styles from "./TreeExplorer.module.scss";
 import { TreeNodesType } from "../../ObjectShapes/TreeNodeShape";
 import { Icon } from "../Icon";
-import { HoverBox } from "../HoverBox";
+import { HoverBox } from "../SmallElements/HoverBox";
 import { PageIcon } from "../../ObjectShapes/PageShape";
 import { FilterableDropdown } from "../FilterableDropdown";
 import TreeExplorerSetting from "./TreeExplorerSetting";

@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
-import { Menu } from "./Menu";
+import { Menu } from "../Menu";
 import { Btn } from "./Btn";
-import { Dropdown } from "./Dropdown";
+import { Dropdown } from "../Dropdown";
 
 /* 
 ## Component Overview
