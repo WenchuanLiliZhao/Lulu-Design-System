@@ -73,12 +73,11 @@
       }
 
       .sidebar-content {
-        overflow-y: scroll;
+        display: flex; // 启用 Flex 布局
+        flex-direction: column; // 设置为纵向排列
         height: calc(
           100vh - var(--spacing-nav-size) - var(--sidebar-header-height)
         );
-        padding: 8px;
-        padding-bottom: 24px;
       }
 
       .resizer {

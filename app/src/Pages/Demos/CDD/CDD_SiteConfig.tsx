@@ -19,7 +19,7 @@ import { Menu } from "../../../Components/Menu";
 import { ReactNode } from "react";
 import { Footer } from "../../../Components/Footer";
 import { JiraLayout } from "../../../Components/JiraLayout";
-import { TreeExplorer } from "../../../Components/TreeExplorer";
+import { TreeExplorer } from "../../../Components/TreeExplorer/TreeExplorer";
 import { Example_TreeNodeMaps } from "../../../ObjectShapes/ExampleData/Example_TreeNodes";
 
 export const CDD_SiteInfo: SiteInfoType = {
@@ -114,7 +114,7 @@ export const CDD_Nav: React.FC = () => {
                 messageList={Example_MessagesList.NonEmpty}
               />
             }
-            position={"left"}
+            position={"right"}
             dropdownSize={"large"}
             unreadCount={
               Example_MessagesList.NonEmpty.filter((message) => !message.read)
@@ -125,7 +125,7 @@ export const CDD_Nav: React.FC = () => {
           <Dropdown
             trigger={<NavItem_UserAvatar avatarUrl={undefined} />}
             dropdownContent={<Menu items={TestMenuContent} />}
-            position={"left"}
+            position={"right"}
             dropdownSize={"small"}
           />,
         ],

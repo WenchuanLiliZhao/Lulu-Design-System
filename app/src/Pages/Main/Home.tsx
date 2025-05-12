@@ -1,4 +1,4 @@
-import { TreeExplorer } from "../../Components/TreeExplorer";
+import { TreeExplorer } from "../../Components/TreeExplorer/TreeExplorer";
 import { Example_TreeNodeMaps } from "../../ObjectShapes/ExampleData/Example_TreeNodes";
 import { PageShape } from "../../ObjectShapes/PageShape";
 

@@ -80,7 +80,7 @@ export const ThemeMenu: React.FC = () => {
           ],
         },
       ]} />}
-      position={"left"}
+      position={"right"}
       // Set the dropdown menu position to the left
       // 将下拉菜单位置设置为左侧
       dropdownSize={"small"}

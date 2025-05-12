@@ -22,10 +22,12 @@
 
 import React, { useState, useEffect } from "react";
 import styles from "./TreeExplorer.module.scss";
-import { TreeNodesType } from "../ObjectShapes/TreeNodeShape";
-import { Icon } from "./Icon";
-import { HoverBox } from "./HoverBox";
-import { PageIcon } from "../ObjectShapes/PageShape";
+import { TreeNodesType } from "../../ObjectShapes/TreeNodeShape";
+import { Icon } from "../Icon";
+import { HoverBox } from "../HoverBox";
+import { PageIcon } from "../../ObjectShapes/PageShape";
+import { FilterableDropdown } from "../FilterableDropdown";
+import TreeExplorerSetting from "./TreeExplorerSetting";
 
 interface TreeExplorerProps {
   data: TreeNodesType[];
@@ -82,8 +84,7 @@ const TreeNodeComponent: React.FC<{
             <HoverBox />
           </div>
         ) : (
-          <div className={styles["node-clopener"]}>
-          </div>
+          <div className={styles["node-clopener"]}></div>
         )}
         {/* Render the title of the node */}
         {/* 渲染节点的标题 */}
@@ -120,7 +121,92 @@ export const TreeExplorer: React.FC<TreeExplorerProps> = ({
   expand = true,
 }) => {
   return (
-    <div className={styles["tree-explorer"]}>
+    <>
+      <TreeExplorerSetting
+        items={[
+          [<FilterableDropdown
+            // defaultSelectedOption={"Algebra"}
+            placeholder={"Filter Placeholder"}
+            options={[
+              "Algebra",
+              "Calculus and Differential Equations",
+              "Linear Algebra",
+              "Number Theory",
+              "Topology",
+              "Set Theory",
+              "Mathematical Logic",
+              "Probability and Statistics",
+              "Abstract Algebra: Groups, Rings, and Fields",
+              "Geometry: Euclidean and Non-Euclidean",
+              "Discrete Mathematics",
+              "Real Analysis",
+              "Complex Analysis",
+              "Graph Theory",
+              "Optimization and Linear Programming",
+              "Game Theory",
+              "Mathematical Modeling",
+              "Fourier Analysis and Signal Processing",
+              "Cryptography and Information Theory",
+              "Fractal Geometry and Chaos Theory",
+            ]}
+            onSelect={(option) => console.log("Selected:", option)}
+          />, <FilterableDropdown
+            // defaultSelectedOption={"Algebra"}
+            placeholder={"Filter Placeholder"}
+            options={[
+              "Algebra",
+              "Calculus and Differential Equations",
+              "Linear Algebra",
+              "Number Theory",
+              "Topology",
+              "Set Theory",
+              "Mathematical Logic",
+              "Probability and Statistics",
+              "Abstract Algebra: Groups, Rings, and Fields",
+              "Geometry: Euclidean and Non-Euclidean",
+              "Discrete Mathematics",
+              "Real Analysis",
+              "Complex Analysis",
+              "Graph Theory",
+              "Optimization and Linear Programming",
+              "Game Theory",
+              "Mathematical Modeling",
+              "Fourier Analysis and Signal Processing",
+              "Cryptography and Information Theory",
+              "Fractal Geometry and Chaos Theory",
+            ]}
+            onSelect={(option) => console.log("Selected:", option)}
+          />],
+          [<FilterableDropdown
+            // defaultSelectedOption={"Algebra"}
+            placeholder={"Filter Placeholder"}
+            options={[
+              "Algebra",
+              "Calculus and Differential Equations",
+              "Linear Algebra",
+              "Number Theory",
+              "Topology",
+              "Set Theory",
+              "Mathematical Logic",
+              "Probability and Statistics",
+              "Abstract Algebra: Groups, Rings, and Fields",
+              "Geometry: Euclidean and Non-Euclidean",
+              "Discrete Mathematics",
+              "Real Analysis",
+              "Complex Analysis",
+              "Graph Theory",
+              "Optimization and Linear Programming",
+              "Game Theory",
+              "Mathematical Modeling",
+              "Fourier Analysis and Signal Processing",
+              "Cryptography and Information Theory",
+              "Fractal Geometry and Chaos Theory",
+            ]}
+            onSelect={(option) => console.log("Selected:", option)}
+          />]
+        ]}
+      />
+
       <div className={styles["tree-container"]}>
         {/* Render the root nodes of the tree */}
         {/* 渲染树的根节点 */}
@@ -134,6 +220,6 @@ export const TreeExplorer: React.FC<TreeExplorerProps> = ({
           />
         ))}
       </div>
-    </div>
+    </>
   );
 };

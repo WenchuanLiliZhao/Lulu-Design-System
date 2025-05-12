@@ -58,7 +58,7 @@ interface DropdownProps {
   trigger: React.ReactNode; // The trigger element for the dropdown menu // 下拉菜单的触发元素
   dropdownContent: React.ReactNode; // The content of the dropdown menu // 下拉菜单的内容
   dropdownSize: "small" | "medium" | "large"; // The size of the dropdown menu // 下拉菜单的大小
-  position: "left" | "right"; // The position of the dropdown menu relative to the trigger // 下拉菜单相对于触发器的位置
+  position: "right" | "left"; // The position of the dropdown menu relative to the trigger // 下拉菜单相对于触发器的位置
   className?: string; // Optional additional CSS class for styling // 可选的额外样式类
   onClick?: () => void; // Optional callback for click events // 可选的点击事件回调
   unreadCount?: number; // Number of unread items to display // 显示未读项目的数量
