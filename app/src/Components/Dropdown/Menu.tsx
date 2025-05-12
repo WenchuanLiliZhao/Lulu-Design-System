@@ -19,8 +19,8 @@
 */
 
 import { ClickToClose } from "./Dropdown";
-import { HoverBox } from "./SmallElements/HoverBox";
-import { Icon } from "./Icon";
+import { HoverBox } from "../SmallElements/HoverBox";
+import { Icon } from "../Icon";
 import styles from "./Menu.module.scss";
 
 export interface MenuProps {

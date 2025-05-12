@@ -26,8 +26,6 @@ import { TreeNodesType } from "../../ObjectShapes/TreeNodeShape";
 import { Icon } from "../Icon";
 import { HoverBox } from "../SmallElements/HoverBox";
 import { PageIcon } from "../../ObjectShapes/PageShape";
-import { FilterableDropdown } from "../FilterableDropdown";
-import TreeExplorerSetting from "./TreeExplorerSetting";
 
 interface TreeExplorerProps {
   data: TreeNodesType[];
@@ -122,91 +120,6 @@ export const TreeExplorer: React.FC<TreeExplorerProps> = ({
 }) => {
   return (
     <>
-      <TreeExplorerSetting
-        items={[
-          [<FilterableDropdown
-            // defaultSelectedOption={"Algebra"}
-            placeholder={"Filter Placeholder"}
-            options={[
-              "Algebra",
-              "Calculus and Differential Equations",
-              "Linear Algebra",
-              "Number Theory",
-              "Topology",
-              "Set Theory",
-              "Mathematical Logic",
-              "Probability and Statistics",
-              "Abstract Algebra: Groups, Rings, and Fields",
-              "Geometry: Euclidean and Non-Euclidean",
-              "Discrete Mathematics",
-              "Real Analysis",
-              "Complex Analysis",
-              "Graph Theory",
-              "Optimization and Linear Programming",
-              "Game Theory",
-              "Mathematical Modeling",
-              "Fourier Analysis and Signal Processing",
-              "Cryptography and Information Theory",
-              "Fractal Geometry and Chaos Theory",
-            ]}
-            onSelect={(option) => console.log("Selected:", option)}
-          />, <FilterableDropdown
-            // defaultSelectedOption={"Algebra"}
-            placeholder={"Filter Placeholder"}
-            options={[
-              "Algebra",
-              "Calculus and Differential Equations",
-              "Linear Algebra",
-              "Number Theory",
-              "Topology",
-              "Set Theory",
-              "Mathematical Logic",
-              "Probability and Statistics",
-              "Abstract Algebra: Groups, Rings, and Fields",
-              "Geometry: Euclidean and Non-Euclidean",
-              "Discrete Mathematics",
-              "Real Analysis",
-              "Complex Analysis",
-              "Graph Theory",
-              "Optimization and Linear Programming",
-              "Game Theory",
-              "Mathematical Modeling",
-              "Fourier Analysis and Signal Processing",
-              "Cryptography and Information Theory",
-              "Fractal Geometry and Chaos Theory",
-            ]}
-            onSelect={(option) => console.log("Selected:", option)}
-          />],
-          [<FilterableDropdown
-            // defaultSelectedOption={"Algebra"}
-            placeholder={"Filter Placeholder"}
-            options={[
-              "Algebra",
-              "Calculus and Differential Equations",
-              "Linear Algebra",
-              "Number Theory",
-              "Topology",
-              "Set Theory",
-              "Mathematical Logic",
-              "Probability and Statistics",
-              "Abstract Algebra: Groups, Rings, and Fields",
-              "Geometry: Euclidean and Non-Euclidean",
-              "Discrete Mathematics",
-              "Real Analysis",
-              "Complex Analysis",
-              "Graph Theory",
-              "Optimization and Linear Programming",
-              "Game Theory",
-              "Mathematical Modeling",
-              "Fourier Analysis and Signal Processing",
-              "Cryptography and Information Theory",
-              "Fractal Geometry and Chaos Theory",
-            ]}
-            onSelect={(option) => console.log("Selected:", option)}
-          />]
-        ]}
-      />
-
       <div className={styles["tree-container"]}>
         {/* Render the root nodes of the tree */}
         {/* 渲染树的根节点 */}
