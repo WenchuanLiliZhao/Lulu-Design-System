@@ -120,7 +120,7 @@ export const JiraLayout: React.FC<JiraLayoutProps> = ({
           style={{ display: isHidden ? "flex" : "none" }} // Show switch when sidebar is collapsed
           // 当侧边栏折叠时显示开关
         >
-          <Icon className={styles["icon"]} icon={"arrow_right"} />
+          {/* <Icon className={styles["icon"]} icon={"arrow_right"} /> */}
         </div>
 
         <div
