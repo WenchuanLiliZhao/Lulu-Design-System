@@ -1,4 +1,6 @@
 .jira-layout {
+  --sidebar-header-height: 60px;
+
   .sidebar {
     position: relative;
     background-color: var(--color-bg-sec);
@@ -11,6 +13,17 @@
 
     .sidebar-top-padding {
       padding-top: var(--spacing-nav-size);
+    }
+
+    .sidebar-header {
+      height: var(--sidebar-header-height);
+    }
+
+    .sidebar-content {
+      overflow-y: scroll;
+      height: calc(100vh - var(--spacing-nav-size) - var(--sidebar-header-height));
+      padding: 8px;
+      padding-bottom: 24px;
     }
 
     &:not(:hover) {

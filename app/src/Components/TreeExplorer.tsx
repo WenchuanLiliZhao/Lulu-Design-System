@@ -38,35 +38,59 @@ const TreeNodeComponent: React.FC<{
 }> = ({ node, expand, level }) => {
   const [isExpanded, setIsExpanded] = useState<boolean>(expand);
 
+  // Toggle the expanded state of the current node
+  // 切换当前节点的展开状态
   const toggleExpand = () => {
     setIsExpanded((prev) => !prev);
   };
 
   useEffect(() => {
-    setIsExpanded(expand); // Update state when the global expand state changes
+    // Update the expanded state when the global expand state changes
+    // 当全局展开状态发生变化时更新当前节点的展开状态
+    setIsExpanded(expand);
   }, [expand]);
 
   return (
-    <div
-      // to={`/${node.page.info.slug}`}
-      className={`${styles["tree-node"]}`}
-    >
-      <div className={styles["node-header"]}>
+    <div className={`${styles["tree-node"]}`}>
+      <div
+        className={styles["node"]}
+        onClick={toggleExpand} // Toggle expand state on click
+        // 点击时切换展开状态
+      >
+        {/* Render level markers to visually indicate the depth of the node */}
+        {/* 渲染层级标记以直观显示节点的深度 */}
         {Array.from({ length: level }).map((_, index) => (
-          <div key={index} className={`${styles["level-marker"]} ${index + 1 == level ? styles["last"]: ""}`}></div>
+          <div
+            key={index}
+            className={`${styles["level-marker"]} ${
+              index + 1 == level ? styles["last"] : ""
+            }`}
+          ></div>
         ))}
+        {/* Render an icon button for nodes with children */}
+        {/* 为有子节点的节点渲染一个图标按钮 */}
         {node.children.length > 0 ? (
-          <div className={styles["node-icon-btn"]} onClick={toggleExpand}>
-            <Icon icon={isExpanded ? "add_box" : "chips"} />
+          <div className={styles["node-icon-btn"]}>
+            <Icon
+              className={`${styles["icon"]} ${
+                isExpanded ? styles["expanded"] : ""
+              }`}
+              icon={"arrow_drop_down"} // Display an arrow icon to indicate expand/collapse
+              // 显示箭头图标以指示展开/折叠
+            />
+            <HoverBox />
           </div>
         ) : (
           <div className={styles["node-icon-btn"]} onClick={toggleExpand}>
-            <Icon icon={"description"} />
           </div>
         )}
+        {/* Render the title of the node */}
+        {/* 渲染节点的标题 */}
         <div className={styles["node-title"]}>{node.page.info.title}</div>
         <HoverBox />
       </div>
+      {/* Recursively render child nodes if the current node is expanded */}
+      {/* 如果当前节点已展开，则递归渲染子节点 */}
       {isExpanded && node.children.length > 0 && (
         <div className={styles["node-children"]}>
           {node.children.map((child, index) => (
@@ -74,7 +98,8 @@ const TreeNodeComponent: React.FC<{
               key={index}
               node={child}
               expand={expand}
-              level={level + 1}
+              level={level + 1} // Increment the level for child nodes
+              // 为子节点增加层级
             />
           ))}
         </div>
@@ -87,36 +112,21 @@ export const TreeExplorer: React.FC<TreeExplorerProps> = ({
   data,
   expand = true,
 }) => {
-  const [globalExpand, setGlobalExpand] = useState<boolean>(expand);
-
-  const handleExpandAll = () => {
-    setGlobalExpand(true);
-  };
-
-  const handleCollapseAll = () => {
-    setGlobalExpand(false);
-  };
-
   return (
     <div className={styles["tree-explorer"]}>
-      <div className={styles["controls"]}>
-        <div onClick={handleExpandAll}>
-          <Icon icon={"shadow_add"} />
-          Expand All
-        </div>
-        <div onClick={handleCollapseAll}>
-          <Icon icon={"shadow_minus"} />
-          Collapse All
-        </div>
+      <div className={styles["tree-container"]}>
+        {/* Render the root nodes of the tree */}
+        {/* 渲染树的根节点 */}
+        {data.map((node, index) => (
+          <TreeNodeComponent
+            key={index}
+            node={node}
+            expand={expand}
+            level={0} // Root nodes start at level 0
+            // 根节点从层级 0 开始
+          />
+        ))}
       </div>
-      {data.map((node, index) => (
-        <TreeNodeComponent
-          key={index}
-          node={node}
-          expand={globalExpand}
-          level={0}
-        />
-      ))}
     </div>
   );
 };

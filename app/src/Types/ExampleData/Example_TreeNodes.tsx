@@ -34,7 +34,7 @@ const Math: TreeNodesType[] = [
               {
                 page: {
                   info: {
-                    slug: "examples_of_sets",
+                    slug: "cdd-data-page-demo",
                     title: "Examples of Sets",
                     date: new Date("2025-04-02"),
                   },

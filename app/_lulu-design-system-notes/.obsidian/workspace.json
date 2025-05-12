@@ -48,9 +48,21 @@
               "icon": "lucide-file",
               "title": "Comment Generator"
             }
+          },
+          {
+            "id": "ba7fafd7116f6273",
+            "type": "leaf",
+            "state": {
+              "type": "release-notes",
+              "state": {
+                "currentVersion": "1.8.10"
+              },
+              "icon": "lucide-book-up",
+              "title": "Release Notes 1.8.10"
+            }
           }
         ],
-        "currentTab": 2
+        "currentTab": 3
       }
     ],
     "direction": "vertical"
@@ -197,7 +209,7 @@
       "command-palette:Open command palette": false
     }
   },
-  "active": "74d78fc828828175",
+  "active": "ba7fafd7116f6273",
   "lastOpenFiles": [
     "Tutorials and AI requests/Component Insight Generator.md",
     "Tutorials and AI requests/Comment Generator.md",

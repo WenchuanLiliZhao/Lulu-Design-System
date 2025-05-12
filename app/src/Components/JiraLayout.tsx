@@ -94,6 +94,10 @@ export const JiraLayout: React.FC<JiraLayoutProps> = ({
       >
         <div className={`${styles["sidebar-top-padding"]}`}></div>
 
+        <div className={`${styles["sidebar-header"]}`}>
+          Header
+        </div>
+
         <div
           className={`${styles["sidebar-content"]}`}
           style={{ display: isHidden ? "none" : "block" }} // Hide content when sidebar is collapsed
