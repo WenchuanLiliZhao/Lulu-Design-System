@@ -11,7 +11,7 @@ const CDD_DataPageDemo: PageShape = {
   content: (
     <CDD_DataPageLayout>
       <div style={{
-        height: "100vh",
+        height: "80vh",
       }}>
 
       </div>
