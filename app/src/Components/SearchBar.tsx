@@ -25,8 +25,8 @@
 import React, { useState } from "react";
 import styles from "./SearchBar.module.scss";
 import { Icon } from "./Icon";
-import { SearchHintGroupType } from "../Types/SearchHintType";
-import { PageType } from "../Types/PageType";
+import { SearchHintGroupType } from "../ObjectShapes/SearchHintShape";
+import { PageShape } from "../ObjectShapes/PageShape";
 import { HoverBox } from "./HoverBox";
 
 type SearchBarProps = {
@@ -107,13 +107,13 @@ export const SearchBar: React.FC<SearchBarProps> = ({
                 {/* Render each hint item in the group */}
                 {/* 渲染分组中的每个提示项 */}
                 {group.hintList.length > 0 &&
-                  group.hintList.map((item: PageType, k: number) => (
+                  group.hintList.map((item: PageShape, k: number) => (
                     <div key={k} className={styles["hint-item"]}>
                       {/* Render the icon for the hint item */}
                       {/* 渲染提示项的图标 */}
                       <Icon
                         className={styles["icon"]}
-                        icon={item.info.icon ? item.info.icon : "description"}
+                        icon={item.info.type ? item.info.type : "description"}
                       />
                       {/* Render the title of the hint item */}
                       {/* 渲染提示项的标题 */}

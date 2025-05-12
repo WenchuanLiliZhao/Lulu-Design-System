@@ -1,4 +1,4 @@
-import { MessageType } from "../MessageTypes";
+import { MessageType } from "../MessageShape";
 import { Example_Users } from "./Example_Users";
 
 export const Empty: MessageType[] = [];

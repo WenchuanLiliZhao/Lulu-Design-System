@@ -1,4 +1,4 @@
-import { UserType } from "./UserType";
+import { UserType } from "./UserShape";
 
 export interface MessageType {
   from: UserType;

@@ -1,24 +1,25 @@
 
 import { CDD_BasicLayout, SearchHintGroups } from "./CDD_SiteInfo";
-import { PageType } from "../../../Types/PageType";
+import { PageShape } from "../../../ObjectShapes/PageShape";
 import styles from "./CDD_Home.module.scss";
 import React from "react";
 import { SearchBar } from "../../../Components/SearchBar";
-import { Example_TagList } from "../../../Types/ExampleData/Example_TagSet";
-import { TagType } from "../../../Types/TagType";
+import { Example_TagList } from "../../../ObjectShapes/ExampleData/Example_TagSet";
+import { TagType } from "../../../ObjectShapes/TagShape";
 import { Tag } from "../../../Components/Tag";
 import { KanbanGroup } from "../../../Components/KanbanGroup";
 import { DataList } from "../../../Components/DataList";
-import { Example_DataPageLists } from "../../../Types/ExampleData/Example_DataElement";
+import { Example_DataPageLists } from "../../../ObjectShapes/ExampleData/Example_DataElement";
 import { ChatBotBtn } from "../../../Components/ChatBotBtn";
 
 
-const CDD_Home: PageType = {
+const CDD_Home: PageShape = {
   info: {
     slug: "cdd-home",
     title: "CDD Home",
     title_display: undefined,
     date: new Date("2025-04-16 10:00:00"),
+    type: "page"
   },
   content: (
     <CDD_BasicLayout>

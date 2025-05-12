@@ -23,16 +23,16 @@
 import React, { useState, useRef, useEffect } from "react";
 import styles from "./SideMenu.module.scss";
 import { Btn } from "./Btn";
-import { PageType } from "../Types/PageType";
+import { PageShape } from "../ObjectShapes/PageShape";
 import { HoverBox } from "./HoverBox";
 import { ToggleBodyScroll } from "../Functions/ToggleBodyScroll";
 import { Logo } from "../assets/Img/Logo";
-import { SiteInfoType } from "../Types/SiteInfoType";
+import { SiteInfoType } from "../ObjectShapes/SiteInfoShape";
 import { Icon } from "./Icon";
 
 interface SideMenuItemGroup {
   groupTitle: string;
-  items: PageType[];
+  items: PageShape[];
 }
 
 interface SideMenuProps {
@@ -115,7 +115,7 @@ export const SideMenu: React.FC<SideMenuProps> = ({ siteInfo, itemGroups }) => {
                     href={`/${item.info.slug}`}
                   >
                     <Icon
-                      icon={item.info.icon ? `${item.info.icon}` : "description"}
+                      icon={item.info.type ? `${item.info.type}` : "description"}
                       className={styles["icon"]}
                     />
                     {/* Render the item's icon */}

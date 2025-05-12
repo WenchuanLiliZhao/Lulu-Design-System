@@ -1,13 +1,14 @@
 import { TreeExplorer } from "../../Components/TreeExplorer";
-import { Example_TreeNodeMaps } from "../../Types/ExampleData/Example_TreeNodes";
-import { PageType } from "../../Types/PageType";
+import { Example_TreeNodeMaps } from "../../ObjectShapes/ExampleData/Example_TreeNodes";
+import { PageShape } from "../../ObjectShapes/PageShape";
 
-const Home: PageType = {
+const Home: PageShape = {
   info: {
     slug: "",
     title: "Home",
     title_display: undefined,
     date: new Date('2025-04-24'),
+    type: "page"
   },
   content: (
     <>

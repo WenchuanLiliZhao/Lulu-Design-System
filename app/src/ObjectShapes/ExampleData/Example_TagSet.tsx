@@ -1,4 +1,4 @@
-import { TagType } from '../TagType';
+import { TagType } from '../TagShape';
 
 export const Example_TagList: TagType[] = [
   { name: 'Database' },

@@ -1,5 +1,5 @@
 import { LogoMap } from "../../assets/Img/Logo";
-import { UserType } from "../UserType";
+import { UserType } from "../UserShape";
 
 export const Example_Users: UserType[] = [
   { name: "System", avatar: LogoMap.FullColorNoText },

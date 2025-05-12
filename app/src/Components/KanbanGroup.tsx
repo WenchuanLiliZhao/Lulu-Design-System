@@ -19,7 +19,7 @@
 */
 
 import React from "react";
-import { KanbanType } from "../Types/KanbanType";
+import { KanbanType } from "../ObjectShapes/KanbanShape";
 import { HoverBox } from "./HoverBox";
 import { Icon } from "./Icon";
 import styles from "./KanbanGroup.module.scss";

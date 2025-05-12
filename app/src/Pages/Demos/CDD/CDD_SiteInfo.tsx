@@ -1,7 +1,7 @@
 import React from "react";
-import { SiteInfoType } from "../../../Types/SiteInfoType";
-import { Example_Pages } from "../../../Types/ExampleData/Example_Pages";
-import { SearchHintGroupType } from "../../../Types/SearchHintType";
+import { SiteInfoType } from "../../../ObjectShapes/SiteInfoShape";
+import { Example_Pages } from "../../../ObjectShapes/ExampleData/Example_Pages";
+import { SearchHintGroupType } from "../../../ObjectShapes/SearchHintShape";
 import { Btn } from "../../../Components/Btn";
 import { MessageBox } from "../../../Components/MessageBox";
 import {
@@ -13,14 +13,14 @@ import {
 import { SearchBar } from "../../../Components/SearchBar";
 import { SideMenu } from "../../../Components/SideMenu";
 import { ThemeMenu } from "../../../Components/ThemeMenu";
-import { Example_MessagesList } from "../../../Types/ExampleData/Example_MessagesList";
+import { Example_MessagesList } from "../../../ObjectShapes/ExampleData/Example_MessagesList";
 import { Dropdown } from "../../../Components/Dropdown";
 import { Menu } from "../../../Components/Menu";
 import { ReactNode } from "react";
 import { Footer } from "../../../Components/Footer";
 import { JiraLayout } from "../../../Components/JiraLayout";
 import { TreeExplorer } from "../../../Components/TreeExplorer";
-import { Example_TreeNodeMaps } from "../../../Types/ExampleData/Example_TreeNodes";
+import { Example_TreeNodeMaps } from "../../../ObjectShapes/ExampleData/Example_TreeNodes";
 
 export const CDD_SiteInfo: SiteInfoType = {
   title: "China Data Dictionary",

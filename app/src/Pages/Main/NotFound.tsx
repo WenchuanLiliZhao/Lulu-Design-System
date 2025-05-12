@@ -1,11 +1,12 @@
-import { PageType } from "../../Types/PageType";
+import { PageShape } from "../../ObjectShapes/PageShape";
 
-const NotFound: PageType = {
+const NotFound: PageShape = {
   info: {
     slug: "*",
     title: "404 Not Found",
     title_display: undefined,
     date: new Date('2025-04-24'),
+    type: "page"
   },
   content: (
     <div>
