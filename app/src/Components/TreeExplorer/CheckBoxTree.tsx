@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import styles from "./CheckBoxTree.module.scss";
 import { CheckboxLabel } from "../Label/CheckBox";
 
-interface TreeNode {
+export interface TreeNode {
   id: string;
   label: string;
   children?: TreeNode[];
