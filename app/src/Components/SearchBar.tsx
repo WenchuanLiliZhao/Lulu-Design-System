@@ -31,14 +31,14 @@ import { HoverBox } from "./SmallElements/HoverBox";
 
 type SearchBarProps = {
   placeholder?: string;
-  place?: "default" | "on-nav";
+  size?: "size-default" | "size-on-nav" | "size-small";
   searchHintGroups?: SearchHintGroupType[];
   onSearch: (query: string) => void;
 };
 
 export const SearchBar: React.FC<SearchBarProps> = ({
   placeholder = "Search...",
-  place = "default",
+  size = "size-default",
   searchHintGroups,
   onSearch,
 }) => {
@@ -65,7 +65,7 @@ export const SearchBar: React.FC<SearchBarProps> = ({
 
   return (
     <div
-      className={`${styles["search-bar"]} ${styles[place]} ${
+      className={`${styles["search-bar"]} ${styles[size]} ${
         isFocused ? styles["focused"] : ""
       }`}
     >

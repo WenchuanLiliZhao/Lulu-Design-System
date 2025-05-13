@@ -94,7 +94,7 @@ export const CDD_Nav: React.FC = () => {
         middle: [],
         right: [
           <SearchBar
-            place="on-nav"
+            size="size-on-nav"
             onSearch={function (): void {
               throw new Error("Function not implemented.");
             }}
@@ -180,33 +180,6 @@ export const CDD_DataPageLayout: React.FC<CDD_BasicLayoutProps> = ({
               dropdownContent={
                 <Menu
                   group={[
-                    {
-                      groupTitle: "Preferences",
-                      groupSpacing: "group-spacing-compact",
-                      groupItems: [
-                        <SearchBar onSearch={function (query: string): void {
-                          throw new Error(`Function not implemented: ${query}`);
-                        } } />,
-                        <TextSwitch
-                          icon="notes"
-                          text={"Show Comments"}
-                          fullLine
-                          checked={false}
-                          onChange={(checked: boolean): void => {
-                            console.log("Switch toggled:", checked);
-                          }}
-                        />,
-                        <TextSwitch
-                          icon="code"
-                          text={"Show Code"}
-                          fullLine
-                          checked={false}
-                          onChange={(checked: boolean): void => {
-                            console.log("Switch toggled:", checked);
-                          }}
-                        />,
-                      ],
-                    },
                     {
                       groupTitle: "Metamathematics",
                       groupItems: [
@@ -296,6 +269,61 @@ export const CDD_DataPageLayout: React.FC<CDD_BasicLayoutProps> = ({
                         />,
                       ],
                       groupSpacing: "group-spacing-compact",
+                    },
+                    {
+                      groupTitle: "Preferences",
+                      groupSpacing: "group-spacing-compact",
+                      groupItems: [
+                        <TextSwitch
+                          icon="notes"
+                          text={"Show Comments"}
+                          fullLine
+                          checked={false}
+                          onChange={(checked: boolean): void => {
+                            console.log("Switch toggled:", checked);
+                          }}
+                        />,
+                        <TextSwitch
+                          icon="code"
+                          text={"Show Code"}
+                          fullLine
+                          checked={false}
+                          onChange={(checked: boolean): void => {
+                            console.log("Switch toggled:", checked);
+                          }}
+                        />,
+                      ],
+                    },
+                    {
+                      groupTitle: "Perspective",
+                      groupSpacing: "group-spacing-compact",
+                      groupItems: [
+                        <FilterableDropdown
+                          defaultSelectedOption={"Technical Perspective"}
+                          placeholder={""}
+                          options={[
+                            "Technical Perspective",
+                            "Business Perspective",
+                          ]}
+                          onSelect={(selectedOption) => {
+                            console.log("Selected option:", selectedOption);
+                            // 在这里处理选中的选项
+                          }}
+                        />,
+                      ],
+                    },
+                    {
+                      groupSpacing: "group-spacing-compact",
+                      groupItems: [
+                        <SearchBar
+                          size="size-small"
+                          onSearch={function (query: string): void {
+                            throw new Error(
+                              `Function not implemented: ${query}`
+                            );
+                          }}
+                        />,
+                      ],
                     },
                     {
                       groupItems: [
