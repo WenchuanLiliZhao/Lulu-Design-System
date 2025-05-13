@@ -20,8 +20,7 @@
 
 import React, { useState, useEffect } from "react";
 import styles from "./JiraLayout.module.scss";
-import { Btn } from "./SmallElements/Btn";
-import { BtnDivider } from "./SmallElements/Btn";
+import { Btn, BtnDivider } from "../SmallElements/Btn";
 
 interface JiraLayoutProps {
   sidebar: {

@@ -1,7 +1,7 @@
 import React from "react";
 import styles from "./Footer.module.scss";
-import { FormattedDate } from "../Functions/FormattedDate";
-import { CDD_SiteInfo } from "../Pages/Demos/CDD/CDD_SiteConfig";
+import { FormattedDate } from "../../Functions/FormattedDate";
+import { CDD_SiteInfo } from "../../Pages/Demos/CDD/CDD_SiteConfig";
 
 export const Footer: React.FC = () => {
   return (

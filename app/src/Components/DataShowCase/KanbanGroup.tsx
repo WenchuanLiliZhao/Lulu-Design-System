@@ -19,11 +19,11 @@
 */
 
 import React from "react";
-import { KanbanType } from "../ObjectShapes/KanbanShape";
-import { HoverBox } from "./SmallElements/HoverBox";
-import { Icon } from "./Icon";
+import { KanbanType } from "../../ObjectShapes/KanbanShape";
+import { HoverBox } from "../SmallElements/HoverBox";
 import styles from "./KanbanGroup.module.scss";
 import { useState, useRef } from "react";
+import { Icon } from "../Icon";
 
 export interface KanbanGroupProps {
   title: string; // The title of the Kanban group

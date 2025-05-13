@@ -8,7 +8,7 @@ import {
   Nav,
   NavItem_SiteTitleBar,
   NavItem_UserAvatar,
-} from "../../../Components/Nav";
+} from "../../../Components/Layout/Nav";
 import { SearchBar } from "../../../Components/SearchBar";
 import { SideMenu } from "../../../Components/SideMenu";
 import { ThemeMenu } from "../../../Components/SmallElements/ThemeMenu";
@@ -16,12 +16,12 @@ import { Example_MessagesList } from "../../../ObjectShapes/ExampleData/Example_
 import { ClickToClose, Dropdown } from "../../../Components/Dropdown/Dropdown";
 import { Menu } from "../../../Components/Dropdown/Menu";
 import { ReactNode } from "react";
-import { Footer } from "../../../Components/Footer";
-import { JiraLayout } from "../../../Components/JiraLayout";
+import { Footer } from "../../../Components/Layout/Footer";
+import { JiraLayout } from "../../../Components/Layout/JiraLayout";
 import { TreeExplorer } from "../../../Components/TreeExplorer/TreeExplorer";
 import { Example_TreeNodeMaps } from "../../../ObjectShapes/ExampleData/Example_TreeNodes";
 import { MenuItem } from "../../../Components/Dropdown/MenuItem";
-import { FilterableDropdown } from "../../../Components/FilterableDropdown";
+import { FilterableDropdown } from "../../../Components/Dropdown/FilterableDropdown";
 import { TextSwitch } from "../../../Components/SmallElements/Switch";
 import { CheckBoxTree } from "../../../Components/TreeExplorer/CheckBoxTree";
 import { exampleTreeData } from "../../../Components/TreeExplorer/Example_CheckBoxTreeData";

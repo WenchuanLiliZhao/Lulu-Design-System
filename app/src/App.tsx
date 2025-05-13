@@ -1,6 +1,5 @@
 import { BrowserRouter, Route, Routes } from "react-router"
 import MainPages from "./Pages/Main/_MainPages"
-import { BasicLayout } from "./Components/Layouts"
 import "./assets/GlobalStyles/_app.scss"
 import DemoPages from "./Pages/Demos/_DemoPages"
 
@@ -9,13 +8,13 @@ function App() {
   return (
     <BrowserRouter>
       <Routes>
-        <Route index element={<BasicLayout>{MainPages.Home.content}</BasicLayout>} />
+        <Route index element={<>{MainPages.Home.content}</>} />
 
         {Object.values(MainPages).map((item, i: number) => (
           <Route
             key={i}
             path={`/${item.info.slug}`}
-            element={<BasicLayout>{item.content}</BasicLayout>}
+            element={<>{item.content}</>}
           />
         ))}
 
@@ -23,7 +22,7 @@ function App() {
           <Route
             key={i}
             path={`/${item.info.slug}`}
-            element={<BasicLayout>{item.content}</BasicLayout>}
+            element={<>{item.content}</>}
           />
         ))}
       </Routes>

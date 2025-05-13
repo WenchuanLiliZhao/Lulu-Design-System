@@ -28,9 +28,9 @@
   - `Nav` 组件通常与其他组件（如 `SearchBar`、`Dropdown` 和 `ThemeMenu`）结合使用，这些组件通过 `items` 属性作为子元素传递，从而在导航栏中无缝集成额外功能。
 */
 
-import { Logo } from "../assets/Img/Logo";
-import { Placeholder } from "../assets/Img/Placeholder";
-import { HoverBox } from "./SmallElements/HoverBox";
+import { Logo } from "../../assets/Img/Logo";
+import { Placeholder } from "../../assets/Img/Placeholder";
+import { HoverBox } from "../SmallElements/HoverBox";
 import styles from "./Nav.module.scss";
 
 import React, { ReactNode } from "react";
