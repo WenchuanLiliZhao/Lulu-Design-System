@@ -1,4 +1,6 @@
-export const exampleTreeData = [
+import { TreeNode } from "./CheckBoxTree";
+
+export const exampleTreeData: TreeNode[] = [
   {
     id: "1",
     label: "Set Theory",
