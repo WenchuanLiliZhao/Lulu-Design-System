@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import styles from "./CheckBoxTree.module.scss";
+import { CheckboxLabel } from "../Label/CheckBox";
 
 interface TreeNode {
   id: string;
@@ -33,14 +34,12 @@ export const CheckBoxTree: React.FC<CheckBoxTreeProps> = ({ data, onChange }) =>
   const renderTree = (nodes: TreeNode[]) => {
     return nodes.map((node) => (
       <div key={node.id} className={styles["tree-node"]}>
-        <label>
-          <input
-            type="checkbox"
-            checked={selectedIds.includes(node.id)}
-            onChange={() => handleToggle(node.id)}
-          />
-          {node.label}
-        </label>
+        <CheckboxLabel
+          id={node.id}
+          text={node.label}
+          checked={selectedIds.includes(node.id)}
+          onToggle={handleToggle}
+        />
         {node.children && (
           <div className={styles["tree-children"]}>{renderTree(node.children)}</div>
         )}
