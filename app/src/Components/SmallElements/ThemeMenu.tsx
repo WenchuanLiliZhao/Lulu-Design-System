@@ -52,7 +52,7 @@ export const ThemeMenu: React.FC = () => {
     <Dropdown
       // Use the `Btn` component as the trigger for the dropdown menu
       // 使用 `Btn` 组件作为下拉菜单的触发器
-      trigger={<Btn icon={getIconForTheme()} place={"nav-btn"} deco={"arrow_drop_down"} />}
+      trigger={<Btn icon={getIconForTheme()} size={"size-nav-btn"} deco={"arrow_drop_down"} />}
       // Render the dropdown menu content using the `Menu` component
       // 使用 `Menu` 组件渲染下拉菜单内容
       dropdownContent={

@@ -2,12 +2,11 @@ import React from "react";
 import { SiteInfoType } from "../../../ObjectShapes/SiteInfoShape";
 import { Example_Pages } from "../../../ObjectShapes/ExampleData/Example_Pages";
 import { SearchHintGroupType } from "../../../ObjectShapes/SearchHintShape";
-import { Btn } from "../../../Components/SmallElements/Btn";
+import { Btn, BtnDivider } from "../../../Components/SmallElements/Btn";
 import { MessageBox } from "../../../Components/MessageBox";
 import {
   Nav,
   NavItem_SiteTitleBar,
-  NavItem_Divider,
   NavItem_UserAvatar,
 } from "../../../Components/Nav";
 import { SearchBar } from "../../../Components/SearchBar";
@@ -22,6 +21,7 @@ import { JiraLayout } from "../../../Components/JiraLayout";
 import { TreeExplorer } from "../../../Components/TreeExplorer/TreeExplorer";
 import { Example_TreeNodeMaps } from "../../../ObjectShapes/ExampleData/Example_TreeNodes";
 import { MenuItem } from "../../../Components/Dropdown/MenuItem";
+import { FilterableDropdown } from "../../../Components/FilterableDropdown";
 
 export const CDD_SiteInfo: SiteInfoType = {
   title: "China Data Dictionary",
@@ -99,13 +99,13 @@ export const CDD_Nav: React.FC = () => {
             }}
             searchHintGroups={SearchHintGroups}
           />,
-          <NavItem_Divider />,
+          <BtnDivider size={"size-default"} />,
           <ThemeMenu />,
           <Dropdown
             trigger={
               <Btn
                 icon={"notifications"}
-                place={"nav-btn"}
+                size={"size-nav-btn"}
                 deco={"arrow_drop_down"}
               />
             }
@@ -167,6 +167,107 @@ export const CDD_DataPageLayout: React.FC<CDD_BasicLayoutProps> = ({
         sidebar={{
           title: "Data Dictionary",
           content: <TreeExplorer data={Example_TreeNodeMaps.Math} />,
+          headerControls: [
+            <Dropdown
+                trigger={<Btn icon={"tune"} size={"size-default"} deco={"arrow_drop_down"} />}
+                dropdownContent={
+                  <Menu
+                    items={[
+                      {
+                        groupTitle: "Metamathematics",
+                        groupItems: [
+                          <FilterableDropdown
+                            defaultSelectedOption={"Set Theory"}
+                            placeholder={""}
+                            options={[
+                              "Set Theory",
+                              "Linear Algebra",
+                              "Abstract Algebra",
+                              "Geometry",
+                              "Topology",
+                              "Number Theory",
+                              "Calculus",
+                              "Probability",
+                              "Statistics",
+                              "Combinatorics",
+                            ]}
+                            onSelect={(selectedOption) => {
+                              console.log("Selected option:", selectedOption);
+                              // 在这里处理选中的选项
+                            }}
+                          />,
+                          <FilterableDropdown
+                            placeholder={"What do you want to learn?"}
+                            options={[
+                              "Set Theory",
+                              "Linear Algebra",
+                              "Abstract Algebra",
+                              "Geometry",
+                              "Topology",
+                              "Number Theory",
+                              "Calculus",
+                              "Probability",
+                              "Statistics",
+                              "Combinatorics",
+                            ]}
+                            onSelect={(selectedOption) => {
+                              console.log("Selected option:", selectedOption);
+                              // 在这里处理选中的选项
+                            }}
+                          />,
+                        ],
+                      },
+                      {
+                        groupTitle: "Foundations of Mathematics",
+                        groupItems: [
+                          <FilterableDropdown
+                            defaultSelectedOption={"Abstract Algebra"}
+                            placeholder={""}
+                            options={[
+                              "Set Theory",
+                              "Linear Algebra",
+                              "Abstract Algebra",
+                              "Geometry",
+                              "Topology",
+                              "Number Theory",
+                              "Calculus",
+                              "Probability",
+                              "Statistics",
+                              "Combinatorics",
+                            ]}
+                            onSelect={(selectedOption) => {
+                              console.log("Selected option:", selectedOption);
+                              // 在这里处理选中的选项
+                            }}
+                          />,
+                          <FilterableDropdown
+                            placeholder={"What do you want to learn?"}
+                            options={[
+                              "Set Theory",
+                              "Linear Algebra",
+                              "Abstract Algebra",
+                              "Geometry",
+                              "Topology",
+                              "Number Theory",
+                              "Calculus",
+                              "Probability",
+                              "Statistics",
+                              "Combinatorics",
+                            ]}
+                            onSelect={(selectedOption) => {
+                              console.log("Selected option:", selectedOption);
+                              // 在这里处理选中的选项
+                            }}
+                          />,
+                        ],
+                      },
+                    ]}
+                  />
+                }
+                dropdownSize={"medium"}
+                position={"left"}
+              />
+          ]
         }}
       />
     </>

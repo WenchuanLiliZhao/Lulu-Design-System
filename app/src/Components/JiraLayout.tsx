@@ -20,12 +20,8 @@
 
 import React, { useState, useEffect } from "react";
 import styles from "./JiraLayout.module.scss";
-import { Icon } from "./Icon";
-import { HoverBox } from "./SmallElements/HoverBox";
-import { Dropdown } from "./Dropdown/Dropdown";
 import { Btn } from "./SmallElements/Btn";
-import { FilterableDropdown } from "./FilterableDropdown";
-import { Menu } from "./Dropdown/Menu";
+import { BtnDivider } from "./SmallElements/Btn";
 
 interface JiraLayoutProps {
   sidebar: {
@@ -36,6 +32,8 @@ interface JiraLayoutProps {
     // 侧边栏的最小宽度
     maxWidth?: number; // Maximum width for the sidebar
     // 侧边栏的最大宽度
+    headerControls?: React.ReactNode[]; // Optional controls for the sidebar header
+    // 侧边栏标题的可选控件
   };
   mainContent: React.ReactNode;
 }
@@ -46,6 +44,7 @@ export const JiraLayout: React.FC<JiraLayoutProps> = ({
     content: sidebarContent,
     minWidth: sidebarMinWidth = 280, // Default minimum width for the sidebar
     maxWidth: sidebarMaxWidth = 600, // Default maximum width for the sidebar
+    headerControls: sidebarHeaderControls = [], // Optional controls for the sidebar header
   },
   mainContent,
 }) => {
@@ -137,111 +136,22 @@ export const JiraLayout: React.FC<JiraLayoutProps> = ({
 
           <div className={`${styles["sidebar-header"]}`}>
             <div className={`${styles["sidebar-title"]}`}>{sidebarTitle}</div>
-            <Dropdown
-              trigger={<Btn icon={"home"} place={"default"} />}
-              dropdownContent={
-                <Menu
-                  items={[
-                    {
-                      groupTitle: "Metamathematics",
-                      groupItems: [
-                        <FilterableDropdown
-                          defaultSelectedOption={"Set Theory"}
-                          placeholder={""}
-                          options={[
-                            "Set Theory",
-                            "Linear Algebra",
-                            "Abstract Algebra",
-                            "Geometry",
-                            "Topology",
-                            "Number Theory",
-                            "Calculus",
-                            "Probability",
-                            "Statistics",
-                            "Combinatorics",
-                          ]}
-                          onSelect={(selectedOption) => {
-                            console.log("Selected option:", selectedOption);
-                            // 在这里处理选中的选项
-                          }}
-                        />,
-                        <FilterableDropdown
-                          placeholder={"What do you want to learn?"}
-                          options={[
-                            "Set Theory",
-                            "Linear Algebra",
-                            "Abstract Algebra",
-                            "Geometry",
-                            "Topology",
-                            "Number Theory",
-                            "Calculus",
-                            "Probability",
-                            "Statistics",
-                            "Combinatorics",
-                          ]}
-                          onSelect={(selectedOption) => {
-                            console.log("Selected option:", selectedOption);
-                            // 在这里处理选中的选项
-                          }}
-                        />,
-                      ],
-                    },
-                    {
-                      groupTitle: "Foundations of Mathematics",
-                      groupItems: [
-                        <FilterableDropdown
-                          defaultSelectedOption={"Abstract Algebra"}
-                          placeholder={""}
-                          options={[
-                            "Set Theory",
-                            "Linear Algebra",
-                            "Abstract Algebra",
-                            "Geometry",
-                            "Topology",
-                            "Number Theory",
-                            "Calculus",
-                            "Probability",
-                            "Statistics",
-                            "Combinatorics",
-                          ]}
-                          onSelect={(selectedOption) => {
-                            console.log("Selected option:", selectedOption);
-                            // 在这里处理选中的选项
-                          }}
-                        />,
-                        <FilterableDropdown
-                          placeholder={"What do you want to learn?"}
-                          options={[
-                            "Set Theory",
-                            "Linear Algebra",
-                            "Abstract Algebra",
-                            "Geometry",
-                            "Topology",
-                            "Number Theory",
-                            "Calculus",
-                            "Probability",
-                            "Statistics",
-                            "Combinatorics",
-                          ]}
-                          onSelect={(selectedOption) => {
-                            console.log("Selected option:", selectedOption);
-                            // 在这里处理选中的选项
-                          }}
-                        />,
-                      ],
-                    },
-                  ]}
-                />
-              }
-              dropdownSize={"medium"}
-              position={"left"}
-            />
-            <div
-              className={`${styles["sidebar-switch"]}`}
-              onClick={handleDisplayClick}
-            >
-              <Icon className={styles["icon"]} icon={"side_navigation"} />
-              <HoverBox />
+
+            {/* Render header controls for the sidebar */}
+            {/* 渲染侧边栏的标题控件 */}
+            <div className={`${styles["sidebar-header-controls"]}`}>
+              {sidebarHeaderControls.map((control, index) => (
+                <React.Fragment key={index}>{control}</React.Fragment>
+              ))}
+
+              <BtnDivider size={"size-default"} />
+
+              <Btn
+                icon={"side_navigation"}
+                size={"size-default"}
+                onClick={handleDisplayClick} // Handle click to toggle sidebar visibility
+                // 处理点击以切换侧边栏可见性
+              />
             </div>
           </div>
 

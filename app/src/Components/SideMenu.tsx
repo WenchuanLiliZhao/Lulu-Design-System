@@ -75,7 +75,7 @@ export const SideMenu: React.FC<SideMenuProps> = ({ siteInfo, itemGroups }) => {
 
   return (
     <div className={styles["side-menu"]}>
-      <Btn icon={"menu"} place={"nav-btn"} onClick={handleBtnClick} />
+      <Btn icon={"menu"} size={"size-nav-btn"} onClick={handleBtnClick} />
       {/* Render a button to toggle the menu */}
       {/* 渲染一个按钮以切换菜单 */}
 
