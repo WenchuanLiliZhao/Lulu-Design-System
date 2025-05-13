@@ -1,0 +1,19 @@
+.check-box-tree {
+  font-family: Arial, sans-serif;
+  font-size: 14px;
+  color: #333;
+}
+
+.tree-node {
+  margin-left: 20px;
+}
+
+.tree-children {
+  margin-left: 20px;
+  border-left: 1px solid #ccc;
+  padding-left: 10px;
+}
+
+input[type="checkbox"] {
+  margin-right: 8px;
+}

@@ -23,6 +23,8 @@ import { Example_TreeNodeMaps } from "../../../ObjectShapes/ExampleData/Example_
 import { MenuItem } from "../../../Components/Dropdown/MenuItem";
 import { FilterableDropdown } from "../../../Components/FilterableDropdown";
 import { TextSwitch } from "../../../Components/SmallElements/Switch";
+import { CheckBoxTree } from "../../../Components/TreeExplorer/CheckBoxTree";
+import { exampleTreeData } from "../../../Components/TreeExplorer/Example_CheckBoxTreeData";
 
 export const CDD_SiteInfo: SiteInfoType = {
   title: "China Data Dictionary",
@@ -344,6 +346,28 @@ export const CDD_DataPageLayout: React.FC<CDD_BasicLayoutProps> = ({
               position={"left"}
             />,
           ],
+        }}
+      />
+    </>
+  );
+};
+
+export const CDD_TopologyLayout: React.FC<CDD_BasicLayoutProps> = ({
+  children,
+}) => {
+  return (
+    <>
+      <CDD_Nav />
+      <JiraLayout
+        mainContent={
+          <main>
+            {children}
+            <Footer />
+          </main>
+        }
+        sidebar={{
+          title: "Topology",
+          content: <CheckBoxTree data={exampleTreeData} />, // Sidebar with CheckBoxTree
         }}
       />
     </>
