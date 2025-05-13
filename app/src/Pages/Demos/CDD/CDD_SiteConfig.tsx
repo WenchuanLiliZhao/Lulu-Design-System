@@ -22,6 +22,7 @@ import { TreeExplorer } from "../../../Components/TreeExplorer/TreeExplorer";
 import { Example_TreeNodeMaps } from "../../../ObjectShapes/ExampleData/Example_TreeNodes";
 import { MenuItem } from "../../../Components/Dropdown/MenuItem";
 import { FilterableDropdown } from "../../../Components/FilterableDropdown";
+import { TextSwitch } from "../../../Components/SmallElements/Switch";
 
 export const CDD_SiteInfo: SiteInfoType = {
   title: "China Data Dictionary",
@@ -169,113 +170,152 @@ export const CDD_DataPageLayout: React.FC<CDD_BasicLayoutProps> = ({
           content: <TreeExplorer data={Example_TreeNodeMaps.Math} />,
           headerControls: [
             <Dropdown
-                trigger={<Btn icon={"tune"} size={"size-small"} deco={"arrow_drop_down"} />}
-                dropdownContent={
-                  <Menu
-                    group={[
-                      {
-                        groupTitle: "Metamathematics",
-                        groupItems: [
-                          <FilterableDropdown
-                            defaultSelectedOption={"Set Theory"}
-                            placeholder={""}
-                            options={[
-                              "Set Theory",
-                              "Linear Algebra",
-                              "Abstract Algebra",
-                              "Geometry",
-                              "Topology",
-                              "Number Theory",
-                              "Calculus",
-                              "Probability",
-                              "Statistics",
-                              "Combinatorics",
-                            ]}
-                            onSelect={(selectedOption) => {
-                              console.log("Selected option:", selectedOption);
-                              // 在这里处理选中的选项
-                            }}
-                          />,
-                          <FilterableDropdown
-                            placeholder={"What do you want to learn?"}
-                            options={[
-                              "Set Theory",
-                              "Linear Algebra",
-                              "Abstract Algebra",
-                              "Geometry",
-                              "Topology",
-                              "Number Theory",
-                              "Calculus",
-                              "Probability",
-                              "Statistics",
-                              "Combinatorics",
-                            ]}
-                            onSelect={(selectedOption) => {
-                              console.log("Selected option:", selectedOption);
-                              // 在这里处理选中的选项
-                            }}
-                          />,
-                        ],
-                        groupSpacing: "group-spacing-compact"
-                      },
-                      {
-                        groupTitle: "Foundations of Mathematics",
-                        groupItems: [
-                          <FilterableDropdown
-                            defaultSelectedOption={"Abstract Algebra"}
-                            placeholder={""}
-                            options={[
-                              "Set Theory",
-                              "Linear Algebra",
-                              "Abstract Algebra",
-                              "Geometry",
-                              "Topology",
-                              "Number Theory",
-                              "Calculus",
-                              "Probability",
-                              "Statistics",
-                              "Combinatorics",
-                            ]}
-                            onSelect={(selectedOption) => {
-                              console.log("Selected option:", selectedOption);
-                              // 在这里处理选中的选项
-                            }}
-                          />,
-                          <FilterableDropdown
-                            placeholder={"What do you want to learn?"}
-                            options={[
-                              "Set Theory",
-                              "Linear Algebra",
-                              "Abstract Algebra",
-                              "Geometry",
-                              "Topology",
-                              "Number Theory",
-                              "Calculus",
-                              "Probability",
-                              "Statistics",
-                              "Combinatorics",
-                            ]}
-                            onSelect={(selectedOption) => {
-                              console.log("Selected option:", selectedOption);
-                              // 在这里处理选中的选项
-                            }}
-                          />,
-                        ],
-                        groupSpacing: "group-spacing-compact"
-                      },
-                      {
-                        groupItems: [
-                          <Btn icon={"add"} text={"New Metadata"} className={ClickToClose} mode={"mode-possitive-filled"} size={"size-medium"} />
-                        ],
-                        groupSpacing: "group-spacing-compact"
-                      }
-                    ]}
-                  />
-                }
-                dropdownSize={"medium"}
-                position={"left"}
-              />
-          ]
+              trigger={
+                <Btn
+                  icon={"tune"}
+                  size={"size-small"}
+                  deco={"arrow_drop_down"}
+                />
+              }
+              dropdownContent={
+                <Menu
+                  group={[
+                    {
+                      groupTitle: "Preferences",
+                      groupSpacing: "group-spacing-compact",
+                      groupItems: [
+                        <SearchBar onSearch={function (query: string): void {
+                          throw new Error(`Function not implemented: ${query}`);
+                        } } />,
+                        <TextSwitch
+                          icon="notes"
+                          text={"Show Comments"}
+                          fullLine
+                          checked={false}
+                          onChange={(checked: boolean): void => {
+                            console.log("Switch toggled:", checked);
+                          }}
+                        />,
+                        <TextSwitch
+                          icon="code"
+                          text={"Show Code"}
+                          fullLine
+                          checked={false}
+                          onChange={(checked: boolean): void => {
+                            console.log("Switch toggled:", checked);
+                          }}
+                        />,
+                      ],
+                    },
+                    {
+                      groupTitle: "Metamathematics",
+                      groupItems: [
+                        <FilterableDropdown
+                          defaultSelectedOption={"Set Theory"}
+                          placeholder={""}
+                          options={[
+                            "Set Theory",
+                            "Linear Algebra",
+                            "Abstract Algebra",
+                            "Geometry",
+                            "Topology",
+                            "Number Theory",
+                            "Calculus",
+                            "Probability",
+                            "Statistics",
+                            "Combinatorics",
+                          ]}
+                          onSelect={(selectedOption) => {
+                            console.log("Selected option:", selectedOption);
+                            // 在这里处理选中的选项
+                          }}
+                        />,
+                        <FilterableDropdown
+                          placeholder={"What do you want to learn?"}
+                          options={[
+                            "Set Theory",
+                            "Linear Algebra",
+                            "Abstract Algebra",
+                            "Geometry",
+                            "Topology",
+                            "Number Theory",
+                            "Calculus",
+                            "Probability",
+                            "Statistics",
+                            "Combinatorics",
+                          ]}
+                          onSelect={(selectedOption) => {
+                            console.log("Selected option:", selectedOption);
+                            // 在这里处理选中的选项
+                          }}
+                        />,
+                      ],
+                      groupSpacing: "group-spacing-compact",
+                    },
+                    {
+                      groupTitle: "Foundations of Mathematics",
+                      groupItems: [
+                        <FilterableDropdown
+                          defaultSelectedOption={"Abstract Algebra"}
+                          placeholder={""}
+                          options={[
+                            "Set Theory",
+                            "Linear Algebra",
+                            "Abstract Algebra",
+                            "Geometry",
+                            "Topology",
+                            "Number Theory",
+                            "Calculus",
+                            "Probability",
+                            "Statistics",
+                            "Combinatorics",
+                          ]}
+                          onSelect={(selectedOption) => {
+                            console.log("Selected option:", selectedOption);
+                            // 在这里处理选中的选项
+                          }}
+                        />,
+                        <FilterableDropdown
+                          placeholder={"What do you want to learn?"}
+                          options={[
+                            "Set Theory",
+                            "Linear Algebra",
+                            "Abstract Algebra",
+                            "Geometry",
+                            "Topology",
+                            "Number Theory",
+                            "Calculus",
+                            "Probability",
+                            "Statistics",
+                            "Combinatorics",
+                          ]}
+                          onSelect={(selectedOption) => {
+                            console.log("Selected option:", selectedOption);
+                            // 在这里处理选中的选项
+                          }}
+                        />,
+                      ],
+                      groupSpacing: "group-spacing-compact",
+                    },
+                    {
+                      groupItems: [
+                        <Btn
+                          icon={"add"}
+                          text={"New Metadata"}
+                          className={ClickToClose}
+                          mode={"mode-possitive-filled"}
+                          size={"size-medium"}
+                        />,
+                      ],
+                      groupSpacing: "group-spacing-compact",
+                    },
+                  ]}
+                />
+              }
+              dropdownSize={"medium"}
+              position={"left"}
+            />,
+          ],
         }}
       />
     </>

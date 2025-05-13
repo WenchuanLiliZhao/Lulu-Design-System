@@ -86,7 +86,6 @@ export const MessageBox: React.FC<MessageBoxProps> = ({
             <Switch
               checked={showUnreadOnly}
               onChange={setShowUnreadOnly}
-              size={"small"}
             />
           </div>
         </div>
