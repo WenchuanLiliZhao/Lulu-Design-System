@@ -144,11 +144,11 @@ export const JiraLayout: React.FC<JiraLayoutProps> = ({
                 <React.Fragment key={index}>{control}</React.Fragment>
               ))}
 
-              <BtnDivider size={"size-default"} />
+              <BtnDivider size={"size-small"} />
 
               <Btn
                 icon={"side_navigation"}
-                size={"size-default"}
+                size={"size-small"}
                 onClick={handleDisplayClick} // Handle click to toggle sidebar visibility
                 // 处理点击以切换侧边栏可见性
               />

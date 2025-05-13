@@ -23,40 +23,44 @@ import styles from "./Menu.module.scss";
 import React, { ReactNode } from "react";
 
 export interface MenuProps {
-  items: {
+  group: {
     groupTitle?: string;
     groupItems: ReactNode[];
+    groupSpacing?: "group-spacing-default" | "group-spacing-compact"
   }[];
   className?: string;
 }
 
-export const Menu: React.FC<MenuProps> = ({ items, className }) => {
+export const Menu: React.FC<MenuProps> = ({ group, className }) => {
   return (
     <div className={`${styles["menu"]} ${className}`}>
       {/* Render each group of menu items */}
       {/* 渲染每个菜单项分组 */}
-      {Object.values(items).map((group, i) => (
-        <div key={i} className={styles["group"]}>
-          {/* Render the group title if it exists */}
-          {/* 如果分组标题存在，则渲染分组标题 */}
-          {group.groupTitle && (
-            <>
-              <div className={`${styles["group-title"]} ${styles["cell"]}`}>
-                {group.groupTitle}
-              </div>
-            </>
-          )}
-          <div className={styles["items"]}>
-            {/* Render each item in the group */}
-            {/* 渲染分组中的每个菜单项 */}
-            {group.groupItems.map((item, j) => (
-              <div className={`${styles["item"]}`} key={j}>
-                {item}
-              </div>
-            ))}
+      {group.map((group, i) => {
+        const { groupTitle, groupItems, groupSpacing = "group-spacing-default" } = group; // 设置 spacing 的默认值
+        return (
+          <div key={i} className={`${styles["group"]} ${styles[groupSpacing]}`}>
+            {/* Render the group title if it exists */}
+            {/* 如果分组标题存在，则渲染分组标题 */}
+            {groupTitle && (
+              <>
+                <div className={`${styles["group-title"]} ${styles["cell"]}`}>
+                  {groupTitle}
+                </div>
+              </>
+            )}
+            <div className={`${styles["items"]}`}>
+              {/* Render each item in the group */}
+              {/* 渲染分组中的每个菜单项 */}
+              {groupItems.map((item, j) => (
+                <div className={`${styles["item"]}`} key={j}>
+                  {item}
+                </div>
+              ))}
+            </div>
           </div>
-        </div>
-      ))}
+        );
+      })}
     </div>
   );
 };

@@ -57,7 +57,7 @@ export const ThemeMenu: React.FC = () => {
       // 使用 `Menu` 组件渲染下拉菜单内容
       dropdownContent={
         <Menu
-          items={[
+          group={[
             {
               groupTitle: "Theme Preferences",
               // 分组标题：主题偏好

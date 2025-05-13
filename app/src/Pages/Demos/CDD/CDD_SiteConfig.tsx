@@ -13,7 +13,7 @@ import { SearchBar } from "../../../Components/SearchBar";
 import { SideMenu } from "../../../Components/SideMenu";
 import { ThemeMenu } from "../../../Components/SmallElements/ThemeMenu";
 import { Example_MessagesList } from "../../../ObjectShapes/ExampleData/Example_MessagesList";
-import { Dropdown } from "../../../Components/Dropdown/Dropdown";
+import { ClickToClose, Dropdown } from "../../../Components/Dropdown/Dropdown";
 import { Menu } from "../../../Components/Dropdown/Menu";
 import { ReactNode } from "react";
 import { Footer } from "../../../Components/Footer";
@@ -99,7 +99,7 @@ export const CDD_Nav: React.FC = () => {
             }}
             searchHintGroups={SearchHintGroups}
           />,
-          <BtnDivider size={"size-default"} />,
+          <BtnDivider size={"size-small"} />,
           <ThemeMenu />,
           <Dropdown
             trigger={
@@ -125,7 +125,7 @@ export const CDD_Nav: React.FC = () => {
           />,
           <Dropdown
             trigger={<NavItem_UserAvatar avatarUrl={undefined} />}
-            dropdownContent={<Menu items={TestMenuContent} />}
+            dropdownContent={<Menu group={TestMenuContent} />}
             position={"right"}
             dropdownSize={"small"}
           />,
@@ -169,10 +169,10 @@ export const CDD_DataPageLayout: React.FC<CDD_BasicLayoutProps> = ({
           content: <TreeExplorer data={Example_TreeNodeMaps.Math} />,
           headerControls: [
             <Dropdown
-                trigger={<Btn icon={"tune"} size={"size-default"} deco={"arrow_drop_down"} />}
+                trigger={<Btn icon={"tune"} size={"size-small"} deco={"arrow_drop_down"} />}
                 dropdownContent={
                   <Menu
-                    items={[
+                    group={[
                       {
                         groupTitle: "Metamathematics",
                         groupItems: [
@@ -216,6 +216,7 @@ export const CDD_DataPageLayout: React.FC<CDD_BasicLayoutProps> = ({
                             }}
                           />,
                         ],
+                        groupSpacing: "group-spacing-compact"
                       },
                       {
                         groupTitle: "Foundations of Mathematics",
@@ -260,7 +261,14 @@ export const CDD_DataPageLayout: React.FC<CDD_BasicLayoutProps> = ({
                             }}
                           />,
                         ],
+                        groupSpacing: "group-spacing-compact"
                       },
+                      {
+                        groupItems: [
+                          <Btn icon={"add"} text={"New Metadata"} className={ClickToClose} mode={"mode-possitive-filled"} size={"size-medium"} />
+                        ],
+                        groupSpacing: "group-spacing-compact"
+                      }
                     ]}
                   />
                 }

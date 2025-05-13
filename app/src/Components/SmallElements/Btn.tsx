@@ -1,4 +1,3 @@
-/* eslint-disable react-refresh/only-export-components */
 import styles from "./Btn.module.scss";
 
 import { HoverBox } from "./HoverBox";
@@ -6,8 +5,8 @@ import { Icon } from "../Icon";
 
 export interface BtnProps {
   icon: string;
-  size: "size-default" | "size-nav-btn";
-  outline?: boolean;
+  size: "size-small" | "size-medium" | "size-nav-btn";
+  mode?: "mode-outlined" | "mode-possitive-filled";
   className?: string;
   text?: string;
   deco?: string;
@@ -17,7 +16,7 @@ export interface BtnProps {
 export const Btn: React.FC<BtnProps> = ({
   icon,
   size,
-  outline = true,
+  mode = "outlined",
   deco,
   text,
   className,
@@ -25,21 +24,19 @@ export const Btn: React.FC<BtnProps> = ({
 }) => {
   return (
     <div
-      className={`${styles["btn"]} ${styles[size]} ${className} ${
-        outline ? styles["outlined"] : ""
-      }`}
+      className={`${styles["btn"]} ${styles[size]} ${className} ${styles[mode]}`}
       onClick={onClick}
     >
-      <Icon icon={icon} />
-      {text && <span>{text}</span>}
-      {deco && <Icon icon={deco} />}
+      <Icon className={styles["icon"]} icon={icon} />
+      {text && <span className={styles["text"]}>{text}</span>}
+      {deco && <Icon className={styles["icon"]} icon={deco} />}
       <HoverBox mode={"default"} />
     </div>
   );
 };
 
 interface BtnDividerProps {
-  size: "size-default" | "size-nav-btn";
+  size: "size-small" | "size-nav-btn";
 }
 
 export const BtnDivider: React.FC<BtnDividerProps> = ({size}) => {
