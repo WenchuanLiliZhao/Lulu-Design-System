@@ -77,17 +77,6 @@
 
     &:hover {
       background-color: var(--color-bg-sec-trans);
-
-      &::before {
-        content: "";
-        display: block;
-        position: absolute;
-        right: 0;
-        top: 0%;
-        width: 2px;
-        height: 100%;
-        background-color: var(--color-semantic-active);
-      }
     }
 
     &[class~="active"] {
