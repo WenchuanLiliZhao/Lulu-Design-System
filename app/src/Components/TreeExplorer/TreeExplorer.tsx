@@ -218,11 +218,12 @@ const TreeNodeComponent: React.FC<{
       </div>
       {/* Recursively render child nodes if the current node is expanded */}
       {/* 如果当前节点已展开，则递归渲染子节点 */}
-      {isExpanded && node.children.length > 0 && (
+      {node.children.length > 0 && (
         <div
           className={`${styles["node-children"]} ${
             isInvisible ? styles[LayerVisibility.fatherInvisible] : ""
           }`}
+          style={{display: `${isExpanded ? "block" : "none"}`}} // Only show children if the node is expanded
         >
           {node.children.map((child, index) => (
             <TreeNodeComponent
