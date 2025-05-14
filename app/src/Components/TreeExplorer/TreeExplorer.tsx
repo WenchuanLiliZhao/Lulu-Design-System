@@ -128,7 +128,7 @@ const TreeNodeComponent: React.FC<{
 
   const LayerVisibilityBtn: React.FC = () => {
     return (
-      <>
+      <div onClick={toggleVisibility}>
         <Btn
           className={styles["visibility-btn"]}
           icon={isInvisible ? "visibility_off" : "visibility"}
@@ -141,7 +141,7 @@ const TreeNodeComponent: React.FC<{
           size={"size-tiny"}
           mode={"mode-plain"}
         />
-      </>
+      </div>
     );
   };
 
@@ -163,9 +163,6 @@ const TreeNodeComponent: React.FC<{
           if (useAs === "page-tree") {
             toggleExpand(); // Only toggle if useAs is "page-tree"
             // 仅在 useAs 为 "page-tree" 时切换
-          } else if (useAs === "layer-tree") {
-            toggleVisibility(); // Only toggle visibility if useAs is "layer-tree"
-            // 仅在 useAs 为 "layer-tree" 时切换可见性
           }
         }}
       >
