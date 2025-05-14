@@ -10,6 +10,20 @@
     border: 1px solid var(--color-border-main);
   }
 
+  &.size-tiny {
+    height: 24px;
+    padding: 0 4px;
+    gap: 4px;
+
+    .icon {
+      font-size: 14px;
+    }
+
+    .text {
+      font-size: 12px;
+    }
+  }
+
   &.size-small {
     height: 28px;
     padding: 0 6px;

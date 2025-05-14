@@ -5,8 +5,8 @@ import { Icon } from "../Icon";
 
 export interface BtnProps {
   icon: string;
-  size: "size-small" | "size-medium" | "size-nav-btn";
-  mode?: "mode-outlined" | "mode-possitive-filled";
+  size: "size-tiny" | "size-small" | "size-medium" | "size-nav-btn";
+  mode?: "mode-outlined" | "mode-plain" | "mode-possitive-filled";
   className?: string;
   text?: string;
   deco?: string;

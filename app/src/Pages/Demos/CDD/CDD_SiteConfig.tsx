@@ -364,7 +364,7 @@ export const CDD_TopologyLayout: React.FC<CDD_BasicLayoutProps> = ({
           </main>
         }
         sidebar={{
-          title: "Topology Filter",
+          title: "Topology Visibility",
           content: <TreeExplorer data={Example_TreeNodeMaps.Math} useAs="layer-tree" />, // Sidebar with CheckBoxTree
         }}
       />

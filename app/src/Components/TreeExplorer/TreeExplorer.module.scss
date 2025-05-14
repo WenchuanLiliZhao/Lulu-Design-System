@@ -1,3 +1,49 @@
+.visibility-btn,
+.visibility-inherit-btn {
+  display: none;
+}
+
+.invisible .visibility-btn {
+  display: block;
+}
+
+.node:hover {
+  .visibility-btn {
+    display: block;
+  }
+  .visibility-inherit-btn {
+    display: none;
+  }
+}
+
+.father-invisible {
+  .visibility-btn {
+    display: none;
+  }
+
+  .visibility-inherit-btn {
+    display: block;
+  }
+
+  .invisible > .node {
+    .visibility-btn {
+      display: block;
+    }
+
+    .visibility-inherit-btn {
+      display: none;
+    }
+  }
+}
+
+.invisible {
+  opacity: 0.48;
+
+  .invisible {
+    opacity: 1;
+  }
+}
+
 .tree-node {
   display: block;
 
@@ -14,6 +60,8 @@
     justify-content: flex-start;
     width: 100%;
 
+    cursor: pointer;
+
     align-items: center;
     font-size: var(--font-size);
     line-height: var(--line-height);
@@ -24,17 +72,23 @@
     overflow: hidden;
     border-radius: 4px;
 
-    &[class~="active"] {
-      background-color: var(--color-bg-sec-2);
+    &:hover {
+      background-color: var(--color-bg-sec-trans);
+
       &::before {
         content: "";
         display: block;
         position: absolute;
-        left: 0;
-        width: 3px;
-        height: 16px;
+        right: 0;
+        top: 0%;
+        width: 2px;
+        height: 100%;
         background-color: var(--color-semantic-active);
       }
+    }
+
+    &[class~="active"] {
+      background-color: var(--color-bg-sec-2);
     }
 
     .level-marker {
@@ -54,7 +108,7 @@
       align-items: center;
       // margin-right: 4px;
       color: var(--color-sec-trans);
-      
+
       .node-clopener-icon {
         flex: 0 0 100%;
         font-size: 20px;
@@ -69,19 +123,30 @@
       }
     }
 
-    .node-title {
-      overflow: hidden;
-      text-overflow: ellipsis;
-      display: -webkit-box;
-      -webkit-line-clamp: 1;
-      line-clamp: 1;
-      -webkit-box-orient: vertical;
+    .node-content {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      width: 100%;
 
-      .page-icon {
-        margin-right: 4px;
-        font-size: calc(var(--font-size) * 1.2);
-        vertical-align: text-bottom;
-        color: var(--color-sec);
+      .node-title {
+        overflow: hidden;
+        text-overflow: ellipsis;
+        display: -webkit-box;
+        -webkit-line-clamp: 1;
+        line-clamp: 1;
+        -webkit-box-orient: vertical;
+
+        .page-icon {
+          margin-right: 4px;
+          font-size: calc(var(--font-size) * 1.2);
+          vertical-align: text-bottom;
+          color: var(--color-sec);
+        }
+      }
+
+      .node-controls {
+        flex-grow: 0;
       }
     }
   }
