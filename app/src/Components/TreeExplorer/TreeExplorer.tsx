@@ -62,11 +62,25 @@
 // 导入必要的 React 钩子和组件
 import React, { useState, useEffect } from "react";
 import styles from "./TreeExplorer.module.scss";
-import { TreeNodesType } from "../../ObjectShapes/TreeNodeShape";
 import { Icon } from "../Icon";
 import { HoverBox } from "../SmallElements/HoverBox";
-import { PageIcon } from "../../ObjectShapes/PageShape";
+import { PageIcon, PageShape } from "../../ObjectShapes/PageShape";
 import { Btn } from "../SmallElements/Btn";
+
+
+// interface NodeShape {
+//   id: string; // Unique identifier for the node
+//   // 节点的唯一标识符
+//   name: string; // Name of the node
+//   // 节点的名称
+//   children: NodeShape[]; // Array of child nodes
+//   // 节点的子节点数组
+// }
+
+interface TreeNodesType {
+  page: PageShape; // The PageType object associated with this node
+  children: TreeNodesType[]; // Array of child nodes
+}
 
 // Define the props for the TreeExplorer component
 // 定义 TreeExplorer 组件的属性接口
