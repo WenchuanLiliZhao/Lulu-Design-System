@@ -216,8 +216,8 @@ const TreeNodeComponent: React.FC<{
           </div>
         </div>
       </div>
-      {/* Recursively render child nodes if the current node is expanded */}
-      {/* 如果当前节点已展开，则递归渲染子节点 */}
+      {/* Recursively render child nodes if the current node has child nodes */}
+      {/* 如果当前节点含有子节点，则递归渲染子节点 */}
       {node.children.length > 0 && (
         <div
           className={`${styles["node-children"]} ${
