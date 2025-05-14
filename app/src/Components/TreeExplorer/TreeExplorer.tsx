@@ -67,16 +67,6 @@ import { HoverBox } from "../SmallElements/HoverBox";
 import { PageIcon, PageShape } from "../../ObjectShapes/PageShape";
 import { Btn } from "../SmallElements/Btn";
 
-
-// interface NodeShape {
-//   id: string; // Unique identifier for the node
-//   // 节点的唯一标识符
-//   name: string; // Name of the node
-//   // 节点的名称
-//   children: NodeShape[]; // Array of child nodes
-//   // 节点的子节点数组
-// }
-
 export interface TreeNodesType {
   page: PageShape; // The PageType object associated with this node
   children: TreeNodesType[]; // Array of child nodes
