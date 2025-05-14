@@ -38,7 +38,8 @@ const TreeNodeComponent: React.FC<{
   node: TreeNodesType;
   expand: boolean;
   level: number;
-}> = ({ node, expand, level }) => {
+  useAs: "page-tree" | "layer-tree";
+}> = ({ node, expand, level, useAs }) => {
   const [isExpanded, setIsExpanded] = useState<boolean>(expand);
 
   // Toggle the expanded state of the current node
@@ -57,8 +58,12 @@ const TreeNodeComponent: React.FC<{
     <div className={`${styles["tree-node"]}`}>
       <div
         className={styles["node"]}
-        onClick={toggleExpand} // Toggle expand state on click
-        // 点击时切换展开状态
+        onClick={() => {
+          if (useAs === "page-tree") {
+            toggleExpand(); // Only toggle if useAs is "page-tree"
+            // 仅在 useAs 为 "page-tree" 时切换
+          }
+        }}
       >
         {/* Render level markers to visually indicate the depth of the node */}
         {/* 渲染层级标记以直观显示节点的深度 */}
@@ -73,7 +78,7 @@ const TreeNodeComponent: React.FC<{
         {/* Render a button to toggle the expanded/collapsed state of the node */}
         {/* 渲染一个按钮用于切换节点的展开/折叠状态 */}
         {node.children.length > 0 ? (
-          <div className={styles["node-clopener"]}>
+          <div className={styles["node-clopener"]} onClick={toggleExpand}>
             <Icon
               className={`${styles["node-clopener-icon"]} ${
                 isExpanded ? styles["expanded"] : ""
@@ -107,7 +112,7 @@ const TreeNodeComponent: React.FC<{
               node={child}
               expand={expand}
               level={level + 1} // Increment the level for child nodes
-              // 为子节点增加层级
+              useAs={useAs}              // 为子节点增加层级
             />
           ))}
         </div>
@@ -118,6 +123,7 @@ const TreeNodeComponent: React.FC<{
 
 export const TreeExplorer: React.FC<TreeExplorerProps> = ({
   data,
+  useAs,
   expand = true,
 }) => {
   return (
@@ -131,7 +137,7 @@ export const TreeExplorer: React.FC<TreeExplorerProps> = ({
             node={node}
             expand={expand}
             level={0} // Root nodes start at level 0
-            // 根节点从层级 0 开始
+            useAs={useAs}            // 根节点从层级 0 开始
           />
         ))}
       </div>
