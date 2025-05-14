@@ -1,16 +1,36 @@
+/*
+  note 1: This is a component with subtle interaction design, primarily used to display a hierarchical tree structure. Therefore, please carefully read the interaction notes and test it in the demo.
+
+  note 2: In the CDD project, the code for the data explorer on the data dictionary page and the filters on the knowledge graph (topology) page both use this implementation.
+  
+  note 1: 这是一个在交互设计上较为微妙的组件，主要用于展示分层的树形结构。因此，请格外小心阅读交互注释，并在 demo 中进行测试。
+  
+  note 2: 在 CDD 项目中，data dictionary 页面中的 data explorer 和 knowledge graph（拓扑图）页面中的筛选器所使用的代码都是这一套。
+*/
+
 /* 
 ## Component Overview
-- The `TreeExplorer` component is a React component designed to render a hierarchical tree structure. It displays nodes with expandable/collapsible functionality.
-- The `TreeNodeComponent` is a subcomponent responsible for rendering individual tree nodes, including their children recursively.
+- `TreeExplorer` is a React component used to render a hierarchical tree structure. It supports node expansion and collapse functionality.
+- `TreeNodeComponent` is a subcomponent responsible for rendering individual tree nodes, including recursively rendering their child nodes.
 - The component includes "Expand All" and "Collapse All" controls to manage the global expand/collapse state.
 
 ### Functional Distinction
 - `useAs: "page-tree"`: Similar to VSCode's Explorer, primarily used to display the page structure, supporting node expansion and collapse.
 - `useAs: "layer-tree"`: Similar to Figma's Layers, primarily used to display the layer structure, supporting node visibility toggling.
 
+#### Visibility Interaction in Layer Tree
+
+- In the Layer Tree, the visibility of a node is toggled by clicking on the node.
+- For example, if `nodeA` is a node, clicking on `nodeA` toggles the visibility of the subtree it belongs to. Any child node `nodeB` within `nodeA` will inherit the visibility state of `nodeA`. However, `nodeB` can still be individually toggled for its own visibility. This way, when `nodeA` is toggled visible again, the visibility state of `nodeB` is preserved. (This is Figma's solution, which I adopted here.)
+
+#### Subtle Differences in Expand/Collapse Interaction Between Page Tree and Layer Tree
+
+- In the Page Tree, nodes are toggled for expansion/collapse by clicking on the node itself, similar to most blog and file manager tree structures.
+- In the Layer Tree, since the node itself is not a link, expansion/collapse is toggled by clicking the arrow icon on the left side of the node. Clicking the node itself does not trigger expansion/collapse but is used to toggle the node's visibility.
+
 ### Key Implementation Challenges
-- Managing the state of expanded/collapsed nodes using React's `useState` hook.
-- Synchronizing the global expand/collapse state with individual nodes.
+- Managing the expanded/collapsed state of nodes using React's `useState` hook.
+- Synchronizing the global expand/collapse state with individual node states.
 - Implementing recursive rendering for nested child nodes while maintaining performance and avoiding excessive re-renders.
 
 ## 组件功能概览
@@ -21,6 +41,16 @@
 ### 功能区分
 - `useAs: "page-tree"`：类似于 VSCode 的 Explorer，主要用于展示页面结构，支持节点的展开和折叠。
 - `useAs: "layer-tree"`：类似于 Figma 的 Layers，主要用于展示图层结构，支持节点的可见性切换。
+
+#### 关于 Layer Tree 中的可见性交互
+
+- 在 Layer Tree 中，节点的可见性是通过点击节点来切换的。
+- 假设 `nodeA` 为一个节点，点击 `nodeA` 时，该节点所在的 subtree 会切换可见性。`nodeA` 中的任何子节点 `nodeB` 也会继承 `nodeA` 的可见性状态，但是，依然可以单独点击 `nodeB` 来切换其自身的可见性；这样，当 `nodeA` 重新被切换为可见时，`nodeB` 的可见性状态会被保留。（这是 Figma 的解决方案，我在这里采用了。）
+
+#### 关于 Page Tree 与 Layer Tree 中的展开/折叠交互的细微不同
+
+- 在 Page Tree 中，节点的展开/折叠是通过点击节点来切换的，这就如同大多数博客和文件管理器的树形结构一样。
+- 考虑到，在 Layer Tree 中，节点本身并不是一个链接，因此，节点的展开/折叠是通过点击节点左侧的箭头图标来切换的。点击节点本身不会触发展开/折叠操作，而是用于切换节点的可见性。
 
 ### 主要实现难点
 - 使用 React 的 `useState` 钩子管理节点的展开/折叠状态。
