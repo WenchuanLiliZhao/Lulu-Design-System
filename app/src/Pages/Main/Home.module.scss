@@ -1,0 +1,45 @@
+.home-list-container {
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+
+  .home-list {
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+
+    .title {
+      font-size: 2rem;
+      font-weight: bold;
+    }
+
+    .item {
+      display: block;
+
+      &:hover {
+        text-decoration: underline;
+      }
+    }
+  }
+
+  .links {
+    padding-top: 1rem;
+    border-top: 1px solid var(--color-border-main);
+
+    display: flex;
+    justify-content: space-between;
+    gap: 2rem;
+    color: var(--color-sec);
+    font-size: 14px;
+    line-height: 1.5;
+
+    a {
+      &:hover {
+        text-decoration: underline;
+      }
+    }
+  }
+}

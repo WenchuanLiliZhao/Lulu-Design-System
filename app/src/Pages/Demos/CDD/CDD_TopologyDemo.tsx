@@ -1,3 +1,5 @@
+import { ChatBotBtn } from "../../../Components/ChatBotBtn";
+import { PageContentPlaceholder } from "../../../Components/Placeholders/PageContentPlacehoder";
 import { PageShape } from "../../../ObjectShapes/PageShape";
 import { CDD_TopologyLayout } from "./CDD_SiteConfig";
 
@@ -10,10 +12,16 @@ const CDD_TopologyDemo: PageShape = {
   },
   content: (
     <CDD_TopologyLayout>
-      <div style={{ padding: "20px" }}>
-        <h1>CDD Demo Page</h1>
-        <p>This is a demo page to showcase the CheckBoxTree component.</p>
-      </div>
+      <PageContentPlaceholder
+        image={
+          "https://doodleipsum.com/700/flat?i=44d36a6bbb40c8e2a834a10502d46afc"
+        }
+        title={"A Demo for the Sidebar of Knowledge Topology"}
+        description={
+          "This is a component with subtle interaction design, primarily used to display a hierarchical tree structure. Therefore, please carefully read the interaction notes and test it in the demo."
+        }
+      />
+      <ChatBotBtn />
     </CDD_TopologyLayout>
   ),
 };
