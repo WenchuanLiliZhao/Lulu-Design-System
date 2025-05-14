@@ -89,14 +89,14 @@ export const SideMenu: React.FC<SideMenuProps> = ({ siteInfo, itemGroups }) => {
         ref={menuRef}
         className={`${styles["menu"]} ${isOpen ? styles["open"] : ""}`}
       >
-        <div className={styles["menu-header"]}>
+        <a href="/" className={styles["menu-header"]}>
           <Logo mode={"FullColorNoText"} className={styles["logo"]} />
           {/* Render the site logo */}
           {/* 渲染站点 Logo */}
           <div className={styles["text"]}>{siteInfo.title}</div>
           {/* Render the site title */}
           {/* 渲染站点标题 */}
-        </div>
+        </a>
 
         <div className={styles["menu-body"]}>
           {itemGroups.map((group, index) => (

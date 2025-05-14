@@ -25,7 +25,7 @@ import { FilterableDropdown } from "../../../Components/Dropdown/FilterableDropd
 import { TextSwitch } from "../../../Components/SmallElements/Switch";
 
 export const CDD_SiteInfo: SiteInfoType = {
-  title: "China Data Dictionary",
+  title: "China Data Discover",
   description: "v4.12.0",
   currentVersion: "v4.12.0",
   buildDate: new Date("2025-04-24"), // 构建时间
