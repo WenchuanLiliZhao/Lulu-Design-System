@@ -64,18 +64,35 @@ import React, { useState, useEffect } from "react";
 import styles from "./TreeExplorer.module.scss";
 import { Icon } from "../Icon";
 import { HoverBox } from "../SmallElements/HoverBox";
-import { PageIcon, PageShape } from "../../ObjectShapes/PageShape";
+import { PageIcon, PageShape, PageType } from "../../ObjectShapes/PageShape";
 import { Btn } from "../SmallElements/Btn";
 
-export interface TreeNodesType {
+export interface NodeShape {
+  id: string; // 对应原先的 slug
+  type: PageType; // 对应原先的 type
+  name: string; // 对应原先的 title
+  children: NodeShape[]; // 子节点数组
+}
+
+export interface TreeNodesShape {
   page: PageShape; // The PageType object associated with this node
-  children: TreeNodesType[]; // Array of child nodes
+  children: TreeNodesShape[]; // Array of child nodes
+}
+
+// eslint-disable-next-line react-refresh/only-export-components
+export function transformTreeNodes(nodes: TreeNodesShape[]): NodeShape[] {
+  return nodes.map((node) => ({
+    id: node.page.info.slug,
+    type: node.page.info.type,
+    name: node.page.info.title,
+    children: transformTreeNodes(node.children), // 递归转换子节点
+  }));
 }
 
 // Define the props for the TreeExplorer component
 // 定义 TreeExplorer 组件的属性接口
 interface TreeExplorerProps {
-  data: TreeNodesType[]; // The hierarchical data structure for the tree
+  data: NodeShape[]; // The hierarchical data structure for the tree
   expand?: boolean; // Whether the tree nodes should be expanded by default
   useAs: "page-tree" | "layer-tree"; // Specify the type of tree being used
   // 指定树的使用类型
@@ -84,7 +101,7 @@ interface TreeExplorerProps {
 // Define the TreeNodeComponent for rendering individual nodes
 // 定义 TreeNodeComponent 用于渲染单个节点
 const TreeNodeComponent: React.FC<{
-  node: TreeNodesType; // The data for the current node
+  node: NodeShape; // The data for the current node
   expand: boolean; // Whether the node should be expanded
   level: number; // The depth level of the node in the tree
   useAs: "page-tree" | "layer-tree"; // The type of tree being used
@@ -184,13 +201,13 @@ const TreeNodeComponent: React.FC<{
           <div className={styles["node-title"]}>
             {useAs === "page-tree" ? (
               <PageIcon
-                icon={node.page.info.type}
+                icon={node.type}
                 className={styles["page-icon"]}
               />
             ) : (
               <></>
             )}
-            {node.page.info.title}
+            {node.name}
           </div>
           <div className={styles["node-controls"]}>
             {useAs === "layer-tree" && <LayerVisibilityBtn />}

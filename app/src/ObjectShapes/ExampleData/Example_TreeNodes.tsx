@@ -1,7 +1,7 @@
-import { TreeNodesType } from "../../Components/TreeExplorer/TreeExplorer";
+import { TreeNodesShape } from "../../Components/TreeExplorer/TreeExplorer";
 
 
-const Math: TreeNodesType[] = [
+const Math: TreeNodesShape[] = [
   {
     page: {
       info: {

@@ -18,7 +18,7 @@ import { Menu } from "../../../Components/Dropdown/Menu";
 import { ReactNode } from "react";
 import { Footer } from "../../../Components/Layout/Footer";
 import { JiraLayout } from "../../../Components/Layout/JiraLayout";
-import { TreeExplorer } from "../../../Components/TreeExplorer/TreeExplorer";
+import { transformTreeNodes, TreeExplorer } from "../../../Components/TreeExplorer/TreeExplorer";
 import { Example_TreeNodeMaps } from "../../../ObjectShapes/ExampleData/Example_TreeNodes";
 import { MenuItem } from "../../../Components/Dropdown/MenuItem";
 import { FilterableDropdown } from "../../../Components/Dropdown/FilterableDropdown";
@@ -167,7 +167,7 @@ export const CDD_DataPageLayout: React.FC<CDD_BasicLayoutProps> = ({
         }
         sidebar={{
           title: "Data Dictionary",
-          content: <TreeExplorer data={Example_TreeNodeMaps.Math} useAs="page-tree" />,
+          content: <TreeExplorer data={transformTreeNodes(Example_TreeNodeMaps.Math)} useAs="page-tree" />,
           headerControls: [
             <Dropdown
               trigger={
@@ -365,7 +365,7 @@ export const CDD_TopologyLayout: React.FC<CDD_BasicLayoutProps> = ({
         }
         sidebar={{
           title: "Topology Layers",
-          content: <TreeExplorer data={Example_TreeNodeMaps.Math} useAs="layer-tree" />, // Sidebar with CheckBoxTree
+          content: <TreeExplorer data={transformTreeNodes(Example_TreeNodeMaps.Math)} useAs="layer-tree" />, // Sidebar with CheckBoxTree
         }}
       />
     </>
