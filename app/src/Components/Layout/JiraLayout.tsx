@@ -139,11 +139,15 @@ export const JiraLayout: React.FC<JiraLayoutProps> = ({
             {/* Render header controls for the sidebar */}
             {/* 渲染侧边栏的标题控件 */}
             <div className={`${styles["sidebar-header-controls"]}`}>
-              {sidebarHeaderControls.map((control, index) => (
-                <React.Fragment key={index}>{control}</React.Fragment>
-              ))}
+              {sidebarHeaderControls.length > 0 && (
+                <>
+                  {sidebarHeaderControls.map((control, index) => (
+                    <React.Fragment key={index}>{control}</React.Fragment>
+                  ))}
 
-              <BtnDivider size={"size-small"} />
+                  <BtnDivider size={"size-small"} />
+                </>
+              )}
 
               <Btn
                 icon={"side_navigation"}

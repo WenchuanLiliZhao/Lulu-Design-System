@@ -14,7 +14,7 @@ const CDD_TopologyDemo: PageShape = {
     <CDD_TopologyLayout>
       <PageContentPlaceholder
         image={
-          "https://doodleipsum.com/700/flat?i=44d36a6bbb40c8e2a834a10502d46afc"
+          "https://doodleipsum.com/700/flat?i=7d5ed3bc0c215d1359b2a63d03cf1540"
         }
         title={"A Demo for the Sidebar of Knowledge Topology"}
         description={
