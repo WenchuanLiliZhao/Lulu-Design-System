@@ -1,4 +1,5 @@
-import { TreeNodesType } from "../TreeNodeShape";
+import { TreeNodesType } from "../../Components/TreeExplorer/TreeExplorer";
+
 
 const Math: TreeNodesType[] = [
   {

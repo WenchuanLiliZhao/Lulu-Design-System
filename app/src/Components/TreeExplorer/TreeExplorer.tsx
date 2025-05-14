@@ -77,7 +77,7 @@ import { Btn } from "../SmallElements/Btn";
 //   // 节点的子节点数组
 // }
 
-interface TreeNodesType {
+export interface TreeNodesType {
   page: PageShape; // The PageType object associated with this node
   children: TreeNodesType[]; // Array of child nodes
 }
