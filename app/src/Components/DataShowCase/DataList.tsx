@@ -1,7 +1,7 @@
 import styles from "./DataList.module.scss";
 import { HoverBox } from "../SmallElements/HoverBox";
 import { FormattedDate } from "../../Functions/FormattedDate";
-import { PageIcon, PageShape } from "../../ObjectShapes/PageShape";
+import { IconByType, PageShape } from "../../ObjectShapes/PageShape";
 
 /* 
 ## Component Overview
@@ -71,7 +71,7 @@ export const DataList: React.FC<DataListProps> = ({ list, displayMode }) => {
               {/* Render an icon for the data item */}
               {/* 为数据项渲染一个图标 */}
               <span className={`${styles["marker"]} ${styles["icon"]}`}>
-                <PageIcon icon={dataElement.info.type} />
+                <IconByType icon={dataElement.info.type} />
               </span>
 
               {/* Render the title of the data item */}

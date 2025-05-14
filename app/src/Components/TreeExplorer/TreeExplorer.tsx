@@ -64,7 +64,7 @@ import React, { useState, useEffect } from "react";
 import styles from "./TreeExplorer.module.scss";
 import { Icon } from "../Icon";
 import { HoverBox } from "../SmallElements/HoverBox";
-import { PageIcon, PageShape, PageType } from "../../ObjectShapes/PageShape";
+import { IconByType, PageShape, PageType } from "../../ObjectShapes/PageShape";
 import { Btn } from "../SmallElements/Btn";
 
 export interface NodeShape {
@@ -182,7 +182,15 @@ const TreeNodeComponent: React.FC<{
         {/* Render a button to toggle the expanded/collapsed state of the node */}
         {/* 渲染一个按钮用于切换节点的展开/折叠状态 */}
         {node.children.length > 0 ? (
-          <div className={styles["node-clopener"]} onClick={toggleExpand}>
+          <div
+            className={styles["node-clopener"]}
+            onClick={() => {
+              if (useAs === "layer-tree") {
+                toggleExpand(); // Only toggle if useAs is "page-tree"
+                // 仅在 useAs 为 "page-tree" 时切换
+              }
+            }}
+          >
             <Icon
               className={`${styles["node-clopener-icon"]} ${
                 isExpanded ? styles["expanded"] : ""
@@ -200,10 +208,7 @@ const TreeNodeComponent: React.FC<{
         <div className={styles["node-content"]}>
           <div className={styles["node-title"]}>
             {useAs === "page-tree" ? (
-              <PageIcon
-                icon={node.type}
-                className={styles["page-icon"]}
-              />
+              <IconByType icon={node.type} className={styles["page-icon"]} />
             ) : (
               <></>
             )}

@@ -23,7 +23,7 @@ interface PageIconProps {
   className?: string
 }
 
-export const PageIcon: React.FC<PageIconProps> = ({ icon, className }) => {
+export const IconByType: React.FC<PageIconProps> = ({ icon, className }) => {
   switch (icon) {
     case "page":
       return <Icon icon="draft" className={className} />
