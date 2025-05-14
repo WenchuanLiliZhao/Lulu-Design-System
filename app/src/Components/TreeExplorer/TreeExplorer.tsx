@@ -30,6 +30,8 @@ import { PageIcon } from "../../ObjectShapes/PageShape";
 interface TreeExplorerProps {
   data: TreeNodesType[];
   expand?: boolean;
+  useAs: "page-tree" | "filter-tree"; // Specify the type of tree being used
+  // 指定树的使用类型
 }
 
 const TreeNodeComponent: React.FC<{

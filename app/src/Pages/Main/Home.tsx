@@ -1,5 +1,3 @@
-import { TreeExplorer } from "../../Components/TreeExplorer/TreeExplorer";
-import { Example_TreeNodeMaps } from "../../ObjectShapes/ExampleData/Example_TreeNodes";
 import { PageShape } from "../../ObjectShapes/PageShape";
 
 const Home: PageShape = {
@@ -13,7 +11,6 @@ const Home: PageShape = {
   content: (
     <>
       <h1>Hello World</h1>
-      <TreeExplorer data={Example_TreeNodeMaps.Math} />
     </>
   ),
 };
