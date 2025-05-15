@@ -126,9 +126,9 @@ const TreeNodeComponent: React.FC<{
     fatherInvisible: "father-invisible",
   };
 
-  const LayerVisibilityBtn: React.FC = () => {
+  const LayerVisibilityBtn: React.FC<{onClick: () => void;}> = ({onClick}) => {
     return (
-      <div onClick={toggleVisibility}>
+      <div onClick={onClick}>
         <Btn
           className={styles["visibility-btn"]}
           icon={isInvisible ? "visibility_off" : "visibility"}
@@ -212,7 +212,7 @@ const TreeNodeComponent: React.FC<{
             {node.name}
           </div>
           <div className={styles["node-controls"]}>
-            {useAs === "layer-tree" && <LayerVisibilityBtn />}
+            {useAs === "layer-tree" && <LayerVisibilityBtn onClick={toggleVisibility} />}
           </div>
         </div>
       </div>
