@@ -1,3 +1,5 @@
+
+import { ChatBotBtn } from "../../../Components/ChatBotBtn";
 import { NodeList } from "../../../Components/Tree/NodeList";
 import { mergeTagsOfTreeNodes, transformTreeNodes } from "../../../Components/Tree/TreeExplorer";
 import { Example_TreeNodeMaps } from "../../../ObjectShapes/ExampleData/Example_TreeNodes";
@@ -14,6 +16,7 @@ const CDD_TopologyDemo: PageShape = {
   content: (
     <CDD_TopologyLayout>
       <NodeList tree={mergeTagsOfTreeNodes(transformTreeNodes(Example_TreeNodeMaps.Math))} />
+      <ChatBotBtn />
     </CDD_TopologyLayout>
   ),
 };
