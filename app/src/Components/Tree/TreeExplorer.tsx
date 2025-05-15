@@ -77,17 +77,45 @@ export interface NodeShape {
   name: string; // 对应原先的 title
   type: PageType; // 对应原先的 type
   children: NodeShape[]; // 子节点数组
+  level?: number; // 节点的层级
+  tags?: string[]; // 节点的标签
 }
 
 // eslint-disable-next-line react-refresh/only-export-components
-export function transformTreeNodes(nodes: TreeNodesShape[], level: number = 0): NodeShape[] {
+export function transformTreeNodes(
+  nodes: TreeNodesShape[],
+  level: number = 0
+): NodeShape[] {
   return nodes.map((node) => ({
     id: node.page.info.slug,
     type: node.page.info.type,
     name: node.page.info.title,
     level,
+    tags: node.page.info.tags,
     children: transformTreeNodes(node.children, level + 1), // 递归并传递层级
   }));
+}
+
+// eslint-disable-next-line react-refresh/only-export-components
+export function mergeTagsOfTreeNodes(
+  nodes: NodeShape[],
+  parentTags: string[] = []
+): NodeShape[] {
+  return nodes.map((node) => {
+    // 合并父节点的 tags 和当前节点的 tags
+    const mergedTags = [
+      ...new Set([...(parentTags || []), ...(node.tags || [])]),
+    ];
+
+    // 递归处理子节点
+    const transformedChildren = mergeTagsOfTreeNodes(node.children, mergedTags);
+
+    return {
+      ...node,
+      tags: mergedTags,
+      children: transformedChildren,
+    };
+  });
 }
 
 // Define the props for the TreeExplorer component
@@ -118,15 +146,25 @@ const TreeNodeComponent: React.FC<{
 
   // Toggle the visibility of the current node and its children
   // 切换当前节点及其子节点的可见性
-  const toggleVisibility = (
-    target: string = node.id,
-  ) => {
-    if (isInvisible) {
-      console.log(target, "is expanded");
-    } else {
-      console.log(target, "is collapsed");
-    }
+  const toggleVisibility = (target: string = node.id) => {
+    // Find all elements with class names containing the node ID
+    const elements = document.querySelectorAll(`[class*="${target}"]`);
+
+    elements.forEach((element) => {
+      if (isInvisible) {
+        // Remove the 'display: none' style if the node is currently invisible
+        (element as HTMLElement).style.display = "";
+      } else {
+        // Add the 'display: none' style if the node is currently visible
+        (element as HTMLElement).style.display = "none";
+      }
+    });
+
+    // Toggle the visibility state
     setIsInvisible((prev) => !prev);
+
+    // Log the visibility state change
+    console.log(target, isInvisible ? "is expanded" : "is collapsed");
   };
 
   const LayerVisibility = {
@@ -134,7 +172,9 @@ const TreeNodeComponent: React.FC<{
     fatherInvisible: "father-invisible",
   };
 
-  const LayerVisibilityBtn: React.FC<{onClick: (target?: string) => void;}> = ({onClick}) => {
+  const LayerVisibilityBtn: React.FC<{
+    onClick: (target?: string) => void;
+  }> = ({ onClick }) => {
     return (
       <div onClick={() => onClick()}>
         <Btn
@@ -220,7 +260,9 @@ const TreeNodeComponent: React.FC<{
             {node.name}
           </div>
           <div className={styles["node-controls"]}>
-            {useAs === "layer-tree" && <LayerVisibilityBtn onClick={toggleVisibility} />}
+            {useAs === "layer-tree" && (
+              <LayerVisibilityBtn onClick={toggleVisibility} />
+            )}
           </div>
         </div>
       </div>
@@ -231,7 +273,7 @@ const TreeNodeComponent: React.FC<{
           className={`${styles["node-children"]} ${
             isInvisible ? styles[LayerVisibility.fatherInvisible] : ""
           }`}
-          style={{display: `${isExpanded ? "block" : "none"}`}} // Only show children if the node is expanded
+          style={{ display: `${isExpanded ? "block" : "none"}` }} // Only show children if the node is expanded
         >
           {node.children.map((child, index) => (
             <TreeNodeComponent

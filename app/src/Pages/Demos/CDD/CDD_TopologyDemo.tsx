@@ -1,5 +1,6 @@
-import { ChatBotBtn } from "../../../Components/ChatBotBtn";
-import { PageContentPlaceholder } from "../../../Components/Placeholders/PageContentPlacehoder";
+import { NodeList } from "../../../Components/Tree/NodeList";
+import { mergeTagsOfTreeNodes, transformTreeNodes } from "../../../Components/Tree/TreeExplorer";
+import { Example_TreeNodeMaps } from "../../../ObjectShapes/ExampleData/Example_TreeNodes";
 import { PageShape } from "../../../ObjectShapes/PageShape";
 import { CDD_TopologyLayout } from "./CDD_SiteConfig";
 
@@ -12,16 +13,7 @@ const CDD_TopologyDemo: PageShape = {
   },
   content: (
     <CDD_TopologyLayout>
-      <PageContentPlaceholder
-        image={
-          "https://doodleipsum.com/700/flat?i=7d5ed3bc0c215d1359b2a63d03cf1540"
-        }
-        title={"A Demo for the Sidebar of Knowledge Topology"}
-        description={
-          "This is a component with subtle interaction design, primarily used to display a hierarchical tree structure. Therefore, please carefully read the interaction notes and test it in the demo."
-        }
-      />
-      <ChatBotBtn />
+      <NodeList tree={mergeTagsOfTreeNodes(transformTreeNodes(Example_TreeNodeMaps.Math))} />
     </CDD_TopologyLayout>
   ),
 };
