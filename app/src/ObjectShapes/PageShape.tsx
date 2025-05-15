@@ -1,7 +1,7 @@
 import { ReactNode } from "react"
 import { Icon } from "../Components/Icon"
 
-export type PageType = "page" | "database" | "dataset" | "chart" | "key" | "dashboard" | "report"
+export type PageType = "page" | "database" | "dataset" | "chart" | "key" | "dashboard" | "report" | "tag"
 
 
 export interface PageInfo {
@@ -10,7 +10,7 @@ export interface PageInfo {
   title_display?: string | undefined
   date: Date
   type: PageType
-  
+  tags?: string[]
 }
 
 export interface PageShape {

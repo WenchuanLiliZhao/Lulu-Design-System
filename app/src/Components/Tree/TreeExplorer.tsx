@@ -67,25 +67,26 @@ import { HoverBox } from "../SmallElements/HoverBox";
 import { IconByType, PageShape, PageType } from "../../ObjectShapes/PageShape";
 import { Btn } from "../SmallElements/Btn";
 
-export interface NodeShape {
-  id: string; // 对应原先的 slug
-  type: PageType; // 对应原先的 type
-  name: string; // 对应原先的 title
-  children: NodeShape[]; // 子节点数组
-}
-
 export interface TreeNodesShape {
   page: PageShape; // The PageType object associated with this node
   children: TreeNodesShape[]; // Array of child nodes
 }
 
+export interface NodeShape {
+  id: string; // 对应原先的 slug
+  name: string; // 对应原先的 title
+  type: PageType; // 对应原先的 type
+  children: NodeShape[]; // 子节点数组
+}
+
 // eslint-disable-next-line react-refresh/only-export-components
-export function transformTreeNodes(nodes: TreeNodesShape[]): NodeShape[] {
+export function transformTreeNodes(nodes: TreeNodesShape[], level: number = 0): NodeShape[] {
   return nodes.map((node) => ({
     id: node.page.info.slug,
     type: node.page.info.type,
     name: node.page.info.title,
-    children: transformTreeNodes(node.children), // 递归转换子节点
+    level,
+    children: transformTreeNodes(node.children, level + 1), // 递归并传递层级
   }));
 }
 
@@ -117,7 +118,14 @@ const TreeNodeComponent: React.FC<{
 
   // Toggle the visibility of the current node and its children
   // 切换当前节点及其子节点的可见性
-  const toggleVisibility = () => {
+  const toggleVisibility = (
+    target: string = node.id,
+  ) => {
+    if (isInvisible) {
+      console.log(target, "is expanded");
+    } else {
+      console.log(target, "is collapsed");
+    }
     setIsInvisible((prev) => !prev);
   };
 
@@ -126,9 +134,9 @@ const TreeNodeComponent: React.FC<{
     fatherInvisible: "father-invisible",
   };
 
-  const LayerVisibilityBtn: React.FC<{onClick: () => void;}> = ({onClick}) => {
+  const LayerVisibilityBtn: React.FC<{onClick: (target?: string) => void;}> = ({onClick}) => {
     return (
-      <div onClick={onClick}>
+      <div onClick={() => onClick()}>
         <Btn
           className={styles["visibility-btn"]}
           icon={isInvisible ? "visibility_off" : "visibility"}

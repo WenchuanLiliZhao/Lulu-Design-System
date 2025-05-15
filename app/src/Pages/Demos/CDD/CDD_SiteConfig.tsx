@@ -18,11 +18,12 @@ import { Menu } from "../../../Components/Dropdown/Menu";
 import { ReactNode } from "react";
 import { Footer } from "../../../Components/Layout/Footer";
 import { JiraLayout } from "../../../Components/Layout/JiraLayout";
-import { transformTreeNodes, TreeExplorer } from "../../../Components/TreeExplorer/TreeExplorer";
+import { transformTreeNodes, TreeExplorer } from "../../../Components/Tree/TreeExplorer";
 import { Example_TreeNodeMaps } from "../../../ObjectShapes/ExampleData/Example_TreeNodes";
 import { MenuItem } from "../../../Components/Dropdown/MenuItem";
 import { FilterableDropdown } from "../../../Components/Dropdown/FilterableDropdown";
 import { TextSwitch } from "../../../Components/SmallElements/Switch";
+import { Example_TopologyTagTrees } from "../../../ObjectShapes/ExampleData/Example_TopologyTagTrees";
 
 export const CDD_SiteInfo: SiteInfoType = {
   title: "China Data Discover",
@@ -365,7 +366,7 @@ export const CDD_TopologyLayout: React.FC<CDD_BasicLayoutProps> = ({
         }
         sidebar={{
           title: "Topology Layers",
-          content: <TreeExplorer data={transformTreeNodes(Example_TreeNodeMaps.Math)} useAs="layer-tree" />, // Sidebar with CheckBoxTree
+          content: <TreeExplorer data={Example_TopologyTagTrees.Math} useAs="layer-tree" />, // Sidebar with CheckBoxTree
         }}
       />
     </>
