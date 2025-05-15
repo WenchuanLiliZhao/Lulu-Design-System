@@ -66,6 +66,7 @@ import { Icon } from "../Icon";
 import { HoverBox } from "../SmallElements/HoverBox";
 import { IconByType, PageShape, PageType } from "../../ObjectShapes/PageShape";
 import { Btn } from "../SmallElements/Btn";
+import { NodeTagPrefix } from "./NodeList";
 
 export interface TreeNodesShape {
   page: PageShape; // The PageType object associated with this node
@@ -148,7 +149,7 @@ const TreeNodeComponent: React.FC<{
   // 切换当前节点及其子节点的可见性
   const toggleVisibility = (target: string = node.id) => {
     // Find all elements with class names containing the node ID
-    const elements = document.querySelectorAll(`[class*="${target}"]`);
+    const elements = document.querySelectorAll(`[class*="${NodeTagPrefix}-${target}"]`);
 
     elements.forEach((element) => {
       if (isInvisible) {

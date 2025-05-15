@@ -2,12 +2,14 @@ import stypes from "./NodeList.module.scss";
 import React from "react";
 import { NodeShape } from "./TreeExplorer";
 
+export const NodeTagPrefix = "node-tag-";
+
 export const NodeList: React.FC<{ tree: NodeShape[] }> = ({ tree }) => {
   return (
     <>
       {tree.map((node) => {
         const tags = node.tags
-          ? node.tags.map((tag) => `${tag}`).join(", ")
+          ? node.tags.map((tag) => `${NodeTagPrefix}-${tag}`).join(", ")
           : "";
 
         const level = node.level ? node.level : 0;
