@@ -27,12 +27,12 @@
             "state": {
               "type": "markdown",
               "state": {
-                "file": "jira-notes/README.md",
+                "file": "jira-notes/task-drafts/project-structure-suggestions.md",
                 "mode": "source",
                 "source": false
               },
               "icon": "lucide-file",
-              "title": "README"
+              "title": "project-structure-suggestions"
             }
           }
         ],
@@ -185,10 +185,12 @@
   },
   "active": "d81cf43f921b8afa",
   "lastOpenFiles": [
+    "jira-notes/README.md",
+    "jira-notes/task-drafts/project-structure-suggestions.md",
+    "jira-notes/task-drafts",
     "jira-notes/sprint-notes/sprint-18/new-in-sprint-18.md",
     "jira-notes/sprint-notes/sprint-18/on-TreeNodeComponent-in-spring-18.md",
     "prompts/Auto-update File Annotation Paths Prompt.md",
-    "jira-notes/README.md",
     "jira-notes/sprint-notes/sprint-17/UI-UX guidance (Sprint 18).md",
     "jira-notes/sprint-notes",
     "prompts/How to make a Dropdown.md",
