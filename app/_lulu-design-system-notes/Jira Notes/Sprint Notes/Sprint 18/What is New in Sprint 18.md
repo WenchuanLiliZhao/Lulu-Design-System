@@ -1,5 +1,11 @@
 # Sprint 19 更新列表
 
+关于 sidebar filter UX（也就是隐藏/开启拓扑图节点的交互）的 demo 开发已经完成，为了保证各位能够更好地理解代码中的逻辑，我写了这篇笔记：
+
+- [On TreeNodeComponent in Spring 18](On%20TreeNodeComponent%20in%20Spring%2018.md)
+
+---
+
 ## 旧代码更新
 
 - **对象形状命名规则改变**：为了方便区分 type 以及对象形状，所有的 `interface` 类型的命名规则的尾缀从 `Type` 改为 `Shape`，例如：`PageType` 改为 `PageShape`，而原有的 `PageType` 则用来定义页面的 `type`（例如，database、dataset 等）。

@@ -1,4 +1,4 @@
-# UI/UX guidance (Sprint 18)
+# UI/UX guidance (Sprint 17)
 
 ## 综述
 
