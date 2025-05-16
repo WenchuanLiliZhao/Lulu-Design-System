@@ -35,7 +35,7 @@ const Home: PageShape = {
       <div className={styles["links"]}>
         <a href="https://github.com/WenchuanLiliZhao/Lulu-Design-System/tree/main/app">View GitHub repository</a>
         <a href="https://lulu-design-system.netlify.app/">View online demo</a>
-        <a href="https://lululemon.atlassian.net/jira/software/c/projects/CNTD/boards/4915/timeline?assignee=712020%3A3bcf1c5c-5891-4960-9926-f1344eed0e04">Jira epics</a>
+        <a href="https://github.com/WenchuanLiliZhao/Lulu-Design-System/tree/main/app/_lulu-design-system-notes/Jira%20Notes">Jira notes</a>
       </div>
     </div>
   ),

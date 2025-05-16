@@ -27,12 +27,12 @@
             "state": {
               "type": "markdown",
               "state": {
-                "file": "Jira Notes/README.md.md",
+                "file": "Jira Notes/README.md",
                 "mode": "source",
                 "source": false
               },
               "icon": "lucide-file",
-              "title": "README.md"
+              "title": "README"
             }
           }
         ],
@@ -183,10 +183,10 @@
       "command-palette:Open command palette": false
     }
   },
-  "active": "d81cf43f921b8afa",
+  "active": "545c547a4a6d3196",
   "lastOpenFiles": [
     "Jira Notes/Sprint Notes/Sprint 18/On TreeNodeComponent in Spring 18.md",
-    "Jira Notes/README.md.md",
+    "Jira Notes/README.md",
     "Jira Notes/Sprint Notes/Sprint 17/UI-UX guidance (Sprint 18).md",
     "Jira Notes/Sprint Notes",
     "Tutorials and AI requests/How to make a Dropdown.md",
