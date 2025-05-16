@@ -27,7 +27,7 @@
             "state": {
               "type": "markdown",
               "state": {
-                "file": "Jira Notes/README.md",
+                "file": "jira-notes/README.md",
                 "mode": "source",
                 "source": false
               },
@@ -183,28 +183,28 @@
       "command-palette:Open command palette": false
     }
   },
-  "active": "545c547a4a6d3196",
+  "active": "d81cf43f921b8afa",
   "lastOpenFiles": [
-    "Jira Notes/Sprint Notes/Sprint 18/On TreeNodeComponent in Spring 18.md",
-    "Jira Notes/README.md",
-    "Jira Notes/Sprint Notes/Sprint 17/UI-UX guidance (Sprint 18).md",
-    "Jira Notes/Sprint Notes",
-    "Tutorials and AI requests/How to make a Dropdown.md",
-    "Jira Notes/Sprint Notes/Sprint 18/What is New in Sprint 18.md",
-    "Tutorials and AI requests/comments-generator/Component Insight Generator.md",
-    "Tutorials and AI requests/comments-generator/Comment Generator.md",
-    "Tutorials and AI requests/comments-generator",
-    "Jira Notes/Sprint Notes/Sprint 18",
+    "jira-notes/sprint-notes/sprint-18/new-in-sprint-18.md",
+    "jira-notes/sprint-notes/sprint-18/on-TreeNodeComponent-in-spring-18.md",
+    "prompts/Auto-update File Annotation Paths Prompt.md",
+    "jira-notes/README.md",
+    "jira-notes/sprint-notes/sprint-17/UI-UX guidance (Sprint 18).md",
+    "jira-notes/sprint-notes",
+    "prompts/How to make a Dropdown.md",
+    "prompts/comments-generator/Component Insight Generator.md",
+    "prompts/comments-generator/Comment Generator.md",
+    "prompts/comments-generator",
+    "jira-notes/sprint-notes/sprint-18",
     "Tutorials and AI requests/Component Insight Generator.md",
     "Tutorials and AI requests/Comment Generator.md",
-    "Tutorials and AI requests/Auto-update File Annotation Paths Prompt.md",
     "Tutorials and AI requests/Auto-update File Annotation Paths Prompt (zh).md",
     "Tutorials and AI requests/Component Insight Generator (zh).md",
     "Tutorials and AI requests/(en) Auto-update File Annotation Paths Prompt copy.md",
     "Tutorials and AI requests/Untitled.md",
-    "Jira Notes/Sprint Notes/Sprint 17",
-    "Jira Notes",
+    "jira-notes/sprint-notes/sprint-17",
+    "jira-notes",
     "dropdown_tutorial_cn.md",
-    "Tutorials and AI requests"
+    "prompts"
   ]
 }

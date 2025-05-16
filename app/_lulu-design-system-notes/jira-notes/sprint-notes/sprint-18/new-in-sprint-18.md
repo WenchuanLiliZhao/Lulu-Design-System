@@ -2,7 +2,7 @@
 
 关于 sidebar filter UX（也就是隐藏/开启拓扑图节点的交互）的 demo 开发已经完成，为了保证各位能够更好地理解代码中的逻辑，我写了这篇笔记：
 
-- [On TreeNodeComponent in Spring 18](On%20TreeNodeComponent%20in%20Spring%2018.md)
+- [on-TreeNodeComponent-in-spring-18](on-TreeNodeComponent-in-spring-18.md)
 
 ---
 
