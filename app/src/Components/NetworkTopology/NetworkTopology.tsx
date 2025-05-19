@@ -21,6 +21,8 @@ where $s$ is the node size, $b$ is the `baseNodeSize`, $g$ is the `sizeFactor`, 
 
 const repulsionStrength = -100; // Controls the repulsion force between nodes. More negative values = stronger repulsion
 const velocityDecay = 0.2; // Controls how quickly nodes lose momentum (0-1). Lower values = nodes move/swim faster
+const minZoom = 0.1; // Minimum zoom scale - limits how far users can zoom out
+const maxZoom = 5; // Maximum zoom scale - limits how far users can zoom in
 
 export interface GraphNodeShape extends Omit<NodeShape, 'children'> {
   group?: number;
@@ -88,8 +90,54 @@ const NetworkTopology = ({
     const svg = d3.select(svgRef.current);
     const nodeRadius = 20;
     
+    // Create a container group for all graph elements
+    // This allows us to transform (zoom/pan) all elements together
+    const g = svg.append("g")
+      .attr("class", styles["graph-container"]);
+    
     // Use a valid color scheme from d3 v4
     const color = d3.scaleOrdinal(d3.schemeCategory10);
+    
+    /**
+     * ZOOM AND PAN FUNCTIONALITY
+     * 
+     * D3's zoom behavior handles both:
+     * 1. Mouse wheel zooming
+     * 2. Touch-based panning (e.g., two-finger drag on touch devices)
+     * 3. Mouse drag panning
+     * 
+     * Key components:
+     * - scaleExtent: Sets the minimum and maximum zoom levels
+     * - on("zoom"): Event handler applies transforms to the container group
+     * - The transform contains:
+     *   - x, y: The pan translation coordinates
+     *   - k: The zoom scale factor
+     */
+    const zoom = d3.zoom<SVGSVGElement, unknown>()
+      // Restrict zoom levels between minZoom and maxZoom
+      .scaleExtent([minZoom, maxZoom])
+      // When zoom or pan events occur, transform the container group
+      .on("zoom", (event) => {
+        // event.transform contains x, y (translation) and k (scale)
+        // Apply the transformation to the container group
+        g.attr("transform", event.transform);
+      });
+    
+    // Apply zoom behavior to the SVG element
+    // This enables the following interactions:
+    // - Mouse wheel: Zoom in/out
+    // - Mouse drag: Pan the visualization
+    // - Touch with two fingers: Pan the visualization
+    // - Pinch gesture: Zoom in/out
+    svg.call(zoom);
+    
+    // Add double-click handler to reset zoom level
+    // When users double-click, the visualization transitions back to the initial state
+    svg.on("dblclick.zoom", () => {
+      svg.transition()
+        .duration(750) // Animation duration in milliseconds
+        .call(zoom.transform, d3.zoomIdentity); // Reset to identity transform (no zoom, no pan)
+    });
 
     // Create the simulation
     const simulation = d3.forceSimulation<SimulationNode>()
@@ -104,7 +152,7 @@ const NetworkTopology = ({
       .velocityDecay(velocityDecay); // Apply velocity decay to control node movement speed
 
     // Create links
-    const link = svg.append("g")
+    const link = g.append("g")
       .attr("class", styles.links)
       .selectAll("line")
       .data(graphData.links)
@@ -112,7 +160,7 @@ const NetworkTopology = ({
       .attr("class", styles.link);
 
     // Create nodes
-    const node = svg.append("g")
+    const node = g.append("g")
       .attr("class", styles.nodes)
       .selectAll("circle")
       .data(graphData.nodes as SimulationNode[])
@@ -147,15 +195,14 @@ const NetworkTopology = ({
       .text(d => d.id);
 
     // Add labels
-    const labels = svg.append("g")
+    const labels = g.append("g")
       .attr("class", styles.labels)
       .selectAll("text")
       .data(graphData.nodes)
       .enter().append("text")
-      .attr("dx", 12)
-      .attr("dy", ".5em")
+      .attr("text-anchor", "middle") // Center the text horizontally
       .style("font-size", 13)
-      .text(d => d.id);
+      .text(d => d.name);
 
     // Set initial positions to prevent extreme layouts
     graphData.nodes.forEach((d, i) => {
@@ -190,10 +237,13 @@ const NetworkTopology = ({
         .attr("x2", d => (d.target as SimulationNode).x)
         .attr("y2", d => (d.target as SimulationNode).y);
 
-      // Update label positions
+      // Update label positions - position below node with 8px gap
       labels
         .attr("x", d => d.x || 0)
-        .attr("y", d => d.y || 0);
+        .attr("y", d => {
+          const nodeRadius = d.size * 2;
+          return (d.y || 0) + nodeRadius + 14; // Position below node with 8px gap
+        });
     }
 
     // Add resize handler
