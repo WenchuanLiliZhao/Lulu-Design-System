@@ -15,19 +15,38 @@ export function transformTreeToGraph(
 ): TopologyDataShape {
   const graphNodes: GraphNodeShape[] = [];
   const graphLinks: GraphLinkShape[] = [];
+  
+  // Keep track of level 1 node group assignment
+  let level1GroupCounter = 1;
+  // Map to store node id to group mapping
+  const nodeGroupMap = new Map<string, number>();
 
   // Function to process a node and its children recursively
   function processNode(node: NodeShape, parent?: string): void {
-    // Determine group - either use default, calculate from function, or derive from level
+    // Determine group based on level
     let group: number;
+    
     if (typeof defaultGroup === 'function') {
       group = defaultGroup(node);
     } else if (typeof defaultGroup === 'number') {
       group = defaultGroup;
     } else {
-      // Derive group from level or some other property
-      group = (node.level || 0) + 1;
+      const level = node.level || 0;
+      
+      if (level === 0) {
+        // Level 0 nodes get group 0
+        group = 0;
+      } else if (level === 1) {
+        // Level 1 nodes get sequential groups 1, 2, 3, ...
+        group = level1GroupCounter++;
+      } else {
+        // Deeper nodes inherit their parent's group
+        group = parent ? nodeGroupMap.get(parent) || 0 : 0;
+      }
     }
+    
+    // Store the node's group for its children to reference
+    nodeGroupMap.set(node.id, group);
 
     // Create graph node
     const graphNode: GraphNodeShape = {
