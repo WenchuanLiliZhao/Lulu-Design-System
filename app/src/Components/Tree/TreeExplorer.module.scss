@@ -1,3 +1,9 @@
+[class*="node-tag-"] {
+  &[class*="-hidden"] {
+    display: none;
+  }
+}
+
 .visibility-btn,
 .visibility-inherit-btn {
   display: none;

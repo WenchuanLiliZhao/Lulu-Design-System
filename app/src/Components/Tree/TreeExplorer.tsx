@@ -154,11 +154,9 @@ const TreeNodeComponent: React.FC<{
 
     elements.forEach((element) => {
       if (isInvisible) {
-        // Remove the 'display: none' style if the node is currently invisible
-        (element as HTMLElement).style.display = "";
+        (element as HTMLElement).classList.remove(`${NodeTagPrefix}-${target}-hidden`);
       } else {
-        // Add the 'display: none' style if the node is currently visible
-        (element as HTMLElement).style.display = "none";
+        (element as HTMLElement).classList.add(`${NodeTagPrefix}-${target}-hidden`);
       }
     });
 
