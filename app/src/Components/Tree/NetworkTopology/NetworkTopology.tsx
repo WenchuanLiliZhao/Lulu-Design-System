@@ -8,6 +8,7 @@ import { Example_TreeNodeMaps } from '../../../ObjectShapes/ExampleData/Example_
 import { transformTreeNodes } from '../TreeExplorer';
 import { NodeTagPrefix } from "../TreeExplorer";
 
+export const initialZoomLevel = 0.8;
 export const baseNodeSize = 10;
 export const sizeFactor = 2.4;
 export const sizePower = 1.1;
@@ -139,11 +140,36 @@ const NetworkTopology = ({
     // Apply zoom behavior to the SVG element
     svg.call(zoom);
     
+    // Set initial zoom level centered on the SVG
+    const svgWidth = svg.node()?.getBoundingClientRect().width || width;
+    const svgHeight = svg.node()?.getBoundingClientRect().height || height;
+    const centerX = svgWidth / 2;
+    const centerY = svgHeight / 2;
+    
+    // Use translate-scale-translate pattern to zoom from center
+    const initialTransform = d3.zoomIdentity
+      .translate(centerX, centerY)
+      .scale(initialZoomLevel)
+      .translate(-centerX, -centerY);
+      
+    svg.call(zoom.transform, initialTransform);
+    
     // Add double-click handler to reset zoom level
     svg.on("dblclick.zoom", () => {
+      // Recalculate center in case the SVG has been resized
+      const currentWidth = svg.node()?.getBoundingClientRect().width || width;
+      const currentHeight = svg.node()?.getBoundingClientRect().height || height;
+      const currentCenterX = currentWidth / 2;
+      const currentCenterY = currentHeight / 2;
+      
+      const resetTransform = d3.zoomIdentity
+        .translate(currentCenterX, currentCenterY)
+        .scale(initialZoomLevel)
+        .translate(-currentCenterX, -currentCenterY);
+        
       svg.transition()
         .duration(750) // Animation duration in milliseconds
-        .call(zoom.transform, d3.zoomIdentity); // Reset to identity transform
+        .call(zoom.transform, resetTransform); // Reset to initial zoom level centered
     });
 
     /****************************

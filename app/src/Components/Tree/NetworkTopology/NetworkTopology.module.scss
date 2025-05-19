@@ -12,10 +12,7 @@
     .node {
       cursor: pointer;
       
-      &:hover {
-        stroke: #555;
-        stroke-width: 2.5px;
-      }
+      // Hover stroke effect removed
     }
     
     .link {
