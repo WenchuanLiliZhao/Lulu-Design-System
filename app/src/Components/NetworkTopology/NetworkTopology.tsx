@@ -1,10 +1,12 @@
 import styles from './NetworkTopology.module.scss';
 import { useRef, useEffect } from 'react';
 import * as d3 from 'd3';
+import { NodeShape } from '../Tree/TreeExplorer';
+import { PageType } from '../../ObjectShapes/PageShape';
+import { transformTreeToGraph } from '../../Utils/TreeToGraphTransformer';
 
-interface GraphNodeShape {
-  id: string;
-  group: number;
+interface GraphNodeShape extends Omit<NodeShape, 'children'> {
+  group?: number;
   size: number;
   x?: number;
   y?: number;
@@ -13,6 +15,8 @@ interface GraphNodeShape {
   vx?: number;
   vy?: number;
   index?: number;
+  children?: GraphNodeShape[]; // Override children to be optional and of GraphNodeShape type
+  type: PageType; // Explicitly include the type to use PageType
 }
 
 interface GraphLinkShape {
@@ -38,6 +42,7 @@ interface NetworkTopologyProps {
   };
   width?: number;
   height?: number;
+  treeData?: NodeShape[]; // Add support for directly passing tree data
 }
 
 interface TopologyDataShape {
@@ -45,43 +50,42 @@ interface TopologyDataShape {
   links: GraphLinkShape[];
 }
 
-
 const defaultData: TopologyDataShape = {
   nodes: [
-    { id: "Machine Learning", group: 1, size: 6 },
-    { id: "Supervised Learning", group: 4, size: 4 },
-    { id: "Unsupervised Learning", group: 7, size: 4 },
-    { id: "Reinforcement Learning", group: 10, size: 4 },
-    { id: "Dimensionality Reduction", group: 15, size: 4 },
-    { id: "Ensemble Learning", group: 19, size: 4 },
-    { id: "Independent Component Analysis", group: 14, size: 2 },
-    { id: "Linear Discriminant Analysis", group: 14, size: 2 },
-    { id: "Principal Component Analysis", group: 14, size: 2 },
-    { id: "Factor Analysis", group: 14, size: 2 },
-    { id: "Feature Extraction", group: 14, size: 2 },
-    { id: "Feature Selection", group: 14, size: 2 },
-    { id: "Partial Least Squares Regression", group: 14, size: 2 },
-    { id: "AdaBoost", group: 18, size: 2 },
-    { id: "Boosting", group: 18, size: 2 },
-    { id: "Gradient Boosted Decision Tree", group: 18, size: 2 },
-    { id: "Gradient Boosting Machine", group: 18, size: 2 },
-    { id: "Q-learning", group: 10, size: 2 },
-    { id: "State–action–reward–state–action", group: 10, size: 2 },
-    { id: "Temporal Difference Learning", group: 10, size: 2 },
-    { id: "Learning Automata", group: 10, size: 2 },
-    { id: "Gaussian Process Regression", group: 3, size: 2 },
-    { id: "Artificial Neural Network", group: 3, size: 2 },
-    { id: "Logistic Model Tree", group: 3, size: 2 },
-    { id: "Support Vector Machines", group: 3, size: 2 },
-    { id: "Random Forests", group: 3, size: 2 },
-    { id: "k-Nearest Neighbor", group: 3, size: 2 },
-    { id: "Naive Bayes", group: 3, size: 2 },
-    { id: "Hidden Markov Models", group: 3, size: 2 },
-    { id: "K-means Algorithm", group: 6, size: 2 },
-    { id: "Mixture Models", group: 6, size: 2 },
-    { id: "Hierarchical Clustering", group: 6, size: 2 },
-    { id: "Neural Networks", group: 6, size: 2 },
-    { id: "Method of Moments", group: 6, size: 2 },
+    { id: "Machine Learning", name: "Machine Learning", type: "page", children: [], group: 1, size: 6 },
+    { id: "Supervised Learning", name: "Supervised Learning", type: "page", children: [], group: 4, size: 4 },
+    { id: "Unsupervised Learning", name: "Unsupervised Learning", type: "page", children: [], group: 7, size: 4 },
+    { id: "Reinforcement Learning", name: "Reinforcement Learning", type: "page", children: [], group: 10, size: 4 },
+    { id: "Dimensionality Reduction", name: "Dimensionality Reduction", type: "page", children: [], group: 15, size: 4 },
+    { id: "Ensemble Learning", name: "Ensemble Learning", type: "page", children: [], group: 19, size: 4 },
+    { id: "Independent Component Analysis", name: "Independent Component Analysis", type: "page", children: [], group: 14, size: 2 },
+    { id: "Linear Discriminant Analysis", name: "Linear Discriminant Analysis", type: "page", children: [], group: 14, size: 2 },
+    { id: "Principal Component Analysis", name: "Principal Component Analysis", type: "page", children: [], group: 14, size: 2 },
+    { id: "Factor Analysis", name: "Factor Analysis", type: "page", children: [], group: 14, size: 2 },
+    { id: "Feature Extraction", name: "Feature Extraction", type: "page", children: [], group: 14, size: 2 },
+    { id: "Feature Selection", name: "Feature Selection", type: "page", children: [], group: 14, size: 2 },
+    { id: "Partial Least Squares Regression", name: "Partial Least Squares Regression", type: "page", children: [], group: 14, size: 2 },
+    { id: "AdaBoost", name: "AdaBoost", type: "page", children: [], group: 18, size: 2 },
+    { id: "Boosting", name: "Boosting", type: "page", children: [], group: 18, size: 2 },
+    { id: "Gradient Boosted Decision Tree", name: "Gradient Boosted Decision Tree", type: "page", children: [], group: 18, size: 2 },
+    { id: "Gradient Boosting Machine", name: "Gradient Boosting Machine", type: "page", children: [], group: 18, size: 2 },
+    { id: "Q-learning", name: "Q-learning", type: "page", children: [], group: 10, size: 2 },
+    { id: "State–action–reward–state–action", name: "State–action–reward–state–action", type: "page", children: [], group: 10, size: 2 },
+    { id: "Temporal Difference Learning", name: "Temporal Difference Learning", type: "page", children: [], group: 10, size: 2 },
+    { id: "Learning Automata", name: "Learning Automata", type: "page", children: [], group: 10, size: 2 },
+    { id: "Gaussian Process Regression", name: "Gaussian Process Regression", type: "page", children: [], group: 3, size: 2 },
+    { id: "Artificial Neural Network", name: "Artificial Neural Network", type: "page", children: [], group: 3, size: 2 },
+    { id: "Logistic Model Tree", name: "Logistic Model Tree", type: "page", children: [], group: 3, size: 2 },
+    { id: "Support Vector Machines", name: "Support Vector Machines", type: "page", children: [], group: 3, size: 2 },
+    { id: "Random Forests", name: "Random Forests", type: "page", children: [], group: 3, size: 2 },
+    { id: "k-Nearest Neighbor", name: "k-Nearest Neighbor", type: "page", children: [], group: 3, size: 2 },
+    { id: "Naive Bayes", name: "Naive Bayes", type: "page", children: [], group: 3, size: 2 },
+    { id: "Hidden Markov Models", name: "Hidden Markov Models", type: "page", children: [], group: 3, size: 2 },
+    { id: "K-means Algorithm", name: "K-means Algorithm", type: "page", children: [], group: 6, size: 2 },
+    { id: "Mixture Models", name: "Mixture Models", type: "page", children: [], group: 6, size: 2 },
+    { id: "Hierarchical Clustering", name: "Hierarchical Clustering", type: "page", children: [], group: 6, size: 2 },
+    { id: "Neural Networks", name: "Neural Networks", type: "page", children: [], group: 6, size: 2 },
+    { id: "Method of Moments", name: "Method of Moments", type: "page", children: [], group: 6, size: 2 },
   ],
   links: [
     { source: "Machine Learning", target: "Supervised Learning" },
@@ -145,8 +149,16 @@ const defaultData: TopologyDataShape = {
   ],
 };
 
-const NetworkTopology = ({ data = defaultData, width = 800, height = 600 }: NetworkTopologyProps) => {
+const NetworkTopology = ({ 
+  data = defaultData, 
+  width = 800, 
+  height = 600, 
+  treeData 
+}: NetworkTopologyProps) => {
   const svgRef = useRef<SVGSVGElement>(null);
+  
+  // Convert tree data to graph data if provided
+  const graphData = treeData ? transformTreeToGraph(treeData) : data;
 
   useEffect(() => {
     if (!svgRef.current) return;
@@ -175,7 +187,7 @@ const NetworkTopology = ({ data = defaultData, width = 800, height = 600 }: Netw
     const link = svg.append("g")
       .attr("class", styles.links)
       .selectAll("line")
-      .data(data.links)
+      .data(graphData.links)
       .enter().append("line")
       .attr("class", styles.link);
 
@@ -183,11 +195,11 @@ const NetworkTopology = ({ data = defaultData, width = 800, height = 600 }: Netw
     const node = svg.append("g")
       .attr("class", styles.nodes)
       .selectAll("circle")
-      .data(data.nodes as SimulationNode[])
+      .data(graphData.nodes as SimulationNode[])
       .enter().append("circle")
       .attr("class", styles.node)
       .attr("r", d => d.size * 2)
-      .style("fill", d => color(d.group.toString()));
+      .style("fill", d => color(d.group?.toString() || ""));
 
     // Setup drag behavior for SVG circles
     const dragBehavior = d3.drag<SVGCircleElement, SimulationNode>()
@@ -218,7 +230,7 @@ const NetworkTopology = ({ data = defaultData, width = 800, height = 600 }: Netw
     const labels = svg.append("g")
       .attr("class", styles.labels)
       .selectAll("text")
-      .data(data.nodes)
+      .data(graphData.nodes)
       .enter().append("text")
       .attr("dx", 12)
       .attr("dy", ".5em")
@@ -226,15 +238,15 @@ const NetworkTopology = ({ data = defaultData, width = 800, height = 600 }: Netw
       .text(d => d.id);
 
     // Set initial positions to prevent extreme layouts
-    data.nodes.forEach((d, i) => {
-      const angle = (i / data.nodes.length) * 2 * Math.PI;
+    graphData.nodes.forEach((d, i) => {
+      const angle = (i / graphData.nodes.length) * 2 * Math.PI;
       const radius = Math.min(width, height) * 0.3;
       d.x = width / 2 + radius * Math.cos(angle);
       d.y = height / 2 + radius * Math.sin(angle);
     });
 
     // Set up simulation
-    simulation.nodes(data.nodes as SimulationNode[])
+    simulation.nodes(graphData.nodes as SimulationNode[])
       .on("tick", ticked)
       .alpha(1)
       .alphaDecay(0.02)
@@ -242,7 +254,7 @@ const NetworkTopology = ({ data = defaultData, width = 800, height = 600 }: Netw
 
     const linkForce = simulation.force("link") as d3.ForceLink<SimulationNode, SimulationLink>;
     if (linkForce) {
-      linkForce.links(data.links as SimulationLink[]);
+      linkForce.links(graphData.links as SimulationLink[]);
     }
 
     // Tick function without boundary constraints
@@ -290,7 +302,7 @@ const NetworkTopology = ({ data = defaultData, width = 800, height = 600 }: Netw
       resizeObserver.disconnect();
       simulation.stop();
     };
-  }, [data, width, height]);
+  }, [graphData, width, height]);
 
   return (
     <div className={styles["network-topology-container"]}>
