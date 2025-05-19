@@ -7,6 +7,8 @@ import { transformTreeToGraph } from '../../Utils/TreeToGraphTransformer';
 import { Example_TreeNodeMaps } from '../../ObjectShapes/ExampleData/Example_TreeNodes';
 import { transformTreeNodes } from '../Tree/TreeExplorer';
 
+export const baseNodeSize = 10;
+export const sizeFactor = 5.8;
 export interface GraphNodeShape extends Omit<NodeShape, 'children'> {
   group?: number;
   size: number;
@@ -17,6 +19,7 @@ export interface GraphNodeShape extends Omit<NodeShape, 'children'> {
   vx?: number;
   vy?: number;
   index?: number;
+  level: number;
   children?: GraphNodeShape[]; // Override children to be optional and of GraphNodeShape type
   type: PageType; // Explicitly include the type to use PageType
 }

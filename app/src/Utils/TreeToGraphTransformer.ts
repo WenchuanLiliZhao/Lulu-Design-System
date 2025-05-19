@@ -1,16 +1,14 @@
-import { GraphLinkShape, GraphNodeShape, TopologyDataShape } from "../Components/NetworkTopology/NetworkTopology";
+import { GraphLinkShape, GraphNodeShape, TopologyDataShape, baseNodeSize } from "../Components/NetworkTopology/NetworkTopology";
 import { NodeShape, TreeNodesShape } from "../Components/Tree/TreeExplorer";
 
 /**
  * Transforms a NodeShape array into a graph structure suitable for NetworkTopology
  * @param nodes - The NodeShape array to transform
- * @param defaultSize - Default size for nodes
  * @param defaultGroup - Default group for nodes, or a function to determine group based on node
  * @returns A TopologyDataShape with nodes and links
  */
 export function transformTreeToGraph(
   nodes: NodeShape[],
-  defaultSize: number = 4,
   defaultGroup?: number | ((node: NodeShape) => number)
 ): TopologyDataShape {
   const graphNodes: GraphNodeShape[] = [];
@@ -54,7 +52,8 @@ export function transformTreeToGraph(
       name: node.name,
       type: node.type,
       group,
-      size: node.children?.length ? defaultSize : defaultSize / 2, // Larger size for nodes with children
+      level: node.level || 0,
+      size: baseNodeSize * (1 / ((node.level || 0) + 1)), // Size decreases with increasing level
       children: [], // We'll handle children separately for graph representation
     };
 
@@ -91,13 +90,11 @@ export function transformTreeToGraph(
 /**
  * Transforms a TreeNodesShape array into a NodeShape array, then into a graph structure
  * @param treeNodes - The TreeNodesShape array to transform
- * @param defaultSize - Default size for nodes
  * @param defaultGroup - Default group for nodes, or a function to determine group
  * @returns A TopologyDataShape with nodes and links
  */
 export function transformTreeNodesToGraph(
   treeNodes: TreeNodesShape[],
-  defaultSize: number = 4,
   defaultGroup?: number | ((node: NodeShape) => number)
 ): TopologyDataShape {
   // First transform TreeNodesShape to NodeShape
@@ -111,7 +108,7 @@ export function transformTreeNodesToGraph(
   }));
 
   // Then transform to graph
-  return transformTreeToGraph(nodeShapes, defaultSize, defaultGroup);
+  return transformTreeToGraph(nodeShapes, defaultGroup);
 }
 
 /**
