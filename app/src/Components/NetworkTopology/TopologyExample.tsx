@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
 import NetworkTopology from './NetworkTopology';
-import './TopologyExample.module.scss';
 
 // Custom data example
 const customData = {
