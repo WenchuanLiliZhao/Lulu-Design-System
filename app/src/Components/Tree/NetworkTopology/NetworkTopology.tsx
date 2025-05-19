@@ -1,11 +1,12 @@
 import styles from './NetworkTopology.module.scss';
 import { useRef, useEffect } from 'react';
 import * as d3 from 'd3';
-import { mergeTagsOfTreeNodes, NodeShape } from '../Tree/TreeExplorer';
-import { PageType } from '../../ObjectShapes/PageShape';
-import { transformTreeToGraph } from '../../Utils/TreeToGraphTransformer';
-import { Example_TreeNodeMaps } from '../../ObjectShapes/ExampleData/Example_TreeNodes';
-import { transformTreeNodes } from '../Tree/TreeExplorer';
+import { mergeTagsOfTreeNodes, NodeShape } from '../TreeExplorer';
+import { PageType } from '../../../ObjectShapes/PageShape';
+import { transformTreeToGraph } from '../../../Utils/TreeToGraphTransformer';
+import { Example_TreeNodeMaps } from '../../../ObjectShapes/ExampleData/Example_TreeNodes';
+import { transformTreeNodes } from '../TreeExplorer';
+import { NodeTagPrefix } from "../TreeExplorer";
 
 export const baseNodeSize = 10;
 export const sizeFactor = 2.4;
@@ -81,6 +82,11 @@ const NetworkTopology = ({
   // Convert tree data to graph data if provided
   const graphData = treeData ? transformTreeToGraph(treeData) : data;
 
+  // 临时调试代码，检查graphData中的节点是否包含tags属性
+  console.log('NetworkTopology tags debug:');
+  console.log('First node tags:', graphData.nodes[0]?.tags);
+  console.log('Sample of all nodes tags:', graphData.nodes.slice(0, 3).map(n => ({ id: n.id, tags: n.tags })));
+
   useEffect(() => {
     if (!svgRef.current) return;
 
@@ -151,13 +157,39 @@ const NetworkTopology = ({
         .iterations(4))
       .velocityDecay(velocityDecay); // Apply velocity decay to control node movement speed
 
+    // We're applying tag classes directly to elements
+
     // Create links
     const link = g.append("g")
       .attr("class", styles.links)
       .selectAll("line")
       .data(graphData.links)
       .enter().append("line")
-      .attr("class", styles.link);
+      .each(function(d) {
+        // Combine tags from both source and target nodes
+        const sourceNode = typeof d.source === 'string' 
+          ? graphData.nodes.find(n => n.id === d.source) 
+          : d.source as GraphNodeShape;
+        
+        const targetNode = typeof d.target === 'string'
+          ? graphData.nodes.find(n => n.id === d.target)
+          : d.target as GraphNodeShape;
+
+        const sourceTags = sourceNode?.tags || [];
+        const targetTags = targetNode?.tags || [];
+        
+        // Apply class for styling
+        d3.select(this).classed(styles.link, true);
+        
+        // Apply tag classes directly (not through styles module)
+        sourceTags.forEach(tag => {
+          d3.select(this).classed(`${NodeTagPrefix}-${tag}`, true);
+        });
+        
+        targetTags.forEach(tag => {
+          d3.select(this).classed(`${NodeTagPrefix}-${tag}`, true);
+        });
+      });
 
     // Create nodes
     const node = g.append("g")
@@ -165,7 +197,17 @@ const NetworkTopology = ({
       .selectAll("circle")
       .data(graphData.nodes as SimulationNode[])
       .enter().append("circle")
-      .attr("class", styles.node)
+      .each(function(d) {
+        // Apply the styling class
+        d3.select(this).classed(styles.node, true);
+        
+        // Apply tag classes directly (not through styles module)
+        if (d.tags) {
+          d.tags.forEach(tag => {
+            d3.select(this).classed(`${NodeTagPrefix}-${tag}`, true);
+          });
+        }
+      })
       .attr("r", d => d.size * 2)
       .style("fill", d => color(d.group?.toString() || ""));
 
@@ -200,6 +242,17 @@ const NetworkTopology = ({
       .selectAll("text")
       .data(graphData.nodes)
       .enter().append("text")
+      .each(function(d) {
+        // Apply styling class
+        d3.select(this).classed(styles.label, true);
+        
+        // Apply tag classes directly (not through styles module)
+        if (d.tags) {
+          d.tags.forEach(tag => {
+            d3.select(this).classed(`${NodeTagPrefix}-${tag}`, true);
+          });
+        }
+      })
       .attr("text-anchor", "middle") // Center the text horizontally
       .style("font-size", 13)
       .text(d => d.name);

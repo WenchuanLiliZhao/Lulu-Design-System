@@ -66,8 +66,9 @@ import { Icon } from "../Icon";
 import { HoverBox } from "../SmallElements/HoverBox";
 import { IconByType, PageShape, PageType } from "../../ObjectShapes/PageShape";
 import { Btn } from "../SmallElements/Btn";
-import { NodeTagPrefix } from "./NodeList";
 
+
+export const NodeTagPrefix = "node-tag-";
 export interface TreeNodesShape {
   page: PageShape; // The PageType object associated with this node
   children: TreeNodesShape[]; // Array of child nodes
@@ -316,3 +317,4 @@ export const TreeExplorer: React.FC<TreeExplorerProps> = ({
     </>
   );
 };
+

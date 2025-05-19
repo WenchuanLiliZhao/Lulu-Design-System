@@ -1,4 +1,4 @@
-import { GraphLinkShape, GraphNodeShape, TopologyDataShape, baseNodeSize, sizeFactor, sizePower } from "../Components/NetworkTopology/NetworkTopology";
+import { GraphLinkShape, GraphNodeShape, TopologyDataShape, baseNodeSize, sizeFactor, sizePower } from "../Components/Tree/NetworkTopology/NetworkTopology";
 import { NodeShape, TreeNodesShape } from "../Components/Tree/TreeExplorer";
 
 /**
@@ -56,6 +56,7 @@ export function transformTreeToGraph(
       type: node.type,
       group,
       level: level,
+      tags: node.tags,
       size: baseNodeSize * sizeFactor / (Math.pow(level, sizePower) + sizeFactor),
       children: [], // We'll handle children separately for graph representation
     };
