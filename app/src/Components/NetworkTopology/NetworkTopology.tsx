@@ -19,7 +19,8 @@ $$
 where $s$ is the node size, $b$ is the `baseNodeSize`, $g$ is the `sizeFactor`, $l$ is the current node level, and $c$ is the `sizePower`.  
 */}
 
-const repulsionStrength = -120; // Controls the repulsion force between nodes. More negative values = stronger repulsion
+const repulsionStrength = -100; // Controls the repulsion force between nodes. More negative values = stronger repulsion
+const velocityDecay = 0.2; // Controls how quickly nodes lose momentum (0-1). Lower values = nodes move/swim faster
 
 export interface GraphNodeShape extends Omit<NodeShape, 'children'> {
   group?: number;
@@ -99,7 +100,8 @@ const NetworkTopology = ({
       .force("center", d3.forceCenter(width / 2, height / 2))
       .force("collide", d3.forceCollide()
         .radius(() => nodeRadius + 0.5)
-        .iterations(4));
+        .iterations(4))
+      .velocityDecay(velocityDecay); // Apply velocity decay to control node movement speed
 
     // Create links
     const link = svg.append("g")
@@ -167,8 +169,8 @@ const NetworkTopology = ({
     simulation.nodes(graphData.nodes as SimulationNode[])
       .on("tick", ticked)
       .alpha(1)
-      .alphaDecay(0.02)
-      .alphaMin(0.001);
+      .alphaDecay(0.00008)
+      .alphaMin(0.000001);
 
     const linkForce = simulation.force("link") as d3.ForceLink<SimulationNode, SimulationLink>;
     if (linkForce) {
