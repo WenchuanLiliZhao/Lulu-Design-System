@@ -40,13 +40,13 @@ interface NetworkTopologyProps {
   height?: number;
 }
 
-interface DataShape {
+interface TopologyDataShape {
   nodes: GraphNodeShape[];
   links: GraphLinkShape[];
 }
 
 
-const defaultData: DataShape = {
+const defaultData: TopologyDataShape = {
   nodes: [
     { id: "Machine Learning", group: 1, size: 6 },
     { id: "Supervised Learning", group: 4, size: 4 },
