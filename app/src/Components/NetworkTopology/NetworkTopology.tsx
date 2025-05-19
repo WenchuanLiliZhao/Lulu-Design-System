@@ -4,8 +4,10 @@ import * as d3 from 'd3';
 import { NodeShape } from '../Tree/TreeExplorer';
 import { PageType } from '../../ObjectShapes/PageShape';
 import { transformTreeToGraph } from '../../Utils/TreeToGraphTransformer';
+import { Example_TreeNodeMaps } from '../../ObjectShapes/ExampleData/Example_TreeNodes';
+import { transformTreeNodes } from '../Tree/TreeExplorer';
 
-interface GraphNodeShape extends Omit<NodeShape, 'children'> {
+export interface GraphNodeShape extends Omit<NodeShape, 'children'> {
   group?: number;
   size: number;
   x?: number;
@@ -19,7 +21,7 @@ interface GraphNodeShape extends Omit<NodeShape, 'children'> {
   type: PageType; // Explicitly include the type to use PageType
 }
 
-interface GraphLinkShape {
+export interface GraphLinkShape {
   source: string | GraphNodeShape;
   target: string | GraphNodeShape;
   index?: number;
@@ -35,119 +37,20 @@ interface SimulationLink extends GraphLinkShape {
   target: SimulationNode;
 }
 
+export interface TopologyDataShape {
+  nodes: GraphNodeShape[];
+  links: GraphLinkShape[];
+}
+
 interface NetworkTopologyProps {
-  data?: {
-    nodes: GraphNodeShape[];
-    links: GraphLinkShape[];
-  };
+  data?: TopologyDataShape;
   width?: number;
   height?: number;
   treeData?: NodeShape[]; // Add support for directly passing tree data
 }
 
-interface TopologyDataShape {
-  nodes: GraphNodeShape[];
-  links: GraphLinkShape[];
-}
-
-const defaultData: TopologyDataShape = {
-  nodes: [
-    { id: "Machine Learning", name: "Machine Learning", type: "page", children: [], group: 1, size: 6 },
-    { id: "Supervised Learning", name: "Supervised Learning", type: "page", children: [], group: 4, size: 4 },
-    { id: "Unsupervised Learning", name: "Unsupervised Learning", type: "page", children: [], group: 7, size: 4 },
-    { id: "Reinforcement Learning", name: "Reinforcement Learning", type: "page", children: [], group: 10, size: 4 },
-    { id: "Dimensionality Reduction", name: "Dimensionality Reduction", type: "page", children: [], group: 15, size: 4 },
-    { id: "Ensemble Learning", name: "Ensemble Learning", type: "page", children: [], group: 19, size: 4 },
-    { id: "Independent Component Analysis", name: "Independent Component Analysis", type: "page", children: [], group: 14, size: 2 },
-    { id: "Linear Discriminant Analysis", name: "Linear Discriminant Analysis", type: "page", children: [], group: 14, size: 2 },
-    { id: "Principal Component Analysis", name: "Principal Component Analysis", type: "page", children: [], group: 14, size: 2 },
-    { id: "Factor Analysis", name: "Factor Analysis", type: "page", children: [], group: 14, size: 2 },
-    { id: "Feature Extraction", name: "Feature Extraction", type: "page", children: [], group: 14, size: 2 },
-    { id: "Feature Selection", name: "Feature Selection", type: "page", children: [], group: 14, size: 2 },
-    { id: "Partial Least Squares Regression", name: "Partial Least Squares Regression", type: "page", children: [], group: 14, size: 2 },
-    { id: "AdaBoost", name: "AdaBoost", type: "page", children: [], group: 18, size: 2 },
-    { id: "Boosting", name: "Boosting", type: "page", children: [], group: 18, size: 2 },
-    { id: "Gradient Boosted Decision Tree", name: "Gradient Boosted Decision Tree", type: "page", children: [], group: 18, size: 2 },
-    { id: "Gradient Boosting Machine", name: "Gradient Boosting Machine", type: "page", children: [], group: 18, size: 2 },
-    { id: "Q-learning", name: "Q-learning", type: "page", children: [], group: 10, size: 2 },
-    { id: "State–action–reward–state–action", name: "State–action–reward–state–action", type: "page", children: [], group: 10, size: 2 },
-    { id: "Temporal Difference Learning", name: "Temporal Difference Learning", type: "page", children: [], group: 10, size: 2 },
-    { id: "Learning Automata", name: "Learning Automata", type: "page", children: [], group: 10, size: 2 },
-    { id: "Gaussian Process Regression", name: "Gaussian Process Regression", type: "page", children: [], group: 3, size: 2 },
-    { id: "Artificial Neural Network", name: "Artificial Neural Network", type: "page", children: [], group: 3, size: 2 },
-    { id: "Logistic Model Tree", name: "Logistic Model Tree", type: "page", children: [], group: 3, size: 2 },
-    { id: "Support Vector Machines", name: "Support Vector Machines", type: "page", children: [], group: 3, size: 2 },
-    { id: "Random Forests", name: "Random Forests", type: "page", children: [], group: 3, size: 2 },
-    { id: "k-Nearest Neighbor", name: "k-Nearest Neighbor", type: "page", children: [], group: 3, size: 2 },
-    { id: "Naive Bayes", name: "Naive Bayes", type: "page", children: [], group: 3, size: 2 },
-    { id: "Hidden Markov Models", name: "Hidden Markov Models", type: "page", children: [], group: 3, size: 2 },
-    { id: "K-means Algorithm", name: "K-means Algorithm", type: "page", children: [], group: 6, size: 2 },
-    { id: "Mixture Models", name: "Mixture Models", type: "page", children: [], group: 6, size: 2 },
-    { id: "Hierarchical Clustering", name: "Hierarchical Clustering", type: "page", children: [], group: 6, size: 2 },
-    { id: "Neural Networks", name: "Neural Networks", type: "page", children: [], group: 6, size: 2 },
-    { id: "Method of Moments", name: "Method of Moments", type: "page", children: [], group: 6, size: 2 },
-  ],
-  links: [
-    { source: "Machine Learning", target: "Supervised Learning" },
-    { source: "Machine Learning", target: "Reinforcement Learning" },
-    { source: "Machine Learning", target: "Unsupervised Learning" },
-    { source: "Machine Learning", target: "Reinforcement Learning" },
-    { source: "Machine Learning", target: "Dimensionality Reduction" },
-    { source: "Machine Learning", target: "Ensemble Learning" },
-    {
-      source: "Dimensionality Reduction",
-      target: "Independent Component Analysis",
-    },
-    {
-      source: "Dimensionality Reduction",
-      target: "Linear Discriminant Analysis",
-    },
-    {
-      source: "Dimensionality Reduction",
-      target: "Principal Component Analysis",
-    },
-    { source: "Dimensionality Reduction", target: "Factor Analysis" },
-    { source: "Dimensionality Reduction", target: "Feature Extraction" },
-    { source: "Dimensionality Reduction", target: "Feature Selection" },
-    {
-      source: "Dimensionality Reduction",
-      target: "Partial Least Squares Regression",
-    },
-    { source: "Ensemble Learning", target: "AdaBoost" },
-    { source: "Ensemble Learning", target: "Boosting" },
-    {
-      source: "Ensemble Learning",
-      target: "Gradient Boosted Decision Tree",
-    },
-    { source: "Ensemble Learning", target: "Gradient Boosting Machine" },
-    { source: "Reinforcement Learning", target: "Q-learning" },
-    {
-      source: "Reinforcement Learning",
-      target: "State–action–reward–state–action",
-    },
-    {
-      source: "Reinforcement Learning",
-      target: "Temporal Difference Learning",
-    },
-    { source: "Reinforcement Learning", target: "Learning Automata" },
-    {
-      source: "Supervised Learning",
-      target: "Gaussian Process Regression",
-    },
-    { source: "Supervised Learning", target: "Artificial Neural Network" },
-    { source: "Supervised Learning", target: "Logistic Model Tree" },
-    { source: "Supervised Learning", target: "Support Vector Machines" },
-    { source: "Supervised Learning", target: "Random Forests" },
-    { source: "Supervised Learning", target: "k-Nearest Neighbor" },
-    { source: "Supervised Learning", target: "Naive Bayes" },
-    { source: "Supervised Learning", target: "Hidden Markov Models" },
-    { source: "Unsupervised Learning", target: "K-means Algorithm" },
-    { source: "Unsupervised Learning", target: "Mixture Models" },
-    { source: "Unsupervised Learning", target: "Hierarchical Clustering" },
-    { source: "Unsupervised Learning", target: "Neural Networks" },
-    { source: "Unsupervised Learning", target: "Method of Moments" },
-  ],
-};
+// Transform Example_TreeNodeMaps.Math into a format for the Network Topology
+const defaultData = transformTreeToGraph(transformTreeNodes(Example_TreeNodeMaps.Math));
 
 const NetworkTopology = ({ 
   data = defaultData, 

@@ -1,30 +1,5 @@
+import { GraphLinkShape, GraphNodeShape, TopologyDataShape } from "../Components/NetworkTopology/NetworkTopology";
 import { NodeShape, TreeNodesShape } from "../Components/Tree/TreeExplorer";
-import { PageType } from "../ObjectShapes/PageShape";
-
-interface GraphNodeShape extends Omit<NodeShape, 'children'> {
-  group?: number;
-  size: number;
-  x?: number;
-  y?: number;
-  fx?: number | null;
-  fy?: number | null;
-  vx?: number;
-  vy?: number;
-  index?: number;
-  children?: GraphNodeShape[]; // Override children to be optional and of GraphNodeShape type
-  type: PageType; // Explicitly include the type to use PageType
-}
-
-interface GraphLinkShape {
-  source: string | GraphNodeShape;
-  target: string | GraphNodeShape;
-  index?: number;
-}
-
-interface TopologyDataShape {
-  nodes: GraphNodeShape[];
-  links: GraphLinkShape[];
-}
 
 /**
  * Transforms a NodeShape array into a graph structure suitable for NetworkTopology
