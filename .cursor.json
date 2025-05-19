@@ -1,0 +1,20 @@
+{
+  "ai": {
+    "model": "claude-3-sonnet-20240229",
+    "temperature": 0.7,
+    "maxTokens": 4000
+  },
+  "editor": {
+    "formatOnSave": true,
+    "tabSize": 2,
+    "insertSpaces": true
+  },
+  "search": {
+    "exclude": [
+      "node_modules",
+      "build",
+      "dist",
+      ".git"
+    ]
+  }
+} 
