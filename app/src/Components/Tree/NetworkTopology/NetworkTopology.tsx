@@ -11,7 +11,7 @@ import { NodeTagPrefix } from "../TreeExplorer";
 export const baseNodeSize = 10;
 export const sizeFactor = 2.4;
 export const sizePower = 1.1;
-
+export const secondaryNodeOpacity = 0.24;
 {/*
 Let
 $$
@@ -71,6 +71,13 @@ interface NetworkTopologyProps {
 // Transform Example_TreeNodeMaps.Math into a format for the Network Topology
 const defaultData = transformTreeToGraph(mergeTagsOfTreeNodes(transformTreeNodes(Example_TreeNodeMaps.Math)));
 
+/**
+ * NetworkTopology Component
+ * 
+ * A D3-based visualization for displaying network graph data with interactive features.
+ * This component renders nodes (circles) and links (lines) based on the provided data,
+ * and supports zoom, pan, hover effects, and node dragging.
+ */
 const NetworkTopology = ({ 
   data = defaultData, 
   width = 800, 
@@ -82,7 +89,7 @@ const NetworkTopology = ({
   // Convert tree data to graph data if provided
   const graphData = treeData ? transformTreeToGraph(treeData) : data;
 
-  // 临时调试代码，检查graphData中的节点是否包含tags属性
+  // Debug code for tags validation
   console.log('NetworkTopology tags debug:');
   console.log('First node tags:', graphData.nodes[0]?.tags);
   console.log('Sample of all nodes tags:', graphData.nodes.slice(0, 3).map(n => ({ id: n.id, tags: n.tags })));
@@ -93,6 +100,9 @@ const NetworkTopology = ({
     // Clear any existing visualization
     d3.select(svgRef.current).selectAll('*').remove();
 
+    /****************************
+     * INITIALIZATION & SETUP
+     ****************************/
     const svg = d3.select(svgRef.current);
     const nodeRadius = 20;
     
@@ -104,48 +114,48 @@ const NetworkTopology = ({
     // Use a valid color scheme from d3 v4
     const color = d3.scaleOrdinal(d3.schemeCategory10);
     
-    /**
+    /****************************
      * ZOOM AND PAN FUNCTIONALITY
-     * 
-     * D3's zoom behavior handles both:
+     ****************************/
+    /**
+     * D3's zoom behavior handles:
      * 1. Mouse wheel zooming
-     * 2. Touch-based panning (e.g., two-finger drag on touch devices)
+     * 2. Touch-based panning (two-finger drag)
      * 3. Mouse drag panning
      * 
-     * Key components:
-     * - scaleExtent: Sets the minimum and maximum zoom levels
-     * - on("zoom"): Event handler applies transforms to the container group
-     * - The transform contains:
-     *   - x, y: The pan translation coordinates
-     *   - k: The zoom scale factor
+     * Configuration:
+     * - scaleExtent: Sets min/max zoom levels
+     * - on("zoom"): Applies transforms to the container
      */
     const zoom = d3.zoom<SVGSVGElement, unknown>()
       // Restrict zoom levels between minZoom and maxZoom
       .scaleExtent([minZoom, maxZoom])
       // When zoom or pan events occur, transform the container group
       .on("zoom", (event) => {
-        // event.transform contains x, y (translation) and k (scale)
         // Apply the transformation to the container group
         g.attr("transform", event.transform);
       });
     
     // Apply zoom behavior to the SVG element
-    // This enables the following interactions:
-    // - Mouse wheel: Zoom in/out
-    // - Mouse drag: Pan the visualization
-    // - Touch with two fingers: Pan the visualization
-    // - Pinch gesture: Zoom in/out
     svg.call(zoom);
     
     // Add double-click handler to reset zoom level
-    // When users double-click, the visualization transitions back to the initial state
     svg.on("dblclick.zoom", () => {
       svg.transition()
         .duration(750) // Animation duration in milliseconds
-        .call(zoom.transform, d3.zoomIdentity); // Reset to identity transform (no zoom, no pan)
+        .call(zoom.transform, d3.zoomIdentity); // Reset to identity transform
     });
 
-    // Create the simulation
+    /****************************
+     * FORCE SIMULATION SETUP
+     ****************************/
+    /**
+     * The force simulation controls how nodes move and interact.
+     * - link: Maintains distance between connected nodes
+     * - charge: Creates repulsion/attraction between nodes
+     * - center: Centers the graph in the viewport
+     * - collide: Prevents nodes from overlapping
+     */
     const simulation = d3.forceSimulation<SimulationNode>()
       .force("link", d3.forceLink<SimulationNode, SimulationLink>()
         .id(d => d.id)
@@ -155,11 +165,15 @@ const NetworkTopology = ({
       .force("collide", d3.forceCollide()
         .radius(() => nodeRadius + 0.5)
         .iterations(4))
-      .velocityDecay(velocityDecay); // Apply velocity decay to control node movement speed
+      .velocityDecay(velocityDecay); // Controls node movement speed
 
-    // We're applying tag classes directly to elements
-
-    // Create links
+    /****************************
+     * LINKS CREATION & STYLING
+     ****************************/
+    /**
+     * Creates the lines (edges) between nodes and applies styling.
+     * Each link connects two nodes in the graph.
+     */
     const link = g.append("g")
       .attr("class", styles.links)
       .selectAll("line")
@@ -191,7 +205,13 @@ const NetworkTopology = ({
         });
       });
 
-    // Create nodes
+    /****************************
+     * NODES CREATION & STYLING
+     ****************************/
+    /**
+     * Creates the circles (nodes) and applies styling based on data.
+     * Each node represents an entity in the network.
+     */
     const node = g.append("g")
       .attr("class", styles.nodes)
       .selectAll("circle")
@@ -211,7 +231,15 @@ const NetworkTopology = ({
       .attr("r", d => d.size * 2)
       .style("fill", d => color(d.group?.toString() || ""));
 
-    // Setup drag behavior for SVG circles
+    /****************************
+     * DRAG BEHAVIOR
+     ****************************/
+    /**
+     * Allows nodes to be dragged with mouse/touch.
+     * - start: Fixes node position when drag starts
+     * - drag: Updates node position during drag
+     * - end: Releases node to simulation after drag
+     */
     const dragBehavior = d3.drag<SVGCircleElement, SimulationNode>()
       .on("start", (event, d) => {
         if (!event.active) simulation.alphaTarget(0.3).restart();
@@ -232,13 +260,62 @@ const NetworkTopology = ({
     // Apply drag behavior to nodes
     node.call(dragBehavior);
 
+    /****************************
+     * HOVER EFFECTS
+     ****************************/
+    /**
+     * Implements hover interaction that highlights connected nodes.
+     * When hovering over a node:
+     * - The hovered node and its direct connections stay at full opacity
+     * - All other nodes and links become semi-transparent
+     */
+    node.on("mouseover", function(_event, d) {
+      // Find connected nodes (neighbors)
+      const connectedNodeIds = new Set<string>();
+      connectedNodeIds.add(d.id);
+      
+      // Add all directly connected nodes
+      graphData.links.forEach(link => {
+        const sourceId = typeof link.source === 'string' ? link.source : (link.source as GraphNodeShape).id;
+        const targetId = typeof link.target === 'string' ? link.target : (link.target as GraphNodeShape).id;
+        
+        if (sourceId === d.id) connectedNodeIds.add(targetId);
+        if (targetId === d.id) connectedNodeIds.add(sourceId);
+      });
+      
+      // Apply opacity to nodes
+      node.style("opacity", n => connectedNodeIds.has(n.id) ? 1 : secondaryNodeOpacity);
+      
+      // Apply opacity to links
+      link.style("opacity", l => {
+        const sourceId = typeof l.source === 'string' ? l.source : (l.source as GraphNodeShape).id;
+        const targetId = typeof l.target === 'string' ? l.target : (l.target as GraphNodeShape).id;
+        return connectedNodeIds.has(sourceId) && connectedNodeIds.has(targetId) ? 1 : secondaryNodeOpacity;
+      });
+      
+      // Apply opacity to labels
+      labels.style("opacity", n => connectedNodeIds.has(n.id) ? 1 : secondaryNodeOpacity);
+    })
+    .on("mouseout", function() {
+      // Reset all opacities
+      node.style("opacity", 1);
+      link.style("opacity", 1);
+      labels.style("opacity", 1);
+    });
+
     // Add tooltips
     node.append("title")
       .text(d => d.id);
 
-    // Add labels
+    /****************************
+     * LABELS CREATION & STYLING
+     ****************************/
+    /**
+     * Creates text labels for each node.
+     * Labels show the node name and move with the node.
+     */
     const labels = g.append("g")
-      .attr("class", styles.labels)
+      .attr("class", styles["labels"])
       .selectAll("text")
       .data(graphData.nodes)
       .enter().append("text")
@@ -257,7 +334,13 @@ const NetworkTopology = ({
       .style("font-size", 13)
       .text(d => d.name);
 
-    // Set initial positions to prevent extreme layouts
+    /****************************
+     * INITIAL NODE POSITIONING
+     ****************************/
+    /**
+     * Sets initial positions in a circular layout to prevent nodes
+     * from starting in extreme or unpredictable positions.
+     */
     graphData.nodes.forEach((d, i) => {
       const angle = (i / graphData.nodes.length) * 2 * Math.PI;
       const radius = Math.min(width, height) * 0.3;
@@ -265,32 +348,48 @@ const NetworkTopology = ({
       d.y = height / 2 + radius * Math.sin(angle);
     });
 
-    // Set up simulation
+    /****************************
+     * SIMULATION CONFIGURATION
+     ****************************/
+    /**
+     * Initialize the simulation with nodes and configure its behavior.
+     * - alpha: Initial "temperature" of the simulation
+     * - alphaDecay: How quickly simulation cools down
+     * - alphaMin: When to stop the simulation
+     */
     simulation.nodes(graphData.nodes as SimulationNode[])
       .on("tick", ticked)
       .alpha(1)
       .alphaDecay(0.00008)
       .alphaMin(0.000001);
 
+    // Configure link force with actual link data
     const linkForce = simulation.force("link") as d3.ForceLink<SimulationNode, SimulationLink>;
     if (linkForce) {
       linkForce.links(graphData.links as SimulationLink[]);
     }
 
-    // Tick function without boundary constraints
+    /****************************
+     * ANIMATION TICK FUNCTION
+     ****************************/
+    /**
+     * The tick function runs on each step of the simulation.
+     * It updates the positions of all visual elements (nodes, links, labels)
+     * based on the current simulation state.
+     */
     function ticked() {
-      // Update node positions without constraints
+      // Update node positions
       node.attr("cx", d => d.x || 0)
           .attr("cy", d => d.y || 0);
 
-      // Update link positions
+      // Update link positions to connect nodes
       link
         .attr("x1", d => (d.source as SimulationNode).x)
         .attr("y1", d => (d.source as SimulationNode).y)
         .attr("x2", d => (d.target as SimulationNode).x)
         .attr("y2", d => (d.target as SimulationNode).y);
 
-      // Update label positions - position below node with 8px gap
+      // Update label positions - position below node with gap
       labels
         .attr("x", d => d.x || 0)
         .attr("y", d => {
@@ -299,13 +398,20 @@ const NetworkTopology = ({
         });
     }
 
-    // Add resize handler
+    /****************************
+     * RESPONSIVE BEHAVIOR
+     ****************************/
+    /**
+     * Handles resizing of the container element:
+     * - Updates SVG dimensions to match container
+     * - Recalculates center force to maintain centered layout
+     * - Gently restarts simulation to re-center nodes
+     */
     const resizeObserver = new ResizeObserver(() => {
       const svgElement = svgRef.current;
       if (!svgElement || !svgElement.parentElement) return;
       
       const containerWidth = svgElement.parentElement.clientWidth;
-      // Use full available height instead of constraining by aspect ratio
       const containerHeight = svgElement.parentElement.clientHeight || 600;
       
       svg.attr('width', containerWidth)
@@ -317,10 +423,12 @@ const NetworkTopology = ({
       simulation.alpha(0.1).restart();
     });
 
+    // Observe parent element size changes
     if (svgRef.current.parentElement) {
       resizeObserver.observe(svgRef.current.parentElement);
     }
 
+    // Cleanup function
     return () => {
       resizeObserver.disconnect();
       simulation.stop();
