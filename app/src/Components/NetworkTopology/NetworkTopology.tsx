@@ -8,7 +8,19 @@ import { Example_TreeNodeMaps } from '../../ObjectShapes/ExampleData/Example_Tre
 import { transformTreeNodes } from '../Tree/TreeExplorer';
 
 export const baseNodeSize = 10;
-export const sizeFactor = 5.8;
+export const sizeFactor = 2.4;
+export const sizePower = 1.1;
+
+{/*
+Let
+$$
+s = \frac{bg}{l^c + g}
+$$
+where $s$ is the node size, $b$ is the `baseNodeSize`, $g$ is the `sizeFactor`, $l$ is the current node level, and $c$ is the `sizePower`.  
+*/}
+
+const repulsionStrength = -120; // Controls the repulsion force between nodes. More negative values = stronger repulsion
+
 export interface GraphNodeShape extends Omit<NodeShape, 'children'> {
   group?: number;
   size: number;
@@ -83,7 +95,7 @@ const NetworkTopology = ({
       .force("link", d3.forceLink<SimulationNode, SimulationLink>()
         .id(d => d.id)
         .distance(80))
-      .force("charge", d3.forceManyBody().strength(-100))
+      .force("charge", d3.forceManyBody().strength(repulsionStrength))
       .force("center", d3.forceCenter(width / 2, height / 2))
       .force("collide", d3.forceCollide()
         .radius(() => nodeRadius + 0.5)

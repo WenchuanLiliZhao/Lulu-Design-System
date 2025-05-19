@@ -1,4 +1,4 @@
-import { GraphLinkShape, GraphNodeShape, TopologyDataShape, baseNodeSize } from "../Components/NetworkTopology/NetworkTopology";
+import { GraphLinkShape, GraphNodeShape, TopologyDataShape, baseNodeSize, sizeFactor, sizePower } from "../Components/NetworkTopology/NetworkTopology";
 import { NodeShape, TreeNodesShape } from "../Components/Tree/TreeExplorer";
 
 /**
@@ -46,14 +46,17 @@ export function transformTreeToGraph(
     // Store the node's group for its children to reference
     nodeGroupMap.set(node.id, group);
 
-    // Create graph node
+    // Calculate node level (default to 0 if not specified)
+    const level = node.level || 0;
+    
+    // Create graph node with new size formula: s = bg/(l^c + g)
     const graphNode: GraphNodeShape = {
       id: node.id,
       name: node.name,
       type: node.type,
       group,
-      level: node.level || 0,
-      size: baseNodeSize * (1 / ((node.level || 0) + 1)), // Size decreases with increasing level
+      level: level,
+      size: baseNodeSize * sizeFactor / (Math.pow(level, sizePower) + sizeFactor),
       children: [], // We'll handle children separately for graph representation
     };
 
