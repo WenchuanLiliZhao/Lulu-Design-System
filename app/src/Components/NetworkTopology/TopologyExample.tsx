@@ -61,11 +61,7 @@ const TopologyExample: React.FC = () => {
   const [useCustomData] = useState(false);
   
   return (
-    <div className="topology-example">      
-      <div className="topology-container">
-        <NetworkTopology data={useCustomData ? customData : undefined} />
-      </div>
-    </div>
+    <NetworkTopology data={useCustomData ? customData : undefined} />
   );
 };
 

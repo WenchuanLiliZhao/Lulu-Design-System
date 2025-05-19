@@ -1,7 +1,6 @@
 import styles from './NetworkTopology.module.scss';
 import { useRef, useEffect } from 'react';
 import * as d3 from 'd3';
-import './NetworkTopology.module.scss';
 
 interface Node {
   id: string;
@@ -164,26 +163,23 @@ const NetworkTopology = ({ data = defaultData, width = 800, height = 600 }: Netw
       .force("center", d3.forceCenter(width / 2, height / 2))
       .force("collide", d3.forceCollide()
         .radius(() => nodeRadius + 0.5)
-        .iterations(4))
-      // Add x and y forces to keep nodes within bounds
-      .force("x", d3.forceX(width / 2).strength(0.1))
-      .force("y", d3.forceY(height / 2).strength(0.1));
+        .iterations(4));
 
     // Create links
     const link = svg.append("g")
-      .attr("class", "links")
+      .attr("class", styles.links)
       .selectAll("line")
       .data(data.links)
       .enter().append("line")
-      .attr("class", "link");
+      .attr("class", styles.link);
 
     // Create nodes
     const node = svg.append("g")
-      .attr("class", "nodes")
+      .attr("class", styles.nodes)
       .selectAll("circle")
       .data(data.nodes as SimulationNode[])
       .enter().append("circle")
-      .attr("class", "node")
+      .attr("class", styles.node)
       .attr("r", d => d.size * 2)
       .style("fill", d => color(d.group.toString()));
 
@@ -198,10 +194,10 @@ const NetworkTopology = ({ data = defaultData, width = 800, height = 600 }: Netw
         d.fx = event.x;
         d.fy = event.y;
       })
-      .on("end", (event, d) => {
+      .on("end", (event) => {
         if (!event.active) simulation.alphaTarget(0);
-        d.fx = null;
-        d.fy = null;
+        // Allow nodes to be placed anywhere (don't reset fx and fy)
+        // This keeps nodes where the user drops them
       });
 
     // Apply drag behavior to nodes
@@ -213,7 +209,7 @@ const NetworkTopology = ({ data = defaultData, width = 800, height = 600 }: Netw
 
     // Add labels
     const labels = svg.append("g")
-      .attr("class", "labels")
+      .attr("class", styles.labels)
       .selectAll("text")
       .data(data.nodes)
       .enter().append("text")
@@ -233,7 +229,6 @@ const NetworkTopology = ({ data = defaultData, width = 800, height = 600 }: Netw
     // Set up simulation
     simulation.nodes(data.nodes as SimulationNode[])
       .on("tick", ticked)
-      // Limit maximum steps for simulation to prevent endless layout
       .alpha(1)
       .alphaDecay(0.02)
       .alphaMin(0.001);
@@ -243,15 +238,11 @@ const NetworkTopology = ({ data = defaultData, width = 800, height = 600 }: Netw
       linkForce.links(data.links as SimulationLink[]);
     }
 
-    // Tick function to update positions with boundary constraints
+    // Tick function without boundary constraints
     function ticked() {
-      // Constrain nodes to the visualization area
-      node.attr("cx", d => {
-        return d.x = Math.max(nodeRadius, Math.min(width - nodeRadius, d.x || 0));
-      })
-      .attr("cy", d => {
-        return d.y = Math.max(nodeRadius, Math.min(height - nodeRadius, d.y || 0));
-      });
+      // Update node positions without constraints
+      node.attr("cx", d => d.x || 0)
+          .attr("cy", d => d.y || 0);
 
       // Update link positions
       link
@@ -266,23 +257,22 @@ const NetworkTopology = ({ data = defaultData, width = 800, height = 600 }: Netw
         .attr("y", d => d.y || 0);
     }
 
-    // Add resize handler with fixed aspect ratio
+    // Add resize handler
     const resizeObserver = new ResizeObserver(() => {
       const svgElement = svgRef.current;
       if (!svgElement || !svgElement.parentElement) return;
       
       const containerWidth = svgElement.parentElement.clientWidth;
-      // Set a fixed aspect ratio for height to avoid excessive vertical growth
-      const containerHeight = Math.min(svgElement.parentElement.clientHeight || 600, containerWidth * 0.75);
+      // Use full available height instead of constraining by aspect ratio
+      const containerHeight = svgElement.parentElement.clientHeight || 600;
       
       svg.attr('width', containerWidth)
          .attr('height', containerHeight);
          
-      simulation.force('center', d3.forceCenter(containerWidth / 2, containerHeight / 2))
-                .force('x', d3.forceX(containerWidth / 2).strength(0.1))
-                .force('y', d3.forceY(containerHeight / 2).strength(0.1));
+      simulation.force('center', d3.forceCenter(containerWidth / 2, containerHeight / 2));
       
-      simulation.alpha(0.3).restart();
+      // Restart with a gentle alpha to avoid dramatic reorganization
+      simulation.alpha(0.1).restart();
     });
 
     if (svgRef.current.parentElement) {
@@ -297,7 +287,7 @@ const NetworkTopology = ({ data = defaultData, width = 800, height = 600 }: Netw
 
   return (
     <div className={styles["network-topology-container"]}>
-      <svg ref={svgRef} width={width} height={height} className="network-topology-svg"></svg>
+      <svg ref={svgRef} width="100%" height="100%" className={styles["network-topology-svg"]}></svg>
     </div>
   );
 };
