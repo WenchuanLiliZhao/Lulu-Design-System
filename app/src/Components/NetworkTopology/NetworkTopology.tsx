@@ -2,7 +2,7 @@ import styles from './NetworkTopology.module.scss';
 import { useRef, useEffect } from 'react';
 import * as d3 from 'd3';
 
-interface Node {
+interface GraphNodeShape {
   id: string;
   group: number;
   size: number;
@@ -15,32 +15,38 @@ interface Node {
   index?: number;
 }
 
-interface Link {
-  source: string | Node;
-  target: string | Node;
+interface GraphLinkShape {
+  source: string | GraphNodeShape;
+  target: string | GraphNodeShape;
   index?: number;
 }
 
-interface SimulationNode extends Node {
+interface SimulationNode extends GraphNodeShape {
   x: number;
   y: number;
 }
 
-interface SimulationLink extends Link {
+interface SimulationLink extends GraphLinkShape {
   source: SimulationNode;
   target: SimulationNode;
 }
 
 interface NetworkTopologyProps {
   data?: {
-    nodes: Node[];
-    links: Link[];
+    nodes: GraphNodeShape[];
+    links: GraphLinkShape[];
   };
   width?: number;
   height?: number;
 }
 
-const defaultData = {
+interface DataShape {
+  nodes: GraphNodeShape[];
+  links: GraphLinkShape[];
+}
+
+
+const defaultData: DataShape = {
   nodes: [
     { id: "Machine Learning", group: 1, size: 6 },
     { id: "Supervised Learning", group: 4, size: 4 },
@@ -194,10 +200,11 @@ const NetworkTopology = ({ data = defaultData, width = 800, height = 600 }: Netw
         d.fx = event.x;
         d.fy = event.y;
       })
-      .on("end", (event) => {
+      .on("end", (event, d) => {
         if (!event.active) simulation.alphaTarget(0);
-        // Allow nodes to be placed anywhere (don't reset fx and fy)
-        // This keeps nodes where the user drops them
+        // Reset fx and fy to null to allow nodes to continue responding to forces
+        d.fx = null;
+        d.fy = null;
       });
 
     // Apply drag behavior to nodes

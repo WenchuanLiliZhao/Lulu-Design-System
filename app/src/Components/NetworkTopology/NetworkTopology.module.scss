@@ -10,8 +10,6 @@
     height: 100%;
     
     .node {
-      stroke: #000;
-      stroke-width: 1.5px;
       cursor: pointer;
       
       &:hover {
@@ -21,17 +19,18 @@
     }
     
     .link {
-      stroke: #999;
-      stroke-width: 1.5px;
+      stroke: var(--color-border-darken-trans);
+      stroke-width: 1px;
       opacity: 0.6;
     }
     
     .labels {
-      font-family: "Roboto", sans-serif;
       font-size: 12px;
       pointer-events: none;
       -webkit-user-select: none;
       user-select: none;
+
+      fill: var(--color-main);
     }
   }
 } 
