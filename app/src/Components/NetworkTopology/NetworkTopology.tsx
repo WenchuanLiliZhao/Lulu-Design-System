@@ -1,7 +1,7 @@
 import styles from './NetworkTopology.module.scss';
 import { useRef, useEffect } from 'react';
 import * as d3 from 'd3';
-import { NodeShape } from '../Tree/TreeExplorer';
+import { mergeTagsOfTreeNodes, NodeShape } from '../Tree/TreeExplorer';
 import { PageType } from '../../ObjectShapes/PageShape';
 import { transformTreeToGraph } from '../../Utils/TreeToGraphTransformer';
 import { Example_TreeNodeMaps } from '../../ObjectShapes/ExampleData/Example_TreeNodes';
@@ -68,7 +68,7 @@ interface NetworkTopologyProps {
 }
 
 // Transform Example_TreeNodeMaps.Math into a format for the Network Topology
-const defaultData = transformTreeToGraph(transformTreeNodes(Example_TreeNodeMaps.Math));
+const defaultData = transformTreeToGraph(mergeTagsOfTreeNodes(transformTreeNodes(Example_TreeNodeMaps.Math)));
 
 const NetworkTopology = ({ 
   data = defaultData, 
