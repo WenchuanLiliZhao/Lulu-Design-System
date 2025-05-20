@@ -14,20 +14,6 @@
 - `TreeNodeComponent` is a subcomponent responsible for rendering individual tree nodes, including recursively rendering their child nodes.
 - The component includes "Expand All" and "Collapse All" controls to manage the global expand/collapse state.
 
-### Functional Distinction
-- `useAs: "page-tree"`: Similar to VSCode's Explorer, primarily used to display the page structure, supporting node expansion and collapse.
-- `useAs: "layer-tree"`: Similar to Figma's Layers, primarily used to display the layer structure, supporting node visibility toggling.
-
-#### Visibility Interaction in Layer Tree
-
-- In the Layer Tree, the visibility of a node is toggled by clicking on the node.
-- For example, if `nodeA` is a node, clicking on `nodeA` toggles the visibility of the subtree it belongs to. Any child node `nodeB` within `nodeA` will inherit the visibility state of `nodeA`. However, `nodeB` can still be individually toggled for its own visibility. This way, when `nodeA` is toggled visible again, the visibility state of `nodeB` is preserved. (This is Figma's solution, which I adopted here.)
-
-#### Subtle Differences in Expand/Collapse Interaction Between Page Tree and Layer Tree
-
-- In the Page Tree, nodes are toggled for expansion/collapse by clicking on the node itself, similar to most blog and file manager tree structures.
-- In the Layer Tree, since the node itself is not a link, expansion/collapse is toggled by clicking the arrow icon on the left side of the node. Clicking the node itself does not trigger expansion/collapse but is used to toggle the node's visibility.
-
 ### Key Implementation Challenges
 - Managing the expanded/collapsed state of nodes using React's `useState` hook.
 - Synchronizing the global expand/collapse state with individual node states.
@@ -36,21 +22,7 @@
 ## 组件功能概览
 - `TreeExplorer` 是一个 React 组件，用于渲染分层的树形结构。它支持节点的展开/折叠功能。
 - `TreeNodeComponent` 是一个子组件，负责渲染单个树节点，包括递归渲染其子节点。
-- 组件包含“全部展开”和“全部折叠”控件，用于管理全局的展开/折叠状态。
-
-### 功能区分
-- `useAs: "page-tree"`：类似于 VSCode 的 Explorer，主要用于展示页面结构，支持节点的展开和折叠。
-- `useAs: "layer-tree"`：类似于 Figma 的 Layers，主要用于展示图层结构，支持节点的可见性切换。
-
-#### 关于 Layer Tree 中的可见性交互
-
-- 在 Layer Tree 中，节点的可见性是通过点击节点来切换的。
-- 假设 `nodeA` 为一个节点，点击 `nodeA` 时，该节点所在的 subtree 会切换可见性。`nodeA` 中的任何子节点 `nodeB` 也会继承 `nodeA` 的可见性状态，但是，依然可以单独点击 `nodeB` 来切换其自身的可见性；这样，当 `nodeA` 重新被切换为可见时，`nodeB` 的可见性状态会被保留。（这是 Figma 的解决方案，我在这里采用了。）
-
-#### 关于 Page Tree 与 Layer Tree 中的展开/折叠交互的细微不同
-
-- 在 Page Tree 中，节点的展开/折叠是通过点击节点来切换的，这就如同大多数博客和文件管理器的树形结构一样。
-- 考虑到，在 Layer Tree 中，节点本身并不是一个链接，因此，节点的展开/折叠是通过点击节点左侧的箭头图标来切换的。点击节点本身不会触发展开/折叠操作，而是用于切换节点的可见性。
+- 组件包含"全部展开"和"全部折叠"控件，用于管理全局的展开/折叠状态。
 
 ### 主要实现难点
 - 使用 React 的 `useState` 钩子管理节点的展开/折叠状态。
@@ -65,8 +37,6 @@ import styles from "./TreeExplorer.module.scss";
 import { Icon } from "../Icon";
 import { HoverBox } from "../SmallElements/HoverBox";
 import { IconByType, PageShape, PageType } from "../../ObjectShapes/PageShape";
-import { Btn } from "../SmallElements/Btn";
-
 
 export const NodeTagPrefix = "node-tag-";
 export interface TreeNodesShape {
@@ -125,8 +95,6 @@ export function mergeTagsOfTreeNodes(
 interface TreeExplorerProps {
   data: NodeShape[]; // The hierarchical data structure for the tree
   expand?: boolean; // Whether the tree nodes should be expanded by default
-  useAs: "page-tree" | "layer-tree"; // Specify the type of tree being used
-  // 指定树的使用类型
 }
 
 // Define the TreeNodeComponent for rendering individual nodes
@@ -135,62 +103,13 @@ const TreeNodeComponent: React.FC<{
   node: NodeShape; // The data for the current node
   expand: boolean; // Whether the node should be expanded
   level: number; // The depth level of the node in the tree
-  useAs: "page-tree" | "layer-tree"; // The type of tree being used
-}> = ({ node, expand, level, useAs }) => {
+}> = ({ node, expand, level }) => {
   const [isExpanded, setIsExpanded] = useState<boolean>(expand); // State for node expansion
-  const [isInvisible, setIsInvisible] = useState<boolean>(false); // State for node visibility
 
   // Toggle the expanded state of the current node
   // 切换当前节点的展开状态
   const toggleExpand = () => {
     setIsExpanded((prev) => !prev);
-  };
-
-  // Toggle the visibility of the current node and its children
-  // 切换当前节点及其子节点的可见性
-  const toggleVisibility = (target: string = node.id) => {
-    // Find all elements with class names containing the node ID
-    const elements = document.querySelectorAll(`[class*="${NodeTagPrefix}-${target}"]`);
-
-    elements.forEach((element) => {
-      if (isInvisible) {
-        (element as HTMLElement).classList.remove(`${NodeTagPrefix}-${target}-hidden`);
-      } else {
-        (element as HTMLElement).classList.add(`${NodeTagPrefix}-${target}-hidden`);
-      }
-    });
-
-    // Toggle the visibility state
-    setIsInvisible((prev) => !prev);
-
-    // Log the visibility state change
-    console.log(target, isInvisible ? "is expanded" : "is collapsed");
-  };
-
-  const LayerVisibility = {
-    invisible: "invisible",
-    fatherInvisible: "father-invisible",
-  };
-
-  const LayerVisibilityBtn: React.FC<{
-    onClick: (target?: string) => void;
-  }> = ({ onClick }) => {
-    return (
-      <div onClick={() => onClick()}>
-        <Btn
-          className={styles["visibility-btn"]}
-          icon={isInvisible ? "visibility_off" : "visibility"}
-          size={"size-tiny"}
-          mode={"mode-plain"}
-        />
-        <Btn
-          className={styles["visibility-inherit-btn"]}
-          icon={"check_indeterminate_small"}
-          size={"size-tiny"}
-          mode={"mode-plain"}
-        />
-      </div>
-    );
   };
 
   useEffect(() => {
@@ -200,19 +119,10 @@ const TreeNodeComponent: React.FC<{
   }, [expand]);
 
   return (
-    <div
-      className={`${styles["tree-node"]} ${
-        isInvisible ? styles[LayerVisibility.invisible] : ""
-      }`}
-    >
+    <div className={styles["tree-node"]}>
       <div
         className={styles["node"]}
-        onClick={() => {
-          if (useAs === "page-tree") {
-            toggleExpand(); // Only toggle if useAs is "page-tree"
-            // 仅在 useAs 为 "page-tree" 时切换
-          }
-        }}
+        onClick={toggleExpand}
       >
         {/* Render level markers to visually indicate the depth of the node */}
         {/* 渲染层级标记以直观显示节点的深度 */}
@@ -229,12 +139,6 @@ const TreeNodeComponent: React.FC<{
         {node.children.length > 0 ? (
           <div
             className={styles["node-clopener"]}
-            onClick={() => {
-              if (useAs === "layer-tree") {
-                toggleExpand(); // Only toggle if useAs is "page-tree"
-                // 仅在 useAs 为 "page-tree" 时切换
-              }
-            }}
           >
             <Icon
               className={`${styles["node-clopener-icon"]} ${
@@ -252,27 +156,17 @@ const TreeNodeComponent: React.FC<{
         {/* 渲染节点内容，包括图标和标题 */}
         <div className={styles["node-content"]}>
           <div className={styles["node-title"]}>
-            {useAs === "page-tree" ? (
-              <IconByType icon={node.type} className={styles["page-icon"]} />
-            ) : (
-              <></>
-            )}
+            <IconByType icon={node.type} className={styles["page-icon"]} />
             {node.name}
           </div>
-          <div className={styles["node-controls"]}>
-            {useAs === "layer-tree" && (
-              <LayerVisibilityBtn onClick={toggleVisibility} />
-            )}
-          </div>
+          <div className={styles["node-controls"]}></div>
         </div>
       </div>
       {/* Recursively render child nodes if the current node has child nodes */}
       {/* 如果当前节点含有子节点，则递归渲染子节点 */}
       {node.children.length > 0 && (
         <div
-          className={`${styles["node-children"]} ${
-            isInvisible ? styles[LayerVisibility.fatherInvisible] : ""
-          }`}
+          className={styles["node-children"]}
           style={{ display: `${isExpanded ? "block" : "none"}` }} // Only show children if the node is expanded
         >
           {node.children.map((child, index) => (
@@ -281,7 +175,6 @@ const TreeNodeComponent: React.FC<{
               node={child}
               expand={expand}
               level={level + 1} // Increment the level for child nodes
-              useAs={useAs} // 为子节点增加层级
             />
           ))}
         </div>
@@ -294,7 +187,6 @@ const TreeNodeComponent: React.FC<{
 // 定义主 TreeExplorer 组件
 export const TreeExplorer: React.FC<TreeExplorerProps> = ({
   data,
-  useAs,
   expand = true,
 }) => {
   return (
@@ -308,7 +200,6 @@ export const TreeExplorer: React.FC<TreeExplorerProps> = ({
             node={node}
             expand={expand}
             level={0} // Root nodes start at level 0
-            useAs={useAs} // 根节点从层级 0 开始
           />
         ))}
       </div>
