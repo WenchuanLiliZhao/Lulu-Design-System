@@ -330,10 +330,13 @@ const NetworkTopology = ({
       // Clear the currently hovered node
       currentlyHoveredNode = null;
       
-      // Reset all opacities
-      node.style("opacity", 1);
-      link.style("opacity", 1);
-      labels.style("opacity", 1);
+      // Reset all classes instead of opacity
+      node.classed(styles["node-to-hide"], false)
+          .classed(styles["irrelevant-node"], false);
+      link.classed(styles["node-to-hide"], false)
+          .classed(styles["irrelevant-node"], false);
+      labels.classed(styles["node-to-hide"], false)
+          .classed(styles["irrelevant-node"], false);
     });
 
     /****************************
@@ -439,7 +442,10 @@ const NetworkTopology = ({
      * - Command/Control key: Activates Command/Control+hover effect during hover
      */
     
-    // Function to highlight child nodes with reduced opacity
+    // Track command/control key state
+    let isCommandKeyPressed = false;
+    
+    // Function to highlight child nodes with class instead of opacity
     function highlightChildNodes(nodeId: string) {
       // Find all child nodes recursively
       const childNodeIds = new Set<string>();
@@ -466,32 +472,19 @@ const NetworkTopology = ({
       // Start recursive search from the provided node
       findAllChildren(nodeId);
       
-      // Apply reduced opacity to all child nodes
-      node.style("opacity", n => {
-        if (childNodeIds.has(n.id)) {
-          return nodeToHideOpacity;
-        }
-        return 1; // Keep normal opacity for non-child nodes
-      });
+      // Apply class to all child nodes instead of opacity
+      node.classed(styles["node-to-hide"], n => childNodeIds.has(n.id));
       
-      // Apply reduced opacity to relevant links
-      link.style("opacity", l => {
+      // Apply class to relevant links instead of opacity
+      link.classed(styles["node-to-hide"], l => {
         const sourceId = typeof l.source === 'string' ? l.source : (l.source as GraphNodeShape).id;
         const targetId = typeof l.target === 'string' ? l.target : (l.target as GraphNodeShape).id;
         
-        if (childNodeIds.has(sourceId) || childNodeIds.has(targetId)) {
-          return nodeToHideOpacity;
-        }
-        return 1;
+        return childNodeIds.has(sourceId) || childNodeIds.has(targetId);
       });
       
-      // Apply reduced opacity to labels of child nodes
-      labels.style("opacity", n => {
-        if (childNodeIds.has(n.id)) {
-          return nodeToHideOpacity;
-        }
-        return 1;
-      });
+      // Apply class to labels of child nodes instead of opacity
+      labels.classed(styles["node-to-hide"], n => childNodeIds.has(n.id));
     }
     
     // Function to highlight connected nodes (regular hover behavior)
@@ -509,22 +502,19 @@ const NetworkTopology = ({
         if (targetId === nodeId) connectedNodeIds.add(sourceId);
       });
       
-      // Apply opacity to nodes
-      node.style("opacity", n => connectedNodeIds.has(n.id) ? 1 : secondaryNodeOpacity);
+      // Apply class to nodes instead of opacity
+      node.classed(styles["irrelevant-node"], n => !connectedNodeIds.has(n.id));
       
-      // Apply opacity to links
-      link.style("opacity", l => {
+      // Apply class to links instead of opacity
+      link.classed(styles["irrelevant-node"], l => {
         const sourceId = typeof l.source === 'string' ? l.source : (l.source as GraphNodeShape).id;
         const targetId = typeof l.target === 'string' ? l.target : (l.target as GraphNodeShape).id;
-        return connectedNodeIds.has(sourceId) && connectedNodeIds.has(targetId) ? 1 : secondaryNodeOpacity;
+        return !(connectedNodeIds.has(sourceId) && connectedNodeIds.has(targetId));
       });
       
-      // Apply opacity to labels
-      labels.style("opacity", n => connectedNodeIds.has(n.id) ? 1 : secondaryNodeOpacity);
+      // Apply class to labels instead of opacity
+      labels.classed(styles["irrelevant-node"], n => !connectedNodeIds.has(n.id));
     }
-    
-    // Track command/control key state
-    let isCommandKeyPressed = false;
     
     // Set up global key handlers
     window.addEventListener("keydown", (event) => {
@@ -533,10 +523,13 @@ const NetworkTopology = ({
         isCommandKeyPressed = true;
         // If there's a node currently being hovered, apply Command/Control+hover effect
         if (currentlyHoveredNode) {
-          // Reset opacities first
-          node.style("opacity", 1);
-          link.style("opacity", 1);
-          labels.style("opacity", 1);
+          // Reset classes first
+          node.classed(styles["node-to-hide"], false)
+              .classed(styles["irrelevant-node"], false);
+          link.classed(styles["node-to-hide"], false)
+              .classed(styles["irrelevant-node"], false);
+          labels.classed(styles["node-to-hide"], false)
+              .classed(styles["irrelevant-node"], false);
           
           // Apply child nodes highlighting
           highlightChildNodes(currentlyHoveredNode.id);
@@ -550,10 +543,13 @@ const NetworkTopology = ({
         isCommandKeyPressed = false;
         // If there's a node being hovered, revert to standard hover behavior
         if (currentlyHoveredNode) {
-          // Reset opacities first
-          node.style("opacity", 1);
-          link.style("opacity", 1);
-          labels.style("opacity", 1);
+          // Reset classes first
+          node.classed(styles["node-to-hide"], false)
+              .classed(styles["irrelevant-node"], false);
+          link.classed(styles["node-to-hide"], false)
+              .classed(styles["irrelevant-node"], false);
+          labels.classed(styles["node-to-hide"], false)
+              .classed(styles["irrelevant-node"], false);
           
           // Apply regular hover highlighting
           highlightConnectedNodes(currentlyHoveredNode.id);

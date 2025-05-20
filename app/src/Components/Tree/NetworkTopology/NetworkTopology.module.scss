@@ -2,6 +2,14 @@
   display: none;
 }
 
+.node-to-hide {
+  opacity: 0.16;
+}
+
+.irrelevant-node {
+  opacity: 0.24;
+}
+
 .network-topology-container {
   width: 100%;
   height: calc(100vh - var(--spacing-nav-size));
