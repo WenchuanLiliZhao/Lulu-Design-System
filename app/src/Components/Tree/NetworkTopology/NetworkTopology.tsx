@@ -6,10 +6,21 @@ import { PageType } from '../../../ObjectShapes/PageShape';
 import { transformTreeToGraph } from '../../../Utils/TreeToGraphTransformer';
 import { Example_TreeNodeMaps } from '../../../ObjectShapes/ExampleData/Example_TreeNodes';
 import { transformTreeNodes } from '../TreeExplorer';
-import { NodeTagPrefix } from "./TagFilterTree";
 import { TopologyShortKeys } from './Elements/TopologyShortKeys';
 import { TopologyToolHints } from './Elements/TopologyToolHints';
 import { svgZoom, addDoubleClickResetHandler } from './Elements/svgZoom';
+import { createCircles } from './Elements/createCircles';
+import { createLabels } from './Elements/createLabels';
+import { createLines } from './Elements/createLines';
+import { nodeGroupColors } from './Elements/nodeGroupColors';
+
+// Import necessary modules and components
+// Import styles, hooks, and D3 library
+// Import utility functions and data transformations
+// Import components for visual elements and interactions
+
+// Define constants for visualization settings
+// These constants control the appearance and behavior of the graph
 
 export const initialZoomLevel = 0.8;
 export const baseNodeSize = 10;
@@ -25,16 +36,23 @@ $$
 where $s$ is the node size, $b$ is the `baseNodeSize`, $g$ is the `sizeFactor`, $l$ is the current node level, and $c$ is the `sizePower`.  
 */}
 
-const repulsionStrength = -100; // Controls the repulsion force between nodes. More negative values = stronger repulsion
+const repulsionStrength = -150; // Controls the repulsion force between nodes. More negative values = stronger repulsion
 const velocityDecay = 0.2; // Controls how quickly nodes lose momentum (0-1). Lower values = nodes move/swim faster
 const minZoom = 0.1; // Minimum zoom scale - limits how far users can zoom out
 const maxZoom = 5; // Maximum zoom scale - limits how far users can zoom in
 
+// Define interfaces for graph data structures
+// GraphNodeShape: Represents a node in the graph
+// GraphLinkShape: Represents a link between nodes
+// SimulationNode and SimulationLink: Used in D3 force simulation
+// TopologyDataShape: Structure for graph data
+// NetworkTopologyProps: Props for the NetworkTopology component
+
 export interface GraphNodeShape extends Omit<NodeShape, 'children'> {
   group?: number;
   size: number;
-  x?: number;
-  y?: number;
+  x: number;
+  y: number;
   fx?: number | null;
   fy?: number | null;
   vx?: number;
@@ -51,7 +69,7 @@ export interface GraphLinkShape {
   index?: number;
 }
 
-interface SimulationNode extends GraphNodeShape {
+export interface SimulationNode extends GraphNodeShape {
   x: number;
   y: number;
 }
@@ -73,16 +91,15 @@ interface NetworkTopologyProps {
   treeData?: NodeShape[]; // Add support for directly passing tree data
 }
 
-// Transform Example_TreeNodeMaps.Math into a format for the Network Topology
+// Define defaultData using existing imports
 const defaultData = transformTreeToGraph(mergeTagsOfTreeNodes(transformTreeNodes(Example_TreeNodeMaps.Math)));
 
-/**
- * NetworkTopology Component
- * 
- * A D3-based visualization for displaying network graph data with interactive features.
- * This component renders nodes (circles) and links (lines) based on the provided data,
- * and supports zoom, pan, hover effects, and node dragging.
- */
+// Adjust the colorScale to use strings for the domain
+const colorScale = d3.scaleOrdinal<string, string>()
+  .domain(Object.keys(nodeGroupColors))
+  .range(Object.values(nodeGroupColors));
+
+// Ensure defaultData is used in the component
 const NetworkTopology = ({ 
   data = defaultData, 
   width = 800, 
@@ -94,7 +111,7 @@ const NetworkTopology = ({
   // Convert tree data to graph data if provided
   const graphData = treeData ? transformTreeToGraph(treeData) : data;
 
-  // Debug code for tags validation
+  // Log debug information for tags validation
   console.log('NetworkTopology tags debug:');
   console.log('First node tags:', graphData.nodes[0]?.tags);
   console.log('Sample of all nodes tags:', graphData.nodes.slice(0, 3).map(n => ({ id: n.id, tags: n.tags })));
@@ -108,6 +125,8 @@ const NetworkTopology = ({
     /****************************
      * INITIALIZATION & SETUP
      ****************************/
+    // Set up SVG and container group for graph elements
+    // Initialize color scheme and tracking sets/maps
     const svg = d3.select(svgRef.current);
     const nodeRadius = 20;
     
@@ -115,9 +134,6 @@ const NetworkTopology = ({
     // This allows us to transform (zoom/pan) all elements together
     const g = svg.append("g")
       .attr("class", styles["graph-container"]);
-    
-    // Use a valid color scheme from d3 v4
-    const color = d3.scaleOrdinal(d3.schemeCategory10);
     
     // Track which nodes have hidden children
     const nodesWithHiddenChildren = new Set<string>();
@@ -131,6 +147,7 @@ const NetworkTopology = ({
     /****************************
      * ZOOM AND PAN FUNCTIONALITY
      ****************************/
+    // Set up zoom and pan behavior with D3 zoom
     const { zoom } = svgZoom({
       svgElement: svgRef.current,
       width,
@@ -170,68 +187,30 @@ const NetworkTopology = ({
       .velocityDecay(velocityDecay); // Controls node movement speed
 
     /****************************
-     * LINKS CREATION & STYLING
+     * NODES, LINKS, AND LABELS CREATION & STYLING
      ****************************/
     /**
-     * Creates the lines (edges) between nodes and applies styling.
-     * Each link connects two nodes in the graph.
+     * Creates the circles (nodes), lines (links), and text labels for each node.
+     * Each node represents an entity in the network, each link connects two nodes,
+     * and labels show the node name and move with the node.
      */
-    const link = g.append("g")
-      .attr("class", styles.links)
-      .selectAll("line")
-      .data(graphData.links)
-      .enter().append("line")
-      .each(function(d) {
-        // Combine tags from both source and target nodes
-        const sourceNode = typeof d.source === 'string' 
-          ? graphData.nodes.find(n => n.id === d.source) 
-          : d.source as GraphNodeShape;
-        
-        const targetNode = typeof d.target === 'string'
-          ? graphData.nodes.find(n => n.id === d.target)
-          : d.target as GraphNodeShape;
+    
 
-        const sourceTags = sourceNode?.tags || [];
-        const targetTags = targetNode?.tags || [];
-        
-        // Apply class for styling
-        d3.select(this).classed(styles.link, true);
-        
-        // Apply tag classes directly (not through styles module)
-        sourceTags.forEach(tag => {
-          d3.select(this).classed(`${NodeTagPrefix}-${tag}`, true);
-        });
-        
-        targetTags.forEach(tag => {
-          d3.select(this).classed(`${NodeTagPrefix}-${tag}`, true);
-        });
-      });
+    const link = createLines({
+      graphData,
+      g
+    });
 
-    /****************************
-     * NODES CREATION & STYLING
-     ****************************/
-    /**
-     * Creates the circles (nodes) and applies styling based on data.
-     * Each node represents an entity in the network.
-     */
-    const node = g.append("g")
-      .attr("class", styles.nodes)
-      .selectAll("circle")
-      .data(graphData.nodes as SimulationNode[])
-      .enter().append("circle")
-      .each(function(d) {
-        // Apply the styling class
-        d3.select(this).classed(styles.node, true);
-        
-        // Apply tag classes directly (not through styles module)
-        if (d.tags) {
-          d.tags.forEach(tag => {
-            d3.select(this).classed(`${NodeTagPrefix}-${tag}`, true);
-          });
-        }
-      })
-      .attr("r", d => d.size * 2)
-      .style("fill", d => color(d.group?.toString() || ""));
+    const node = createCircles({
+      graphData,
+      color: colorScale,
+      g
+    });
+
+    const labels = createLabels({
+      graphData,
+      g
+    });
 
     /****************************
      * DRAG BEHAVIOR
@@ -557,33 +536,6 @@ const NetworkTopology = ({
     });
 
     /****************************
-     * LABELS CREATION & STYLING
-     ****************************/
-    /**
-     * Creates text labels for each node.
-     * Labels show the node name and move with the node.
-     */
-    const labels = g.append("g")
-      .attr("class", styles["labels"])
-      .selectAll("text")
-      .data(graphData.nodes)
-      .enter().append("text")
-      .each(function(d) {
-        // Apply styling class
-        d3.select(this).classed(styles.label, true);
-        
-        // Apply tag classes directly (not through styles module)
-        if (d.tags) {
-          d.tags.forEach(tag => {
-            d3.select(this).classed(`${NodeTagPrefix}-${tag}`, true);
-          });
-        }
-      })
-      .attr("text-anchor", "middle") // Center the text horizontally
-      .style("font-size", 13)
-      .text(d => d.name);
-
-    /****************************
      * INITIAL NODE POSITIONING
      ****************************/
     /**
@@ -593,8 +545,8 @@ const NetworkTopology = ({
     graphData.nodes.forEach((d, i) => {
       const angle = (i / graphData.nodes.length) * 2 * Math.PI;
       const radius = Math.min(width, height) * 0.3;
-      d.x = width / 2 + radius * Math.cos(angle);
-      d.y = height / 2 + radius * Math.sin(angle);
+      d.x = d.x ?? width / 2 + radius * Math.cos(angle);
+      d.y = d.y ?? height / 2 + radius * Math.sin(angle);
     });
 
     /****************************

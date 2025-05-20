@@ -16,6 +16,59 @@ const Math: TreeNodesShape[] = [
       {
         page: {
           info: {
+            slug: "number_theory",
+            title: "Number Theory",
+            date: new Date("2025-01-01"),
+            type: "database",
+            tags: ["number-theory"],
+          },
+          content: <div>Number Theory</div>,
+        },
+        children: [
+          {
+            page: {
+              info: {
+                slug: "prime_numbers",
+                title: "Prime Numbers",
+                date: new Date("2025-01-01"),
+                type: "database",
+                tags: ["prime-numbers"],
+              },
+              content: <div>Prime Numbers</div>,
+            },
+            children: [],
+          },
+          {
+            page: {
+              info: {
+                slug: "modular_arithmetic",
+                title: "Modular Arithmetic",
+                date: new Date("2025-01-01"),
+                type: "database",
+                tags: ["modular-arithmetic"],
+              },
+              content: <div>Modular Arithmetic</div>,
+            },
+            children: [],
+          },
+          {
+            page: {
+              info: {
+                slug: "quadratic_residues",
+                title: "Quadratic Residues",
+                date: new Date("2025-01-01"),
+                type: "database",
+                tags: ["quadratic-residues"],
+              },
+              content: <div>Quadratic Residues</div>,
+            },
+            children: [],
+          }
+        ],
+      },
+      {
+        page: {
+          info: {
             slug: "set_theory",
             title: "Set Theory",
             date: new Date("2025-10-01"),
@@ -508,6 +561,45 @@ const Math: TreeNodesShape[] = [
                 children: [],
               },
             ],
+          },
+        ],
+      },
+      {
+        page: {
+          info: {
+            slug: "probability_theory",
+            title: "Probability Theory",
+            date: new Date("2025-09-08"),
+            type: "chart",
+            tags: ["probability", "random-variables", "distributions"],
+          },
+          content: <div>Probability Theory</div>,
+        },
+        children: [
+          {
+            page: {
+              info: {
+                slug: "basic_probability",
+                title: "Basic Probability",
+                date: new Date("2025-09-09"),
+                type: "key",
+              },
+              content: <div>Basic Probability</div>,
+            },
+            children: [],
+          },
+
+          {
+            page: {
+              info: {
+                slug: "conditional_probability",
+                title: "Conditional Probability",
+                date: new Date("2025-09-10"),
+                type: "key",
+              },
+              content: <div>Basic Probability</div>,
+            },
+            children: [],
           },
         ],
       },
