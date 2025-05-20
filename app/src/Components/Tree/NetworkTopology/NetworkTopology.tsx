@@ -15,6 +15,7 @@ export const baseNodeSize = 10;
 export const sizeFactor = 2.4;
 export const sizePower = 1.1;
 export const secondaryNodeOpacity = 0.24;
+export const nodeToHideOpacity = 0.24;
 {/*
 Let
 $$
@@ -122,6 +123,9 @@ const NetworkTopology = ({
     
     // Map to track which children are hidden by which parent node
     const hiddenChildrenMap = new Map<string, Set<string>>();
+    
+    // Track the currently hovered node for Command+hover interaction
+    let currentlyHoveredNode: SimulationNode | null = null;
     
     /****************************
      * ZOOM AND PAN FUNCTIONALITY
@@ -302,35 +306,30 @@ const NetworkTopology = ({
      * When hovering over a node:
      * - The hovered node and its direct connections stay at full opacity
      * - All other nodes and links become semi-transparent
+     * 
+     * When Command/Control+hovering:
+     * - Child nodes are shown with reduced opacity (nodeToHideOpacity)
+     * - All other nodes stay at full opacity
      */
-    node.on("mouseover", function(_event, d) {
-      // Find connected nodes (neighbors)
-      const connectedNodeIds = new Set<string>();
-      connectedNodeIds.add(d.id);
+    node.on("mouseover", function(event, d) {
+      // Store the current hovered node for command key interactions
+      currentlyHoveredNode = d;
       
-      // Add all directly connected nodes
-      graphData.links.forEach(link => {
-        const sourceId = typeof link.source === 'string' ? link.source : (link.source as GraphNodeShape).id;
-        const targetId = typeof link.target === 'string' ? link.target : (link.target as GraphNodeShape).id;
-        
-        if (sourceId === d.id) connectedNodeIds.add(targetId);
-        if (targetId === d.id) connectedNodeIds.add(sourceId);
-      });
-      
-      // Apply opacity to nodes
-      node.style("opacity", n => connectedNodeIds.has(n.id) ? 1 : secondaryNodeOpacity);
-      
-      // Apply opacity to links
-      link.style("opacity", l => {
-        const sourceId = typeof l.source === 'string' ? l.source : (l.source as GraphNodeShape).id;
-        const targetId = typeof l.target === 'string' ? l.target : (l.target as GraphNodeShape).id;
-        return connectedNodeIds.has(sourceId) && connectedNodeIds.has(targetId) ? 1 : secondaryNodeOpacity;
-      });
-      
-      // Apply opacity to labels
-      labels.style("opacity", n => connectedNodeIds.has(n.id) ? 1 : secondaryNodeOpacity);
+      // Check if Command/Control key is already pressed during hover
+      if (isCommandKeyPressed) {
+        // Apply child nodes highlighting effect
+        highlightChildNodes(d.id);
+      }
+      // Regular hover behavior (no Command/Control key)
+      else {
+        // Highlight connected nodes
+        highlightConnectedNodes(d.id);
+      }
     })
     .on("mouseout", function() {
+      // Clear the currently hovered node
+      currentlyHoveredNode = null;
+      
       // Reset all opacities
       node.style("opacity", 1);
       link.style("opacity", 1);
@@ -341,13 +340,15 @@ const NetworkTopology = ({
      * HIDE CHILD NODES FUNCTIONALITY
      ****************************/
     /**
-     * Implements Command+left-click interaction to toggle child nodes visibility.
-     * - First Command+left-click: Hides all child nodes
-     * - Second Command+left-click: Restores previously hidden child nodes
+     * Implements Command/Control+left-click interaction to toggle child nodes visibility.
+     * - First Command/Control+left-click: Hides all child nodes
+     * - Second Command/Control+left-click: Restores previously hidden child nodes
+     * 
+     * Also implements Command/Control+hover to temporarily show child nodes with reduced opacity.
      */
     node.on("click", function(event, d) {
-      // Check if Command (metaKey) is pressed
-      if (event[TopologyShortKeys.ToggleChildren]) {
+      // Check if Command/Control key is pressed using the ToggleChildren function
+      if (TopologyShortKeys.ToggleChildren(event)) {
         // If this node already has hidden children, restore them
         if (nodesWithHiddenChildren.has(d.id)) {
           // Get the set of child nodes that were hidden by this node
@@ -432,13 +433,136 @@ const NetworkTopology = ({
       }
     });
 
-
-
     /**
      * Implements keyboard interactions:
      * - Escape key: Restores all hidden nodes (kept as backup)
+     * - Command/Control key: Activates Command/Control+hover effect during hover
      */
-    d3.select(window).on("keydown", function(event) {
+    
+    // Function to highlight child nodes with reduced opacity
+    function highlightChildNodes(nodeId: string) {
+      // Find all child nodes recursively
+      const childNodeIds = new Set<string>();
+      
+      // Function to recursively find all descendants
+      function findAllChildren(currentId: string) {
+        // Find direct children
+        graphData.links.forEach(link => {
+          const sourceId = typeof link.source === 'string' ? link.source : (link.source as GraphNodeShape).id;
+          const targetId = typeof link.target === 'string' ? link.target : (link.target as GraphNodeShape).id;
+          
+          // In a directed graph, source is parent and target is child
+          if (sourceId === currentId) {
+            // Add this child to our set if not already processed
+            if (!childNodeIds.has(targetId)) {
+              childNodeIds.add(targetId);
+              // Recursively find children of this child
+              findAllChildren(targetId);
+            }
+          }
+        });
+      }
+      
+      // Start recursive search from the provided node
+      findAllChildren(nodeId);
+      
+      // Apply reduced opacity to all child nodes
+      node.style("opacity", n => {
+        if (childNodeIds.has(n.id)) {
+          return nodeToHideOpacity;
+        }
+        return 1; // Keep normal opacity for non-child nodes
+      });
+      
+      // Apply reduced opacity to relevant links
+      link.style("opacity", l => {
+        const sourceId = typeof l.source === 'string' ? l.source : (l.source as GraphNodeShape).id;
+        const targetId = typeof l.target === 'string' ? l.target : (l.target as GraphNodeShape).id;
+        
+        if (childNodeIds.has(sourceId) || childNodeIds.has(targetId)) {
+          return nodeToHideOpacity;
+        }
+        return 1;
+      });
+      
+      // Apply reduced opacity to labels of child nodes
+      labels.style("opacity", n => {
+        if (childNodeIds.has(n.id)) {
+          return nodeToHideOpacity;
+        }
+        return 1;
+      });
+    }
+    
+    // Function to highlight connected nodes (regular hover behavior)
+    function highlightConnectedNodes(nodeId: string) {
+      // Find connected nodes (neighbors)
+      const connectedNodeIds = new Set<string>();
+      connectedNodeIds.add(nodeId);
+      
+      // Add all directly connected nodes
+      graphData.links.forEach(link => {
+        const sourceId = typeof link.source === 'string' ? link.source : (link.source as GraphNodeShape).id;
+        const targetId = typeof link.target === 'string' ? link.target : (link.target as GraphNodeShape).id;
+        
+        if (sourceId === nodeId) connectedNodeIds.add(targetId);
+        if (targetId === nodeId) connectedNodeIds.add(sourceId);
+      });
+      
+      // Apply opacity to nodes
+      node.style("opacity", n => connectedNodeIds.has(n.id) ? 1 : secondaryNodeOpacity);
+      
+      // Apply opacity to links
+      link.style("opacity", l => {
+        const sourceId = typeof l.source === 'string' ? l.source : (l.source as GraphNodeShape).id;
+        const targetId = typeof l.target === 'string' ? l.target : (l.target as GraphNodeShape).id;
+        return connectedNodeIds.has(sourceId) && connectedNodeIds.has(targetId) ? 1 : secondaryNodeOpacity;
+      });
+      
+      // Apply opacity to labels
+      labels.style("opacity", n => connectedNodeIds.has(n.id) ? 1 : secondaryNodeOpacity);
+    }
+    
+    // Track command/control key state
+    let isCommandKeyPressed = false;
+    
+    // Set up global key handlers
+    window.addEventListener("keydown", (event) => {
+      // Check if Command or Control key was pressed
+      if ((event.key === "Meta" || event.key === "Control") && !isCommandKeyPressed) {
+        isCommandKeyPressed = true;
+        // If there's a node currently being hovered, apply Command/Control+hover effect
+        if (currentlyHoveredNode) {
+          // Reset opacities first
+          node.style("opacity", 1);
+          link.style("opacity", 1);
+          labels.style("opacity", 1);
+          
+          // Apply child nodes highlighting
+          highlightChildNodes(currentlyHoveredNode.id);
+        }
+      }
+    });
+    
+    window.addEventListener("keyup", (event) => {
+      // Check if Command or Control key was released
+      if ((event.key === "Meta" || event.key === "Control") && isCommandKeyPressed) {
+        isCommandKeyPressed = false;
+        // If there's a node being hovered, revert to standard hover behavior
+        if (currentlyHoveredNode) {
+          // Reset opacities first
+          node.style("opacity", 1);
+          link.style("opacity", 1);
+          labels.style("opacity", 1);
+          
+          // Apply regular hover highlighting
+          highlightConnectedNodes(currentlyHoveredNode.id);
+        }
+      }
+    });
+
+    // Handle Escape key to restore all hidden nodes
+    window.addEventListener("keydown", (event) => {
       // Check if Escape key was pressed
       if (event.key === TopologyShortKeys.RestoreAllHiddenNodes) {
         // For each node with hidden children, remove their collapsed classes
@@ -595,7 +719,22 @@ const NetworkTopology = ({
 
     // Cleanup function
     return () => {
+      // Remove event listeners to prevent memory leaks
+      window.removeEventListener("keydown", (event) => {
+        if (event.key === "Meta" || event.key === "Control" || event.key === TopologyShortKeys.RestoreAllHiddenNodes) {
+          // No-op for removal
+        }
+      });
+      window.removeEventListener("keyup", (event) => {
+        if (event.key === "Meta" || event.key === "Control") {
+          // No-op for removal
+        }
+      });
+      
+      // Stop observing resize
       resizeObserver.disconnect();
+      
+      // Stop the simulation
       simulation.stop();
     };
   }, [graphData, width, height]);
