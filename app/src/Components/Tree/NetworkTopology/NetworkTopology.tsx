@@ -115,6 +115,15 @@ const NetworkTopology = ({
     // Use a valid color scheme from d3 v4
     const color = d3.scaleOrdinal(d3.schemeCategory10);
     
+    // Track which nodes have hidden children
+    const nodesWithHiddenChildren = new Set<string>();
+    
+    // Track all currently hidden nodes, links and their parent nodes
+    const hiddenNodeIds = new Set<string>();
+    
+    // Map to track which children are hidden by which parent node
+    const hiddenChildrenMap = new Map<string, Set<string>>();
+    
     /****************************
      * ZOOM AND PAN FUNCTIONALITY
      ****************************/
@@ -290,7 +299,7 @@ const NetworkTopology = ({
      * HOVER EFFECTS
      ****************************/
     /**
-     * Implements hover interaction that highlights connected nodes.
+     * Hover interaction that highlights connected nodes.
      * When hovering over a node:
      * - The hovered node and its direct connections stay at full opacity
      * - All other nodes and links become semi-transparent
@@ -329,9 +338,144 @@ const NetworkTopology = ({
       labels.style("opacity", 1);
     });
 
+    /****************************
+     * HIDE CHILD NODES FUNCTIONALITY
+     ****************************/
+    /**
+     * Implements Command+left-click interaction to toggle child nodes visibility.
+     * - First Command+left-click: Hides all child nodes
+     * - Second Command+left-click: Restores previously hidden child nodes
+     */
+    node.on("click", function(event, d) {
+      // Check if Command (metaKey) is pressed
+      if (event.metaKey) {
+        // If this node already has hidden children, restore them
+        if (nodesWithHiddenChildren.has(d.id)) {
+          // Get the set of child nodes that were hidden by this node
+          const childNodesToRestore = hiddenChildrenMap.get(d.id) || new Set<string>();
+          
+          // Remove these nodes from the global hidden set
+          childNodesToRestore.forEach(id => hiddenNodeIds.delete(id));
+          
+          // Remove the hidden children record for this node
+          hiddenChildrenMap.delete(d.id);
+          nodesWithHiddenChildren.delete(d.id);
+          
+          // Remove visual indicator
+          node.filter(n => n.id === d.id)
+            .classed(styles["node-collapsed"], false);
+        } 
+        // Otherwise, hide its children
+        else {
+          // Find all child nodes recursively
+          const childNodeIds = new Set<string>();
+          
+          // Function to recursively find all descendants
+          function findAllChildren(nodeId: string) {
+            // Find direct children
+            graphData.links.forEach(link => {
+              const sourceId = typeof link.source === 'string' ? link.source : (link.source as GraphNodeShape).id;
+              const targetId = typeof link.target === 'string' ? link.target : (link.target as GraphNodeShape).id;
+              
+              // In a directed graph, source is parent and target is child
+              if (sourceId === nodeId) {
+                // Add this child to our set if not already processed
+                if (!childNodeIds.has(targetId)) {
+                  childNodeIds.add(targetId);
+                  // Recursively find children of this child
+                  findAllChildren(targetId);
+                }
+              }
+            });
+          }
+          
+          // Start recursive search from the clicked node
+          findAllChildren(d.id);
+          
+          // Add all child nodes to the global hidden set
+          childNodeIds.forEach(id => hiddenNodeIds.add(id));
+          
+          // Store the mapping of which children this node has hidden
+          hiddenChildrenMap.set(d.id, childNodeIds);
+          
+          // Mark the clicked node as having hidden children and update its appearance
+          if (childNodeIds.size > 0) {
+            nodesWithHiddenChildren.add(d.id);
+            // Apply visual indicator by adding a class
+            node.filter(n => n.id === d.id)
+              .classed(styles["node-collapsed"], true);
+          }
+        }
+        
+        // Apply the current complete hiding state
+        applyHiddenState();
+      }
+    });
+
+    /**
+     * Applies the current hidden state to all nodes, links, and labels.
+     * This ensures all elements respect the global hidden state.
+     */
+    function applyHiddenState() {
+      // Hide all nodes in the hidden set
+      node.style("display", n => hiddenNodeIds.has(n.id) ? "none" : null);
+      
+      // Hide links connected to hidden nodes
+      link.style("display", l => {
+        const sourceId = typeof l.source === 'string' ? l.source : (l.source as GraphNodeShape).id;
+        const targetId = typeof l.target === 'string' ? l.target : (l.target as GraphNodeShape).id;
+        return hiddenNodeIds.has(sourceId) || hiddenNodeIds.has(targetId) ? "none" : null;
+      });
+      
+      // Hide labels of hidden nodes
+      labels.style("display", n => hiddenNodeIds.has(n.id) ? "none" : null);
+    }
+
+    /**
+     * Implements keyboard interactions:
+     * - Escape key: Restores all hidden nodes (kept as backup)
+     */
+    d3.select(window).on("keydown", function(event) {
+      // Check if Escape key was pressed
+      if (event.key === "Escape") {
+        // Clear all hidden nodes
+        hiddenNodeIds.clear();
+        hiddenChildrenMap.clear();
+        
+        // Restore all hidden nodes
+        node.style("display", null);
+        link.style("display", null);
+        labels.style("display", null);
+        
+        // Clear the visual indicators for nodes with hidden children
+        node.classed(styles["node-collapsed"], false);
+            
+        // Clear the set of nodes with hidden children
+        nodesWithHiddenChildren.clear();
+      }
+    });
+
     // Add tooltips
     node.append("title")
-      .text(d => d.id);
+      .text(d => {
+        let tooltipText = d.id;
+        
+        // If this is a parent node, add hint about Command+left-click functionality
+        const hasChildren = graphData.links.some(link => {
+          const sourceId = typeof link.source === 'string' ? link.source : (link.source as GraphNodeShape).id;
+          return sourceId === d.id;
+        });
+        
+        if (hasChildren) {
+          if (nodesWithHiddenChildren.has(d.id)) {
+            tooltipText += '\n⌘+Left-click: Show children';
+          } else {
+            tooltipText += '\n⌘+Left-click: Hide children';
+          }
+        }
+        
+        return tooltipText;
+      });
 
     /****************************
      * LABELS CREATION & STYLING

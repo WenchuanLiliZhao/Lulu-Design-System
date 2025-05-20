@@ -13,6 +13,11 @@
       cursor: pointer;
       
       // Hover stroke effect removed
+      
+      &.node-collapsed {
+        stroke: var(--color-main);  // Bright orange/red stroke
+        stroke-width: 1px;  // Thicker stroke width
+      }
     }
     
     .link {
