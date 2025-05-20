@@ -1,10 +1,16 @@
 import React from 'react';
 import NetworkTopology from './NetworkTopology';
+import { nodeTagMerge } from '../../../Utils/TagFilter';
+import { Example_TreeNodeMaps } from '../../../ObjectShapes/ExampleData/Example_TreeNodes';
 
 // Custom data example
 
 const TopologyExample: React.FC = () => {
-  
+
+  nodeTagMerge(Example_TreeNodeMaps.Math)
+
+  console.log("🤖", nodeTagMerge(Example_TreeNodeMaps.Math))
+
   return (
     <NetworkTopology />
   );
