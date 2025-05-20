@@ -14,7 +14,7 @@
       
       // Hover stroke effect removed
       
-      &.node-collapsed {
+      &.child-nodes-collapsed {
         stroke: var(--color-main);  // Bright orange/red stroke
         stroke-width: 1px;  // Thicker stroke width
       }

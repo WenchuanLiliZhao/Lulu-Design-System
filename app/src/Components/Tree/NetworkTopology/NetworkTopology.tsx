@@ -363,7 +363,7 @@ const NetworkTopology = ({
           
           // Remove visual indicator
           node.filter(n => n.id === d.id)
-            .classed(styles["node-collapsed"], false);
+            .classed(styles["child-nodes-collapsed"], false);
         } 
         // Otherwise, hide its children
         else {
@@ -403,7 +403,7 @@ const NetworkTopology = ({
             nodesWithHiddenChildren.add(d.id);
             // Apply visual indicator by adding a class
             node.filter(n => n.id === d.id)
-              .classed(styles["node-collapsed"], true);
+              .classed(styles["child-nodes-collapsed"], true);
           }
         }
         
@@ -448,7 +448,7 @@ const NetworkTopology = ({
         labels.style("display", null);
         
         // Clear the visual indicators for nodes with hidden children
-        node.classed(styles["node-collapsed"], false);
+        node.classed(styles["child-nodes-collapsed"], false);
             
         // Clear the set of nodes with hidden children
         nodesWithHiddenChildren.clear();
