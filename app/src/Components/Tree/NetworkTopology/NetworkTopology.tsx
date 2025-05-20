@@ -311,7 +311,7 @@ const NetworkTopology = ({
      * - Child nodes are shown with reduced opacity (nodeToHideOpacity)
      * - All other nodes stay at full opacity
      */
-    node.on("mouseover", function(event, d) {
+    node.on("mouseover", function(_event, d) {
       // Store the current hovered node for command key interactions
       currentlyHoveredNode = d;
       
