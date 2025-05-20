@@ -41,4 +41,29 @@ export function svgZoom({
   svg.call(zoom.transform, initialTransform);
 
   return { zoom };
+}
+
+export function addDoubleClickResetHandler(svgElement: SVGSVGElement | null, zoom: d3.ZoomBehavior<SVGSVGElement, unknown>, initialZoomLevel: number, width: number, height: number) {
+  if (!svgElement) return;
+
+  const svg = d3.select(svgElement);
+
+  // Prevent default double-click zoom behavior
+  svg.on('dblclick.zoom', null);
+
+  svg.on('dblclick', () => {
+    const currentWidth = svg.node()?.getBoundingClientRect().width || width;
+    const currentHeight = svg.node()?.getBoundingClientRect().height || height;
+    const currentCenterX = currentWidth / 2;
+    const currentCenterY = currentHeight / 2;
+
+    const resetTransform = d3.zoomIdentity
+      .translate(currentCenterX, currentCenterY)
+      .scale(initialZoomLevel)
+      .translate(-currentCenterX, -currentCenterY);
+
+    svg.transition()
+      .duration(750) // Animation duration in milliseconds
+      .call(zoom.transform, resetTransform);
+  });
 } 

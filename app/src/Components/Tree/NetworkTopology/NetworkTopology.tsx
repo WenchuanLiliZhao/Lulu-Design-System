@@ -9,7 +9,7 @@ import { transformTreeNodes } from '../TreeExplorer';
 import { NodeTagPrefix } from "./TagFilterTree";
 import { TopologyShortKeys } from './Elements/TopologyShortKeys';
 import { TopologyToolHints } from './Elements/TopologyToolHints';
-import { svgZoom } from './Elements/svgZoom';
+import { svgZoom, addDoubleClickResetHandler } from './Elements/svgZoom';
 
 export const initialZoomLevel = 0.8;
 export const baseNodeSize = 10;
@@ -146,22 +146,7 @@ const NetworkTopology = ({
     if (!zoom) return;
 
     // Add double-click handler to reset zoom level
-    svg.on(TopologyShortKeys.RestoreZoom, () => {
-      // Recalculate center in case the SVG has been resized
-      const currentWidth = svg.node()?.getBoundingClientRect().width || width;
-      const currentHeight = svg.node()?.getBoundingClientRect().height || height;
-      const currentCenterX = currentWidth / 2;
-      const currentCenterY = currentHeight / 2;
-      
-      const resetTransform = d3.zoomIdentity
-        .translate(currentCenterX, currentCenterY)
-        .scale(initialZoomLevel)
-        .translate(-currentCenterX, -currentCenterY);
-        
-      svg.transition()
-        .duration(750) // Animation duration in milliseconds
-        .call(zoom.transform, resetTransform); // Reset to initial zoom level centered
-    });
+    addDoubleClickResetHandler(svgRef.current, zoom, initialZoomLevel, width, height);
 
     /****************************
      * FORCE SIMULATION SETUP
