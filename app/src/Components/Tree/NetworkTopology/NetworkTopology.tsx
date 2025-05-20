@@ -7,6 +7,8 @@ import { transformTreeToGraph } from '../../../Utils/TreeToGraphTransformer';
 import { Example_TreeNodeMaps } from '../../../ObjectShapes/ExampleData/Example_TreeNodes';
 import { transformTreeNodes } from '../TreeExplorer';
 import { NodeTagPrefix } from "./TagFilterTree";
+import { TopologyShortKeys } from './Elements/TopologyShortKeys';
+import { TopologyToolHints } from './Elements/TopologyToolHints';
 
 export const initialZoomLevel = 0.8;
 export const baseNodeSize = 10;
@@ -161,7 +163,7 @@ const NetworkTopology = ({
     svg.call(zoom.transform, initialTransform);
     
     // Add double-click handler to reset zoom level
-    svg.on("dblclick.zoom", () => {
+    svg.on(TopologyShortKeys.RestoreZoom, () => {
       // Recalculate center in case the SVG has been resized
       const currentWidth = svg.node()?.getBoundingClientRect().width || width;
       const currentHeight = svg.node()?.getBoundingClientRect().height || height;
@@ -345,7 +347,7 @@ const NetworkTopology = ({
      */
     node.on("click", function(event, d) {
       // Check if Command (metaKey) is pressed
-      if (event.metaKey) {
+      if (event[TopologyShortKeys.ToggleChildren]) {
         // If this node already has hidden children, restore them
         if (nodesWithHiddenChildren.has(d.id)) {
           // Get the set of child nodes that were hidden by this node
@@ -438,7 +440,7 @@ const NetworkTopology = ({
      */
     d3.select(window).on("keydown", function(event) {
       // Check if Escape key was pressed
-      if (event.key === "Escape") {
+      if (event.key === TopologyShortKeys.RestoreAllHiddenNodes) {
         // For each node with hidden children, remove their collapsed classes
         hiddenChildrenMap.forEach((childIds, parentId) => {
           childIds.forEach(childId => {
@@ -469,28 +471,6 @@ const NetworkTopology = ({
         nodesWithHiddenChildren.clear();
       }
     });
-
-    // Add tooltips
-    node.append("title")
-      .text(d => {
-        let tooltipText = d.id;
-        
-        // If this is a parent node, add hint about Command+left-click functionality
-        const hasChildren = graphData.links.some(link => {
-          const sourceId = typeof link.source === 'string' ? link.source : (link.source as GraphNodeShape).id;
-          return sourceId === d.id;
-        });
-        
-        if (hasChildren) {
-          if (nodesWithHiddenChildren.has(d.id)) {
-            tooltipText += '\n⌘+Left-click: Show children';
-          } else {
-            tooltipText += '\n⌘+Left-click: Hide children';
-          }
-        }
-        
-        return tooltipText;
-      });
 
     /****************************
      * LABELS CREATION & STYLING
@@ -622,6 +602,7 @@ const NetworkTopology = ({
 
   return (
     <div className={styles["network-topology-container"]}>
+      <TopologyToolHints />
       <svg ref={svgRef} width="100%" height="100%" className={styles["network-topology-svg"]}></svg>
     </div>
   );
