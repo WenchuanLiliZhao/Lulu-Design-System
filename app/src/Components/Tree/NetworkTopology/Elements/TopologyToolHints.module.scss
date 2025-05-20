@@ -1,6 +1,7 @@
 .dropdown-content {
-  background-color: white;
+  background-color: var(--color-bg-main);
   box-shadow: var(--pop-shaodw);
+  color: var(--color-main);
 
   padding: 8px;
   border-radius: 4px;
