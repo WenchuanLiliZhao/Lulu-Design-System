@@ -9,6 +9,7 @@ import { transformTreeNodes } from '../TreeExplorer';
 import { NodeTagPrefix } from "./TagFilterTree";
 import { TopologyShortKeys } from './Elements/TopologyShortKeys';
 import { TopologyToolHints } from './Elements/TopologyToolHints';
+import { svgZoom } from './Elements/svgZoom';
 
 export const initialZoomLevel = 0.8;
 export const baseNodeSize = 10;
@@ -130,42 +131,20 @@ const NetworkTopology = ({
     /****************************
      * ZOOM AND PAN FUNCTIONALITY
      ****************************/
-    /**
-     * D3's zoom behavior handles:
-     * 1. Mouse wheel zooming
-     * 2. Touch-based panning (two-finger drag)
-     * 3. Mouse drag panning
-     * 
-     * Configuration:
-     * - scaleExtent: Sets min/max zoom levels
-     * - on("zoom"): Applies transforms to the container
-     */
-    const zoom = d3.zoom<SVGSVGElement, unknown>()
-      // Restrict zoom levels between minZoom and maxZoom
-      .scaleExtent([minZoom, maxZoom])
-      // When zoom or pan events occur, transform the container group
-      .on("zoom", (event) => {
-        // Apply the transformation to the container group
-        g.attr("transform", event.transform);
-      });
-    
-    // Apply zoom behavior to the SVG element
-    svg.call(zoom);
-    
-    // Set initial zoom level centered on the SVG
-    const svgWidth = svg.node()?.getBoundingClientRect().width || width;
-    const svgHeight = svg.node()?.getBoundingClientRect().height || height;
-    const centerX = svgWidth / 2;
-    const centerY = svgHeight / 2;
-    
-    // Use translate-scale-translate pattern to zoom from center
-    const initialTransform = d3.zoomIdentity
-      .translate(centerX, centerY)
-      .scale(initialZoomLevel)
-      .translate(-centerX, -centerY);
-      
-    svg.call(zoom.transform, initialTransform);
-    
+    const { zoom } = svgZoom({
+      svgElement: svgRef.current,
+      width,
+      height,
+      initialZoomLevel,
+      minZoom,
+      maxZoom,
+      onZoom: (transform) => {
+        g.attr("transform", transform.toString());
+      },
+    });
+
+    if (!zoom) return;
+
     // Add double-click handler to reset zoom level
     svg.on(TopologyShortKeys.RestoreZoom, () => {
       // Recalculate center in case the SVG has been resized
