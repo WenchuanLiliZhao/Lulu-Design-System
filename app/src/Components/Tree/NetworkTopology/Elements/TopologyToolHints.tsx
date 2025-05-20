@@ -20,7 +20,7 @@ const DropdownContent = () => {
 export const TopologyToolHints = () => {
   return (
     <div className={styles["dropdown-container"]}>
-      <Dropdown trigger={<Btn icon={"info"} size={"size-medium"} mode={"mode-plain"} />} dropdownContent={<DropdownContent />} dropdownSize={"medium"} position={"right"} />
+      <Dropdown trigger={<Btn icon={"info"} size={"size-medium"} mode={"mode-plain"} />} dropdownContent={<DropdownContent />} dropdownSize={"small"} position={"right"} />
     </div>
   )
 }
