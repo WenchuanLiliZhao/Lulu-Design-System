@@ -1,4 +1,4 @@
-/* eslint-disable react-refresh/only-export-components */
+
 
 // Helper function to check if a key event has either Ctrl or Command pressed
 const isCmdOrCtrl = (event: KeyboardEvent | MouseEvent): boolean => {
