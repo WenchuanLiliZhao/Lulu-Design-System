@@ -1,6 +1,6 @@
 import React from 'react';
 import NetworkTopology from './NetworkTopology';
-import { nodeTagMerge } from '../../../Utils/TagFilter';
+import { nodeTagMerge } from '../../../Utils/nodeTagMerge';
 import { Example_TreeNodeMaps } from '../../../ObjectShapes/ExampleData/Example_TreeNodes';
 
 // Custom data example

@@ -1,3 +1,3 @@
-export interface TagType {
+export interface TagShape {
   name: string;
 }

@@ -11,6 +11,9 @@ export interface BtnProps {
   text?: string;
   deco?: string;
   onClick?: () => void;
+  onMouseEnter?: () => void;
+  onMouseLeave?: () => void;
+  style?: React.CSSProperties;
 }
 
 export const Btn: React.FC<BtnProps> = ({
@@ -21,11 +24,17 @@ export const Btn: React.FC<BtnProps> = ({
   text,
   className,
   onClick,
+  onMouseEnter,
+  onMouseLeave,
+  style,
 }) => {
   return (
     <div
       className={`${styles["btn"]} ${styles[size]} ${className} ${styles[mode]}`}
       onClick={onClick}
+      onMouseEnter={onMouseEnter}
+      onMouseLeave={onMouseLeave}
+      style={style}
     >
       <Icon className={styles["icon"]} icon={icon} />
       {text && <span className={styles["text"]}>{text}</span>}

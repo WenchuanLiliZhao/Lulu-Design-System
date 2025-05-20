@@ -23,6 +23,8 @@ import { Example_TreeNodeMaps } from "../../../ObjectShapes/ExampleData/Example_
 import { MenuItem } from "../../../Components/Dropdown/MenuItem";
 import { FilterableDropdown } from "../../../Components/Dropdown/FilterableDropdown";
 import { TextSwitch } from "../../../Components/SmallElements/Switch";
+import { TagFilterTree } from "../../../Components/Tree/NetworkTopology/TagFilterTree";
+import { nodeTagMerge } from "../../../Utils/nodeTagMerge";
 
 export const CDD_SiteInfo: SiteInfoType = {
   title: "China Data Discover",
@@ -366,7 +368,7 @@ export const CDD_TopologyLayout: React.FC<CDD_BasicLayoutProps> = ({
         sidebar={{
           title: "Topology Layers",
           content: (
-            <></>
+            <TagFilterTree tagTree={nodeTagMerge(Example_TreeNodeMaps.Math)} renderFromLevel={1} />
           ), // Sidebar with CheckBoxTree
         }}
       />

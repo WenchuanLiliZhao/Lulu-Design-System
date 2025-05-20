@@ -6,7 +6,7 @@ import { PageType } from '../../../ObjectShapes/PageShape';
 import { transformTreeToGraph } from '../../../Utils/TreeToGraphTransformer';
 import { Example_TreeNodeMaps } from '../../../ObjectShapes/ExampleData/Example_TreeNodes';
 import { transformTreeNodes } from '../TreeExplorer';
-import { NodeTagPrefix } from "../TreeExplorer";
+import { NodeTagPrefix } from "./TagFilterTree";
 
 export const initialZoomLevel = 0.8;
 export const baseNodeSize = 10;

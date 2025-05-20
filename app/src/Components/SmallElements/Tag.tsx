@@ -1,11 +1,11 @@
 import styles from "./Tag.module.scss";
 
 import React from "react";
-import { TagType } from "../../ObjectShapes/TagShape";
+import { TagShape } from "../../ObjectShapes/TagShape";
 import { HoverBox } from "./HoverBox";
 
 interface TagProps {
-  tag: TagType;
+  tag: TagShape;
   size: "small" | "medium" | "large";
 }
 

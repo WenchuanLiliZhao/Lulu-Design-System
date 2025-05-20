@@ -1,6 +1,6 @@
-import { TagType } from '../TagShape';
+import { TagShape } from '../TagShape';
 
-export const Example_TagList: TagType[] = [
+export const Example_TagList: TagShape[] = [
   { name: 'Database' },
   { name: 'Inventory' },
   { name: 'Artificial Intelligence' },

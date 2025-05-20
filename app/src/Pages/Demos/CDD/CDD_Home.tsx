@@ -5,7 +5,7 @@ import styles from "./CDD_Home.module.scss";
 import React from "react";
 import { SearchBar } from "../../../Components/SearchBar";
 import { Example_TagList } from "../../../ObjectShapes/ExampleData/Example_TagSet";
-import { TagType } from "../../../ObjectShapes/TagShape";
+import { TagShape } from "../../../ObjectShapes/TagShape";
 import { Tag } from "../../../Components/SmallElements/Tag";
 import { KanbanGroup } from "../../../Components/DataShowCase/KanbanGroup";
 import { DataList } from "../../../Components/DataShowCase/DataList";
@@ -67,7 +67,7 @@ const CDD_Home: PageShape = {
               justifyContent: "center",
             }}
           >
-            {Example_TagList.slice(0, 10).map((tag: TagType, index: number) => (
+            {Example_TagList.slice(0, 10).map((tag: TagShape, index: number) => (
               <React.Fragment key={index}>
                 <Tag tag={tag} size={"medium"} />
               </React.Fragment>
