@@ -118,9 +118,6 @@ const NetworkTopology = ({
     // Track which nodes have hidden children
     const nodesWithHiddenChildren = new Set<string>();
     
-    // Track all currently hidden nodes, links and their parent nodes
-    const hiddenNodeIds = new Set<string>();
-    
     // Map to track which children are hidden by which parent node
     const hiddenChildrenMap = new Map<string, Set<string>>();
     
@@ -354,8 +351,20 @@ const NetworkTopology = ({
           // Get the set of child nodes that were hidden by this node
           const childNodesToRestore = hiddenChildrenMap.get(d.id) || new Set<string>();
           
-          // Remove these nodes from the global hidden set
-          childNodesToRestore.forEach(id => hiddenNodeIds.delete(id));
+          // Remove the class collapsed-by-father-{id} from all child nodes
+          childNodesToRestore.forEach(childId => {
+            node.filter(n => n.id === childId)
+              .classed(`collapsed-by-father-${d.id}`, false);
+              
+            link.filter(l => {
+              const sourceId = typeof l.source === 'string' ? l.source : (l.source as GraphNodeShape).id;
+              const targetId = typeof l.target === 'string' ? l.target : (l.target as GraphNodeShape).id;
+              return sourceId === childId || targetId === childId;
+            }).classed(`collapsed-by-father-${d.id}`, false);
+            
+            labels.filter(label => label.id === childId)
+              .classed(`collapsed-by-father-${d.id}`, false);
+          });
           
           // Remove the hidden children record for this node
           hiddenChildrenMap.delete(d.id);
@@ -392,8 +401,20 @@ const NetworkTopology = ({
           // Start recursive search from the clicked node
           findAllChildren(d.id);
           
-          // Add all child nodes to the global hidden set
-          childNodeIds.forEach(id => hiddenNodeIds.add(id));
+          // Add the class collapsed-by-father-{id} to all child nodes
+          childNodeIds.forEach(childId => {
+            node.filter(n => n.id === childId)
+              .classed(`collapsed-by-father-${d.id}`, true);
+              
+            link.filter(l => {
+              const sourceId = typeof l.source === 'string' ? l.source : (l.source as GraphNodeShape).id;
+              const targetId = typeof l.target === 'string' ? l.target : (l.target as GraphNodeShape).id;
+              return sourceId === childId || targetId === childId;
+            }).classed(`collapsed-by-father-${d.id}`, true);
+            
+            labels.filter(label => label.id === childId)
+              .classed(`collapsed-by-father-${d.id}`, true);
+          });
           
           // Store the mapping of which children this node has hidden
           hiddenChildrenMap.set(d.id, childNodeIds);
@@ -406,30 +427,10 @@ const NetworkTopology = ({
               .classed(styles["child-nodes-collapsed"], true);
           }
         }
-        
-        // Apply the current complete hiding state
-        applyHiddenState();
       }
     });
 
-    /**
-     * Applies the current hidden state to all nodes, links, and labels.
-     * This ensures all elements respect the global hidden state.
-     */
-    function applyHiddenState() {
-      // Hide all nodes in the hidden set
-      node.style("display", n => hiddenNodeIds.has(n.id) ? "none" : null);
-      
-      // Hide links connected to hidden nodes
-      link.style("display", l => {
-        const sourceId = typeof l.source === 'string' ? l.source : (l.source as GraphNodeShape).id;
-        const targetId = typeof l.target === 'string' ? l.target : (l.target as GraphNodeShape).id;
-        return hiddenNodeIds.has(sourceId) || hiddenNodeIds.has(targetId) ? "none" : null;
-      });
-      
-      // Hide labels of hidden nodes
-      labels.style("display", n => hiddenNodeIds.has(n.id) ? "none" : null);
-    }
+
 
     /**
      * Implements keyboard interactions:
@@ -438,14 +439,28 @@ const NetworkTopology = ({
     d3.select(window).on("keydown", function(event) {
       // Check if Escape key was pressed
       if (event.key === "Escape") {
-        // Clear all hidden nodes
-        hiddenNodeIds.clear();
-        hiddenChildrenMap.clear();
+        // For each node with hidden children, remove their collapsed classes
+        hiddenChildrenMap.forEach((childIds, parentId) => {
+          childIds.forEach(childId => {
+            // Remove the class from nodes
+            node.filter(n => n.id === childId)
+              .classed(`collapsed-by-father-${parentId}`, false);
+              
+            // Remove the class from links
+            link.filter(l => {
+              const sourceId = typeof l.source === 'string' ? l.source : (l.source as GraphNodeShape).id;
+              const targetId = typeof l.target === 'string' ? l.target : (l.target as GraphNodeShape).id;
+              return sourceId === childId || targetId === childId;
+            }).classed(`collapsed-by-father-${parentId}`, false);
+            
+            // Remove the class from labels
+            labels.filter(label => label.id === childId)
+              .classed(`collapsed-by-father-${parentId}`, false);
+          });
+        });
         
-        // Restore all hidden nodes
-        node.style("display", null);
-        link.style("display", null);
-        labels.style("display", null);
+        // Clear all maps and sets
+        hiddenChildrenMap.clear();
         
         // Clear the visual indicators for nodes with hidden children
         node.classed(styles["child-nodes-collapsed"], false);

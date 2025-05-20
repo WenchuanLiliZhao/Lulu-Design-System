@@ -1,3 +1,7 @@
+[class*="collapsed-by-father-"] {
+  display: none;
+}
+
 .network-topology-container {
   width: 100%;
   height: calc(100vh - var(--spacing-nav-size));
