@@ -295,7 +295,7 @@ export const CDD_EmailPage: PageShape = {
               ]}
             />
             <EmailParagraph>
-              <a href="#" style={{color: "royalblue"}}>更多详细信息请登录China Data Discover</a>
+              <p style={{color: "royalblue"}}>更多详细信息请登录China Data Discover</p>
             </EmailParagraph>
           </>
         }
