@@ -22,7 +22,6 @@ export const EmailCallout: React.FC<CalloutProps> = ({ type, content }) => {
     },
     title: {
       fontWeight: "bold",
-      opacity: "0.8",
     },
   };
 
