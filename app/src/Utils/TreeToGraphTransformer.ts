@@ -58,7 +58,9 @@ export function transformTreeToGraph(
       level: level,
       tags: node.tags,
       size: baseNodeSize * sizeFactor / (Math.pow(level, sizePower) + sizeFactor),
-      children: [], // We'll handle children separately for graph representation
+      children: [],
+      // x: 0,
+      // y: 0
     };
 
     // Add to nodes array

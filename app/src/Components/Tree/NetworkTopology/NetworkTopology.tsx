@@ -51,8 +51,8 @@ const maxZoom = 5; // Maximum zoom scale - limits how far users can zoom in
 export interface GraphNodeShape extends Omit<NodeShape, 'children'> {
   group?: number;
   size: number;
-  x: number;
-  y: number;
+  x?: number;
+  y?: number;
   fx?: number | null;
   fy?: number | null;
   vx?: number;
@@ -70,8 +70,8 @@ export interface GraphLinkShape {
 }
 
 export interface SimulationNode extends GraphNodeShape {
-  x: number;
-  y: number;
+  x?: number;
+  y?: number;
 }
 
 interface SimulationLink extends GraphLinkShape {
@@ -585,10 +585,10 @@ const NetworkTopology = ({
 
       // Update link positions to connect nodes
       link
-        .attr("x1", d => (d.source as SimulationNode).x)
-        .attr("y1", d => (d.source as SimulationNode).y)
-        .attr("x2", d => (d.target as SimulationNode).x)
-        .attr("y2", d => (d.target as SimulationNode).y);
+        .attr("x1", d => (d.source as SimulationNode).x ?? 0)
+        .attr("y1", d => (d.source as SimulationNode).y ?? 0)
+        .attr("x2", d => (d.target as SimulationNode).x ?? 0)
+        .attr("y2", d => (d.target as SimulationNode).y ?? 0);
 
       // Update label positions - position below node with gap
       labels

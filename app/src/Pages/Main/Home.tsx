@@ -31,6 +31,12 @@ const Home: PageShape = {
         >
           🐢 A Demo for the Sidebar for Topology Graph
         </a>
+        <a
+          className={styles["item"]}
+          href={`/${DemoPages.CDD_EmailPage.info.slug}`}
+        >
+          📧 A Demo for the Email Page
+        </a>
       </div>
       <div className={styles["links"]}>
         <a href="https://github.com/WenchuanLiliZhao/Lulu-Design-System/tree/main/app">GitHub repository</a>
