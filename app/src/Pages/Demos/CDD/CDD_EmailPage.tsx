@@ -64,7 +64,7 @@ interface EmailTableProps {
 
 export const EmailTable: React.FC<EmailTableProps> = ({ rows }) => {
   // Find the maximum number of content items across all rows
-  const maxContentLength = Math.max(...rows.map(row => row.content.length));
+  const maxContentLength = Math.max(...rows.map((row) => row.content.length));
 
   return (
     <div style={{ overflowX: "auto" }}>
@@ -88,6 +88,7 @@ export const EmailTable: React.FC<EmailTableProps> = ({ rows }) => {
                       padding: "0.5rem",
                       fontSize: "14px",
                       lineHeight: "1.5",
+                      width: `${100 / rows.length}%`,
                     }}
                   >
                     {row.title}
@@ -109,13 +110,16 @@ export const EmailTable: React.FC<EmailTableProps> = ({ rows }) => {
                     padding: "0.5rem",
                     fontSize: "14px",
                     lineHeight: "1.5",
+                    width: `${100 / rows.length}%`,
                   }}
                 >
                   {row.content[rowIndex] && (
                     <>
                       {row.content[rowIndex].title && (
                         <>
-                          <strong style={{fontWeight: "bold"}}><span>{row.content[rowIndex].title}</span></strong>
+                          <strong style={{ fontWeight: "bold" }}>
+                            <span>{row.content[rowIndex].title}</span>
+                          </strong>
                           <br />
                         </>
                       )}
@@ -213,7 +217,8 @@ export const CDD_EmailPage: PageShape = {
                     },
                     {
                       title: "检查对象",
-                      value: "门店维度信息(acropolis), ach_fact_tryon_device_info",
+                      value:
+                        "门店维度信息(acropolis), ach_fact_tryon_device_info",
                     },
                     {
                       title: "检查时间",
@@ -248,15 +253,12 @@ export const CDD_EmailPage: PageShape = {
               ]}
             />
             <EmailParagraph>{"异常数据样例如下,详情见附件："}</EmailParagraph>
-            
+
             <EmailTable
               rows={[
                 {
                   title: "warehouse_code",
-                  content: [
-                    { value: "23451" },
-                    { value: "12345" },
-                  ],
+                  content: [{ value: "23451" }, { value: "12345" }],
                 },
                 {
                   title: "store_name_cn",
@@ -267,31 +269,19 @@ export const CDD_EmailPage: PageShape = {
                 },
                 {
                   title: "status",
-                  content: [
-                    { value: "Opened" },
-                    { value: "Opened" },
-                  ],
+                  content: [{ value: "Opened" }, { value: "Opened" }],
                 },
                 {
                   title: "open_date",
-                  content: [
-                    { value: "2021-01-14" },
-                    { value: "2025-01-22" },
-                  ],
+                  content: [{ value: "2021-01-14" }, { value: "2025-01-22" }],
                 },
                 {
                   title: "门店设备数-前1日采集到试穿",
-                  content: [
-                    { value: "1" },
-                    { value: "6" },
-                  ],
+                  content: [{ value: "1" }, { value: "6" }],
                 },
                 {
                   title: "门店试衣间数-MDM",
-                  content: [
-                    { value: "11" },
-                    { value: "8" },
-                  ],
+                  content: [{ value: "11" }, { value: "8" }],
                 },
               ]}
             />
