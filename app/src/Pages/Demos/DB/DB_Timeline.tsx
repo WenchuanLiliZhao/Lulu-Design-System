@@ -1,5 +1,5 @@
 import { PageShape } from "../../../ObjectShapes/PageShape";
-import { Timeline } from "./TimelineComponents/Timeline";
+import { TimelineRuler } from "./TimelineComponents/TimelineRuler";
 import { Example_TimelineItems } from "./TimelineComponents/TimelineItemShape";
 
 export const DB_Timeline: PageShape = {
@@ -11,7 +11,8 @@ export const DB_Timeline: PageShape = {
   },
   content: (
     <>
-      <Timeline inputData={Example_TimelineItems} />
+      <h1>timeline</h1>
+      <TimelineRuler inputData={Example_TimelineItems} />
     </>
   ),
 }
