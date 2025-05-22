@@ -16,7 +16,7 @@ export const Example_TimelineItems: TimelineItemShape[] = [
     status: "In Progress",
     description: "Develop and implement an interactive workshop series for advanced calculus concepts using real-world applications",
     startDate: new Date("2024-03-01"),
-    endDate: new Date("2024-06-30"),
+    endDate: new Date("2029-06-30"),
     progress: 45
   },
   {
@@ -60,7 +60,7 @@ export const Example_TimelineItems: TimelineItemShape[] = [
     name: "Applied Mathematics Workshop",
     status: "Planning",
     description: "Create workshops focusing on practical applications of mathematics in engineering and science",
-    startDate: new Date("2024-06-01"),
+    startDate: new Date("2029-06-01"),
     endDate: new Date("2024-11-30"),
     progress: 15
   },
@@ -87,7 +87,7 @@ export const Example_TimelineItems: TimelineItemShape[] = [
     name: "Mathematics Teaching Certification",
     status: "Active",
     description: "Create a certification program for mathematics educators focusing on modern teaching methodologies",
-    startDate: new Date("2024-01-15"),
+    startDate: new Date("2022-01-15"),
     endDate: new Date("2024-08-15"),
     progress: 55
   },
