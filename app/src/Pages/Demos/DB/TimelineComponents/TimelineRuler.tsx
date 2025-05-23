@@ -27,8 +27,8 @@ interface PlacementResult {
 export const TimelineRuler: React.FC<TimelineProps> = ({ inputData }) => {
   // Sort items by start date to ensure consistent placement
   const sortedItems = sortTimelineItemsByStartDate(inputData);
-  // Get list of years that need to be displayed
-  const yearList = TimelineItemInterval({ inputData: sortedItems });
+  // Get list of years and start month that need to be displayed
+  const { years: yearList, startMonth } = TimelineItemInterval({ inputData: sortedItems });
 
   // Constants for layout calculations
   const itemVGap = 4;
@@ -137,10 +137,13 @@ export const TimelineRuler: React.FC<TimelineProps> = ({ inputData }) => {
   return (
     <div className={styles["timeline-ruler-container"]}>
       <Column>
-        {yearList.map((year) => (
+        {yearList.map((year, yearIndex) => (
           <div key={year} className={styles["timeline-ruler-year"]}>
             <Column>
-              {Array.from({ length: 12 }, (_, monthIndex) => (
+              {Array.from(
+                { length: yearIndex === 0 ? 12 - startMonth : 12 }, 
+                (_, i) => yearIndex === 0 ? i + startMonth : i
+              ).map((monthIndex) => (
                 <div
                   key={monthIndex}
                   className={styles["timeline-ruler-month"]}

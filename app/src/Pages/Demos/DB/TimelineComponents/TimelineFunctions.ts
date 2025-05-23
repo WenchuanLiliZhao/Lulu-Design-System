@@ -4,7 +4,12 @@ interface TimelineItemIntervalProps {
   inputData: TimelineItemShape[];
 }
 
-export function TimelineItemInterval({ inputData }: TimelineItemIntervalProps) {
+export interface TimelineInterval {
+  years: number[];
+  startMonth: number;
+}
+
+export function TimelineItemInterval({ inputData }: TimelineItemIntervalProps): TimelineInterval {
   const earliestStartDate = inputData.reduce((earliest, item) => {
     return item.startDate < earliest ? item.startDate : earliest;
   }, inputData[0].startDate);
@@ -14,7 +19,7 @@ export function TimelineItemInterval({ inputData }: TimelineItemIntervalProps) {
   }, inputData[0].endDate);
 
   const earliestYear = earliestStartDate.getFullYear();
-
+  const startMonth = earliestStartDate.getMonth();
   const lastYear = latestEndDate.getFullYear();
 
   const years = [];
@@ -22,5 +27,8 @@ export function TimelineItemInterval({ inputData }: TimelineItemIntervalProps) {
     years.push(year);
   }
 
-  return years;
+  return {
+    years,
+    startMonth
+  };
 }
