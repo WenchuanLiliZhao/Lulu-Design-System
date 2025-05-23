@@ -55,7 +55,7 @@ export const Example_TimelineItems: TimelineItemShape[] = [
     name: "Math Olympiad Training",
     status: "Active",
     description: "Develop and implement an intensive training program for mathematics competition preparation",
-    startDate: new Date("2024-01-02"),
+    startDate: new Date("2024-01-01"),
     endDate: new Date("2024-12-31"),
     progress: 75
   },
