@@ -27,42 +27,54 @@ export const TimelineRuler: React.FC<TimelineProps> = ({ inputData }) => {
     return new Date(year, month + 1, 0).getDate();
   };
 
+  const Column = ({ children }: { children: React.ReactNode }) => {
+    return <div className={styles["timeline-ruler-column"]}>{children}</div>;
+  };
+
+  const dayWidth = 24;
+
   return (
     <div className={styles["timeline-ruler-container"]}>
-      <div className={styles["timeline-ruler"]}>
+      <Column>
         {yearList.map((year) => (
           <div key={year} className={styles["timeline-ruler-year"]}>
-            <div className={styles["timeline-ruler-year-label"]}>
-              Year {year}
-            </div>
 
-            <div className={styles["timeline-ruler-month-container"]}>
+            <Column>
               {Array.from({ length: 12 }, (_, monthIndex) => (
                 <div
                   key={monthIndex}
                   className={styles["timeline-ruler-month"]}
                 >
                   <div className={styles["timeline-ruler-month-label"]}>
-                    {monthNames[monthIndex]}
+                    <div className={styles["timeline-ruler-month-label-month"]}>
+                      {monthNames[monthIndex]}
+                    </div>
+                    <div className={styles["timeline-ruler-month-label-year"]}>
+                      {year}
+                    </div>
                   </div>
-                  <div className={styles["timeline-ruler-day-container"]}>
+                  <Column>
                     {Array.from(
                       { length: getDaysInMonth(year, monthIndex) },
                       (_, dayIndex) => (
-                        <div key={dayIndex} className={styles["timeline-ruler-day"]}>
+                        <div
+                          key={dayIndex}
+                          className={styles["timeline-ruler-day"]}
+                          style={{ width: `${dayWidth}px` }}
+                        >
                           <div className={styles["timeline-ruler-day-label"]}>
                             {dayIndex + 1}
                           </div>
                         </div>
                       )
                     )}
-                  </div>
+                  </Column>
                 </div>
               ))}
-            </div>
+            </Column>
           </div>
         ))}
-      </div>
+      </Column>
     </div>
   );
 };

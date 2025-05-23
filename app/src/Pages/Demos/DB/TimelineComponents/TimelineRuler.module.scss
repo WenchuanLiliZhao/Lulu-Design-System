@@ -1,31 +1,8 @@
+.timeline-ruler-column {
+  display: flex;
+}
+
 .timeline-ruler-container {
   overflow-x: auto;
   height: 100px;
-  .timeline-ruler {
-    display: flex;
-
-    .timeline-ruler-year {
-      
-
-      .timeline-ruler-year-label {
-        
-      }
-
-      .timeline-ruler-month-container {
-        display: flex;
-
-        .timeline-ruler-month {
-          
-
-          .timeline-ruler-day-container {
-            display: flex;
-
-            .timeline-ruler-day {
-              
-            }
-          }
-        }
-      }
-    }
-  }
 }
