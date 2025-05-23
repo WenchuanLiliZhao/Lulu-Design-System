@@ -1,4 +1,3 @@
-
 export interface TimelineItemShape {
   id: string;
   name: string;
@@ -8,6 +7,11 @@ export interface TimelineItemShape {
   endDate: Date;
   progress: number; // 0-100
 }
+
+export const sortTimelineItemsByStartDate = (items: TimelineItemShape[]): TimelineItemShape[] => {
+  return [...items].sort((a, b) => a.startDate.getTime() - b.startDate.getTime());
+};
+
 
 export const Example_TimelineItems: TimelineItemShape[] = [
   {
@@ -101,3 +105,5 @@ export const Example_TimelineItems: TimelineItemShape[] = [
     progress: 25
   }
 ];
+
+
