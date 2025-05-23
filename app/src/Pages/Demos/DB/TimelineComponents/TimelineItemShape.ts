@@ -91,7 +91,7 @@ export const Example_TimelineItems: TimelineItemShape[] = [
     name: "Mathematics Teaching Certification",
     status: "Active",
     description: "Create a certification program for mathematics educators focusing on modern teaching methodologies",
-    startDate: new Date("2022-01-15"),
+    startDate: new Date("2023-12-30"),
     endDate: new Date("2024-08-15"),
     progress: 55
   },

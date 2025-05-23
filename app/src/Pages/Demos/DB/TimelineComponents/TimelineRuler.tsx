@@ -71,17 +71,32 @@ export const TimelineRuler: React.FC<TimelineProps> = ({ inputData }) => {
                           </div>
 
                           <div className={styles["timeline-ruler-day-items"]}>
-                            {sortedItems.map((item) => (
-                              <div
-                                key={item.id}
-                                className={styles["timeline-item"]}
-                                style={{
-                                  height: 32,
-                                }}
-                              >
-                                {/* TODO: add item */}
-                              </div>
-                            ))}
+                            {sortedItems.map((item) => {
+                              const itemStartDate = new Date(item.startDate);
+                              const itemStartYear = itemStartDate.getFullYear();
+                              const itemStartMonth = itemStartDate.getMonth();
+                              const itemStartDay = itemStartDate.getDate();
+
+                              if (itemStartYear === year && itemStartMonth === monthIndex && itemStartDay === dayIndex + 1) {
+                                const itemEndDate = new Date(item.endDate);
+                                const durationInDays = (itemEndDate.getTime() - itemStartDate.getTime()) / (1000 * 60 * 60 * 24);
+
+                                return (
+                                  <div
+                                    key={item.id}
+                                    className={styles["timeline-item"]}
+                                    style={{
+                                      height: 32,
+                                      width: `${durationInDays * dayWidth}px`,
+                                    }}
+                                  >
+                                    <div className={styles["timeline-item-name"]}>{item.name}</div>
+                                    <div className={styles["timeline-item-status"]}>{item.status}</div>
+                                  </div>
+                                );
+                              }
+                              return null;
+                            })}
                           </div>
                         </div>
                       )
