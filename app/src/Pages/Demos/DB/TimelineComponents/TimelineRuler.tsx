@@ -1,5 +1,8 @@
 import React from "react";
-import { sortTimelineItemsByStartDate, TimelineItemShape } from "./TimelineItemShape";
+import {
+  sortTimelineItemsByStartDate,
+  TimelineItemShape,
+} from "./TimelineItemShape";
 import { TimelineItemInterval } from "./TimelineFunctions";
 import styles from "./TimelineRuler.module.scss";
 interface TimelineProps {
@@ -7,12 +10,9 @@ interface TimelineProps {
 }
 
 export const TimelineRuler: React.FC<TimelineProps> = ({ inputData }) => {
-  const yearList = TimelineItemInterval({ inputData: inputData });
-
   const sortedItems = sortTimelineItemsByStartDate(inputData);
+  const yearList = TimelineItemInterval({ inputData: sortedItems });
 
-  console.log(sortedItems);
-  
   const monthNames = [
     "Jan",
     "Feb",
@@ -43,7 +43,6 @@ export const TimelineRuler: React.FC<TimelineProps> = ({ inputData }) => {
       <Column>
         {yearList.map((year) => (
           <div key={year} className={styles["timeline-ruler-year"]}>
-
             <Column>
               {Array.from({ length: 12 }, (_, monthIndex) => (
                 <div
@@ -69,6 +68,20 @@ export const TimelineRuler: React.FC<TimelineProps> = ({ inputData }) => {
                         >
                           <div className={styles["timeline-ruler-day-label"]}>
                             {dayIndex + 1}
+                          </div>
+
+                          <div className={styles["timeline-ruler-day-items"]}>
+                            {sortedItems.map((item) => (
+                              <div
+                                key={item.id}
+                                className={styles["timeline-item"]}
+                                style={{
+                                  height: 32,
+                                }}
+                              >
+                                {/* TODO: add item */}
+                              </div>
+                            ))}
                           </div>
                         </div>
                       )
