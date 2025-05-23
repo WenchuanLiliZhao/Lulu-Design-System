@@ -1,5 +1,5 @@
 import React from "react";
-import { TimelineItemShape } from "./TimelineItemShape";
+import { sortTimelineItemsByStartDate, TimelineItemShape } from "./TimelineItemShape";
 import { TimelineItemInterval } from "./TimelineFunctions";
 import styles from "./TimelineRuler.module.scss";
 interface TimelineProps {
@@ -8,6 +8,11 @@ interface TimelineProps {
 
 export const TimelineRuler: React.FC<TimelineProps> = ({ inputData }) => {
   const yearList = TimelineItemInterval({ inputData: inputData });
+
+  const sortedItems = sortTimelineItemsByStartDate(inputData);
+
+  console.log(sortedItems);
+  
   const monthNames = [
     "Jan",
     "Feb",
