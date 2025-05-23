@@ -91,7 +91,6 @@ export const TimelineRuler: React.FC<TimelineProps> = ({ inputData }) => {
                                     }}
                                   >
                                     <div className={styles["timeline-item-name"]}>{item.name}</div>
-                                    <div className={styles["timeline-item-status"]}>{item.status}</div>
                                   </div>
                                 );
                               }
