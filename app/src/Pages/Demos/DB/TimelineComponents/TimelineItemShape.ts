@@ -55,7 +55,7 @@ export const Example_TimelineItems: TimelineItemShape[] = [
     name: "Math Olympiad Training",
     status: "Active",
     description: "Develop and implement an intensive training program for mathematics competition preparation",
-    startDate: new Date("2024-01-01"),
+    startDate: new Date("2024-01-02"),
     endDate: new Date("2024-12-31"),
     progress: 75
   },
@@ -92,7 +92,7 @@ export const Example_TimelineItems: TimelineItemShape[] = [
     status: "Active",
     description: "Create a certification program for mathematics educators focusing on modern teaching methodologies",
     startDate: new Date("2023-12-30"),
-    endDate: new Date("2024-08-15"),
+    endDate: new Date("2024-01-01"),
     progress: 55
   },
   {
