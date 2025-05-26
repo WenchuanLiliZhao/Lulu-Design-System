@@ -1,3 +1,11 @@
+.cell {
+  border-bottom: 1px solid var(--color-border-main);
+
+  &:hover {
+    background-color: var(--color-bg-sec-trans);
+  }
+}
+
 .timeline-ruler-container {
   overflow-x: auto;
   height: 100vh;
