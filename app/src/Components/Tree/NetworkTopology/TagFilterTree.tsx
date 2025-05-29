@@ -330,7 +330,7 @@ export const TagFilterTree: React.FC<TagFilterProps> = ({
           return (
             <div className={styles["group"]}>
               {originalTreeData.map((node: TreeNodesShape) =>
-                renderTreeNodeFromOriginal(node, renderFromLevel)
+                renderTreeNodeFromOriginal(node, 0)
               )}
             </div>
           );
