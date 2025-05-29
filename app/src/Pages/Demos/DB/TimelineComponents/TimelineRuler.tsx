@@ -1,13 +1,13 @@
 import React from "react";
 import {
   sortTimelineItemsByStartDate,
-  TimelineItemShape,
+  IssueType,
 } from "./TimelineItemShape";
 import { TimelineItemInterval } from "./TimelineFunctions";
 import styles from "./TimelineRuler.module.scss";
 
 interface TimelineProps {
-  inputData: TimelineItemShape[];
+  inputData: IssueType[];
 }
 
 /**
@@ -19,7 +19,7 @@ interface TimelineProps {
  */
 interface PlacementResult {
   column: number;
-  item: TimelineItemShape;
+  item: IssueType;
   startDate: Date;
   endDate: Date;
 }
@@ -81,7 +81,7 @@ export const TimelineRuler: React.FC<TimelineProps> = ({ inputData }) => {
    */
   const findPlacement = (
     placements: PlacementResult[],
-    _currentItem: TimelineItemShape,
+    _currentItem: IssueType,
     currentStartDate: Date,
     currentEndDate: Date
   ): number => {

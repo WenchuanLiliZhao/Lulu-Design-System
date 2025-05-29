@@ -1,7 +1,7 @@
-import { TimelineItemShape } from "./TimelineItemShape";
+import { IssueType } from "./TimelineItemShape";
 
 interface TimelineItemIntervalProps {
-  inputData: TimelineItemShape[];
+  inputData: IssueType[];
 }
 
 export interface TimelineInterval {

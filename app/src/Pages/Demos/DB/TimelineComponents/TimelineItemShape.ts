@@ -1,4 +1,4 @@
-export interface TimelineItemShape {
+export interface IssueType {
   id: string;
   name: string;
   status: string;
@@ -6,14 +6,15 @@ export interface TimelineItemShape {
   startDate: Date;
   endDate: Date;
   progress: number; // 0-100
+  children?: IssueType[];
 }
 
-export const sortTimelineItemsByStartDate = (items: TimelineItemShape[]): TimelineItemShape[] => {
+export const sortTimelineItemsByStartDate = (items: IssueType[]): IssueType[] => {
   return [...items].sort((a, b) => a.startDate.getTime() - b.startDate.getTime());
 };
 
 
-export const Example_TimelineItems: TimelineItemShape[] = [
+export const Example_TimelineItems: IssueType[] = [
   {
     id: "MATH001",
     name: "Interactive Calculus Workshop",
