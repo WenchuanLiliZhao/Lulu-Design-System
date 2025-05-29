@@ -21,8 +21,6 @@ export const TagFilterTree: React.FC<TagFilterProps> = ({
     {}
   );
 
-  console.log("mode", mode);
-
   // Function to toggle visibility of elements with tag
   const toggleTagVisibility = (tag: string) => {
     // Find all elements with the class name matching the tag
@@ -59,7 +57,7 @@ export const TagFilterTree: React.FC<TagFilterProps> = ({
       });
     }
   };
-  
+
   switch (mode) {
     case "plain":
       return (<div className={styles["tag-filter-tree"]}>
@@ -122,6 +120,6 @@ export const TagFilterTree: React.FC<TagFilterProps> = ({
     case "tree":
       return (<></>);
     default:
-      return (<>null</>);
+      return (<></>);
   }
 };
