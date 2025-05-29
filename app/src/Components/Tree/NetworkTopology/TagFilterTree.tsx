@@ -3,13 +3,18 @@ import React, { useState } from "react";
 import styles from "./TagFilterTree.module.scss";
 import { Icon } from "../../Icon";
 import { TreeNodesShape } from "../TreeExplorer";
+import { Dropdown, ClickToClose } from "../../Dropdown/Dropdown";
+import { Menu } from "../../Dropdown/Menu";
+import { MenuItem } from "../../Dropdown/MenuItem";
 
 interface TagFilterProps {
   tagTree: string[][];
   renderFromLevel: number;
-  mode: "plain" | "tree";
+  mode?: "plain" | "tree"; // Make mode optional with internal state management
   // Add optional original tree data for tree mode
   originalTreeData?: TreeNodesShape[];
+  // Add optional callback when mode changes
+  onModeChange?: (mode: "plain" | "tree") => void;
 }
 
 export const NodeTagPrefix = "node-tag-";
@@ -17,12 +22,54 @@ export const NodeTagPrefix = "node-tag-";
 export const TagFilterTree: React.FC<TagFilterProps> = ({
   tagTree,
   renderFromLevel,
-  mode,
+  mode: initialMode = "plain", // Default to plain mode
   originalTreeData,
+  onModeChange,
 }) => {
   // Track visibility state for each tag (true means visible, false means hidden)
   const [tagVisibility, setTagVisibility] = useState<Record<string, boolean>>(
     {}
+  );
+
+  // Add internal mode state management
+  const [currentMode, setCurrentMode] = useState<"plain" | "tree">(initialMode);
+
+  // Function to handle mode change
+  const handleModeChange = (newMode: "plain" | "tree") => {
+    setCurrentMode(newMode);
+    if (onModeChange) {
+      onModeChange(newMode);
+    }
+  };
+
+  // Mode options for dropdown
+  const modeOptions = [
+    { value: "plain", label: "Plain Mode", icon: "list" },
+    { value: "tree", label: "Tree Mode", icon: "account_tree" },
+  ];
+
+  // Create dropdown content for mode selection using Menu component
+  const modeDropdownContent = (
+    <Menu
+      group={[
+        {
+          groupItems: modeOptions.map((option) => (
+            <MenuItem
+              key={option.value}
+              item={{
+                icon: option.icon,
+                text: option.label,
+                onClick: () =>
+                  handleModeChange(option.value as "plain" | "tree"),
+              }}
+              className={`${ClickToClose} ${
+                currentMode === option.value ? styles["active"] : ""
+              }`}
+            />
+          )),
+        },
+      ]}
+    />
   );
 
   // Function to toggle visibility of elements with tag
@@ -63,26 +110,29 @@ export const TagFilterTree: React.FC<TagFilterProps> = ({
   };
 
   // Helper function to render tree nodes recursively based on original tree structure
-  const renderTreeNodeFromOriginal = (node: TreeNodesShape, level: number): React.ReactElement | null => {
+  const renderTreeNodeFromOriginal = (
+    node: TreeNodesShape,
+    level: number
+  ): React.ReactElement | null => {
     // Skip nodes before renderFromLevel
     if (level < renderFromLevel) {
       // Still need to process children to find nodes at the correct level
       return (
         <React.Fragment key={`${node.page.info.slug}-${level}`}>
-          {node.children?.map((childNode: TreeNodesShape) => (
+          {node.children?.map((childNode: TreeNodesShape) =>
             renderTreeNodeFromOriginal(childNode, level + 1)
-          ))}
+          )}
         </React.Fragment>
       );
     }
 
     const tags = node.page.info.tags || [];
-    
+
     return (
       <div key={`${node.page.info.slug}-${level}`}>
         {tags.map((tag: string, tagIndex: number) => {
           const isVisible = tagVisibility[tag] !== false;
-          
+
           return (
             <div key={`${tag}-${level}-${tagIndex}`}>
               <div className={styles["tag-item"]}>
@@ -127,17 +177,21 @@ export const TagFilterTree: React.FC<TagFilterProps> = ({
           );
         })}
         {/* Recursively render child nodes */}
-        {node.children?.map((childNode: TreeNodesShape) => (
+        {node.children?.map((childNode: TreeNodesShape) =>
           renderTreeNodeFromOriginal(childNode, level + 1)
-        ))}
+        )}
       </div>
     );
   };
 
   // Helper function to flatten tree and filter by level (fallback for tree mode without originalTreeData)
-  const renderTreeNodeFlat = (tag: string, level: number, childIndex: number = 0): React.ReactElement => {
+  const renderTreeNodeFlat = (
+    tag: string,
+    level: number,
+    childIndex: number = 0
+  ): React.ReactElement => {
     const isVisible = tagVisibility[tag] !== false;
-    
+
     return (
       <div key={`${tag}-${level}-${childIndex}`}>
         <div className={styles["tag-item"]}>
@@ -182,10 +236,40 @@ export const TagFilterTree: React.FC<TagFilterProps> = ({
     );
   };
 
-  switch (mode) {
-    case "plain":
-      return (<div className={styles["tag-filter-tree"]}>
-        {tagTree.map((group: string[], i: number) => {
+  // Render the main component with mode switcher
+  return (
+    <div className={styles["tag-filter-container"]}>
+      {/* Mode Switcher */}
+      <div className={styles["mode-switcher-container"]}>
+        <Dropdown
+          trigger={
+            <Btn
+              icon={currentMode === "plain" ? "list" : "account_tree"}
+              text={currentMode === "plain" ? "Plain Mode" : "Tree Mode"}
+              size="size-medium"
+              mode="mode-possitive-filled"
+              deco="arrow_drop_down"
+            />
+          }
+          dropdownContent={modeDropdownContent}
+          dropdownSize="medium"
+          position="left"
+          className={styles["mode-dropdown"]}
+        />
+      </div>
+
+      {/* Tag Filter Tree Content */}
+      <div className={styles["tag-filter-tree"]}>
+        {renderTagFilterContent()}
+      </div>
+    </div>
+  );
+
+  // Helper function to render content based on current mode
+  function renderTagFilterContent() {
+    switch (currentMode) {
+      case "plain":
+        return tagTree.map((group: string[], i: number) => {
           return (
             <React.Fragment key={i}>
               {i >= renderFromLevel && (
@@ -239,39 +323,34 @@ export const TagFilterTree: React.FC<TagFilterProps> = ({
               )}
             </React.Fragment>
           );
-        })}
-      </div>);
-    case "tree":
-      // Use original tree data if available, otherwise fall back to flat structure
-      if (originalTreeData) {
-        return (
-          <div className={styles["tag-filter-tree"]}>
+        });
+      case "tree":
+        // Use original tree data if available, otherwise fall back to flat structure
+        if (originalTreeData) {
+          return (
             <div className={styles["group"]}>
-              {originalTreeData.map((node: TreeNodesShape) => (
+              {originalTreeData.map((node: TreeNodesShape) =>
                 renderTreeNodeFromOriginal(node, renderFromLevel)
-              ))}
+              )}
             </div>
-          </div>
-        );
-      } else {
-        // Fallback: render as flat structure
-        return (
-          <div className={styles["tag-filter-tree"]}>
+          );
+        } else {
+          // Fallback: render as flat structure
+          return (
             <div className={styles["group"]}>
               {tagTree.map((group: string[], i: number) => (
                 <React.Fragment key={i}>
-                  {i >= renderFromLevel && (
-                    group.map((tag: string, j: number) => (
+                  {i >= renderFromLevel &&
+                    group.map((tag: string, j: number) =>
                       renderTreeNodeFlat(tag, i, j)
-                    ))
-                  )}
+                    )}
                 </React.Fragment>
               ))}
             </div>
-          </div>
-        );
-      }
-    default:
-      return (<></>);
+          );
+        }
+      default:
+        return <></>;
+    }
   }
 };

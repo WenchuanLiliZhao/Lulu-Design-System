@@ -31,7 +31,13 @@
   }
 }
 
-
+.tag-filter-container {
+  
+  .mode-switcher-container {
+    padding: 8px;
+    padding-bottom: 0;
+  }
+}
 
 .tag-filter-tree {
   overflow-y: auto;
