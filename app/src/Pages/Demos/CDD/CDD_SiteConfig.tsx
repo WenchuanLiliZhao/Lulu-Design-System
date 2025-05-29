@@ -368,7 +368,12 @@ export const CDD_TopologyLayout: React.FC<CDD_BasicLayoutProps> = ({
         sidebar={{
           title: "Topology Layers",
           content: (
-            <TagFilterTree tagTree={nodeTagMerge(Example_TreeNodeMaps.Math)} renderFromLevel={1} mode="plain" />
+            <TagFilterTree 
+              tagTree={nodeTagMerge(Example_TreeNodeMaps.Math)} 
+              renderFromLevel={1} 
+              mode="tree" 
+              originalTreeData={Example_TreeNodeMaps.Math}
+            />
           ), // Sidebar with CheckBoxTree
         }}
       />
