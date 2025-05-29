@@ -6,6 +6,7 @@ import { Icon } from "../../Icon";
 interface TagFilterProps {
   tagTree: string[][];
   renderFromLevel: number;
+  mode: "plain" | "tree";
 }
 
 export const NodeTagPrefix = "node-tag-";
@@ -13,11 +14,14 @@ export const NodeTagPrefix = "node-tag-";
 export const TagFilterTree: React.FC<TagFilterProps> = ({
   tagTree,
   renderFromLevel,
+  mode,
 }) => {
   // Track visibility state for each tag (true means visible, false means hidden)
   const [tagVisibility, setTagVisibility] = useState<Record<string, boolean>>(
     {}
   );
+
+  console.log("mode", mode);
 
   // Function to toggle visibility of elements with tag
   const toggleTagVisibility = (tag: string) => {
@@ -55,64 +59,69 @@ export const TagFilterTree: React.FC<TagFilterProps> = ({
       });
     }
   };
-
-  return (
-    <div className={styles["tag-filter-tree"]}>
-      {tagTree.map((group: string[], i: number) => {
-        return (
-          <React.Fragment key={i}>
-            {i >= renderFromLevel && (
-              <div className={styles["group"]}>
-                {group.map((tag: string, j: number) => {
-                  // Get current visibility (default to true if not set)
-                  const isVisible = tagVisibility[tag] !== false;
-                  return (
-                    <div className={styles["tag-item"]} key={j}>
-                      <div className={styles["level-markers"]}>
-                        {/* Only render dividers if not the last level */}
-                        {i > renderFromLevel &&
-                          i < tagTree.length &&
-                          Array.from({ length: i - renderFromLevel }).map(
-                            (_, index) => (
-                              <div
-                                key={`level-${index}`}
-                                className={styles["level-marker"]}
-                              ></div>
-                            )
-                          )}
-                      </div>
-                      <div
-                        className={`${styles["tag-info"]} ${
-                          isVisible ? "" : styles["tag-info-hidden"]
-                        }`}
-                        onClick={() => toggleTagVisibility(tag)}
-                        onMouseEnter={() => toggleIsTarget(tag, true)}
-                        onMouseLeave={() => toggleIsTarget(tag, false)}
-                      >
-                        <div className={styles["tag-label"]}>
-                          <div className={styles["tag-icon-container"]}>
-                            <Icon className={styles["tag-icon"]} icon="tag" />
-                          </div>
-                          <div className={styles["tag-name"]}>{tag}</div>
+  
+  switch (mode) {
+    case "plain":
+      return (<div className={styles["tag-filter-tree"]}>
+        {tagTree.map((group: string[], i: number) => {
+          return (
+            <React.Fragment key={i}>
+              {i >= renderFromLevel && (
+                <div className={styles["group"]}>
+                  {group.map((tag: string, j: number) => {
+                    // Get current visibility (default to true if not set)
+                    const isVisible = tagVisibility[tag] !== false;
+                    return (
+                      <div className={styles["tag-item"]} key={j}>
+                        <div className={styles["level-markers"]}>
+                          {/* Only render dividers if not the last level */}
+                          {i > renderFromLevel &&
+                            i < tagTree.length &&
+                            Array.from({ length: i - renderFromLevel }).map(
+                              (_, index) => (
+                                <div
+                                  key={`level-${index}`}
+                                  className={styles["level-marker"]}
+                                ></div>
+                              )
+                            )}
                         </div>
-                        <Btn
-                          className={styles["tag-btn"]}
-                          icon={isVisible ? "visibility" : "visibility_off"}
-                          size={"size-tiny"}
-                          mode={"mode-plain"}
+                        <div
+                          className={`${styles["tag-info"]} ${
+                            isVisible ? "" : styles["tag-info-hidden"]
+                          }`}
                           onClick={() => toggleTagVisibility(tag)}
                           onMouseEnter={() => toggleIsTarget(tag, true)}
                           onMouseLeave={() => toggleIsTarget(tag, false)}
-                        />
+                        >
+                          <div className={styles["tag-label"]}>
+                            <div className={styles["tag-icon-container"]}>
+                              <Icon className={styles["tag-icon"]} icon="tag" />
+                            </div>
+                            <div className={styles["tag-name"]}>{tag}</div>
+                          </div>
+                          <Btn
+                            className={styles["tag-btn"]}
+                            icon={isVisible ? "visibility" : "visibility_off"}
+                            size={"size-tiny"}
+                            mode={"mode-plain"}
+                            onClick={() => toggleTagVisibility(tag)}
+                            onMouseEnter={() => toggleIsTarget(tag, true)}
+                            onMouseLeave={() => toggleIsTarget(tag, false)}
+                          />
+                        </div>
                       </div>
-                    </div>
-                  );
-                })}
-              </div>
-            )}
-          </React.Fragment>
-        );
-      })}
-    </div>
-  );
+                    );
+                  })}
+                </div>
+              )}
+            </React.Fragment>
+          );
+        })}
+      </div>);
+    case "tree":
+      return (<></>);
+    default:
+      return (<>null</>);
+  }
 };
