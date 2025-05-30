@@ -1,4 +1,3 @@
-
 import { CDD_BasicLayout, SearchHintGroups } from "./CDD_SiteConfig";
 import { PageShape } from "../../../ObjectShapes/PageShape";
 import styles from "./CDD_Home.module.scss";
@@ -11,7 +10,7 @@ import { KanbanGroup } from "../../../Components/DataShowCase/KanbanGroup";
 import { DataList } from "../../../Components/DataShowCase/DataList";
 import { Example_DataPageLists } from "../../../ObjectShapes/ExampleData/Example_DataElement";
 import { ChatBotBtn } from "../../../Components/ChatBotBtn";
-
+import { FakeShakespeare } from "../../../Components/FakeShakespeare";
 
 const CDD_Home: PageShape = {
   info: {
@@ -27,8 +26,7 @@ const CDD_Home: PageShape = {
         <div className={styles["page-title-container"]}>
           <h1 className={styles["page-title"]}>Welcome to CDD Home</h1>
           <p className={styles["page-description"]}>
-            A fair mood may dawn with a search bar's grace, yet a foul mood,
-            too, may find its trace therein.
+            {FakeShakespeare[Math.floor(Math.random() * FakeShakespeare.length)]}
           </p>
         </div>
 
@@ -93,7 +91,7 @@ const CDD_Home: PageShape = {
           }}
         >
           <KanbanGroup
-            title={"Browsing history"}
+            title={"Untitled Kanban"}
             kanbanList={[
               {
                 title: "Report",
@@ -107,6 +105,39 @@ const CDD_Home: PageShape = {
               },
               {
                 title: "Dataset",
+                icon: "dataset",
+                content: (
+                  <DataList
+                    list={Example_DataPageLists.DataSets}
+                    displayMode={"simplified"}
+                  />
+                ),
+              },
+
+              {
+                title: "Untitled Tab 1",
+                icon: "home",
+                content: (
+                  <DataList
+                    list={Example_DataPageLists.DataSets}
+                    displayMode={"simplified"}
+                  />
+                ),
+              },
+
+              {
+                title: "Untitled Tab 2",
+                icon: "folder",
+                content: (
+                  <DataList
+                    list={Example_DataPageLists.DataSets}
+                    displayMode={"simplified"}
+                  />
+                ),
+              },
+
+              {
+                title: "Untitled Tab 3",
                 icon: "dataset",
                 content: (
                   <DataList

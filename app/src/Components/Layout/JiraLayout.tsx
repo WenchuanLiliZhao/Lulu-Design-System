@@ -152,6 +152,7 @@ export const JiraLayout: React.FC<JiraLayoutProps> = ({
               <Btn
                 icon={"side_navigation"}
                 size={"size-small"}
+                mode={"mode-outlined"}
                 onClick={handleDisplayClick} // Handle click to toggle sidebar visibility
                 // 处理点击以切换侧边栏可见性
               />

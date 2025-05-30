@@ -177,6 +177,7 @@ export const CDD_DataPageLayout: React.FC<CDD_BasicLayoutProps> = ({
                   icon={"tune"}
                   size={"size-small"}
                   deco={"arrow_drop_down"}
+                  mode={"mode-outlined"}
                 />
               }
               dropdownContent={
