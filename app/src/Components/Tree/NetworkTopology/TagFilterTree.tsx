@@ -109,6 +109,53 @@ export const TagFilterTree: React.FC<TagFilterProps> = ({
     }
   };
 
+  // Helper function to check if a tag is inherited hidden
+  const isTagInheritedHidden = (tag: string): boolean => {
+    if (!originalTreeData) return false;
+    
+    // Find all parent tags of the current tag by traversing the tree
+    const parentTags = getParentTags(tag, originalTreeData);
+    
+    // Check if any parent tag is directly hidden
+    return parentTags.some(parentTag => tagVisibility[parentTag] === false);
+  };
+
+  // Helper function to get all parent tags of a given tag
+  const getParentTags = (targetTag: string, nodes: TreeNodesShape[], parentTags: string[] = []): string[] => {
+    for (const node of nodes) {
+      const nodeTags = node.page.info.tags || [];
+      
+      // If this node contains the target tag, return all accumulated parent tags
+      if (nodeTags.includes(targetTag)) {
+        return parentTags;
+      }
+      
+      // Check if target tag exists in children
+      if (hasTagInSubtree(targetTag, node.children)) {
+        // Recursively search in children, adding current node's tags to parent tags
+        const childParentTags = getParentTags(targetTag, node.children, [...parentTags, ...nodeTags]);
+        if (childParentTags.length >= 0) { // Changed from > 0 to >= 0 to handle empty arrays
+          return childParentTags;
+        }
+      }
+    }
+    return [];
+  };
+
+  // Helper function to check if a tag exists in a subtree
+  const hasTagInSubtree = (targetTag: string, nodes: TreeNodesShape[]): boolean => {
+    for (const node of nodes) {
+      const nodeTags = node.page.info.tags || [];
+      if (nodeTags.includes(targetTag)) {
+        return true;
+      }
+      if (hasTagInSubtree(targetTag, node.children)) {
+        return true;
+      }
+    }
+    return false;
+  };
+
   // Helper function to render tree nodes recursively based on original tree structure
   const renderTreeNodeFromOriginal = (
     node: TreeNodesShape,
@@ -132,6 +179,7 @@ export const TagFilterTree: React.FC<TagFilterProps> = ({
       <div key={`${node.page.info.slug}-${level}`}>
         {tags.map((tag: string, tagIndex: number) => {
           const isVisible = tagVisibility[tag] !== false;
+          const isInheritedHidden = isTagInheritedHidden(tag);
 
           return (
             <div key={`${tag}-${level}-${tagIndex}`}>
@@ -150,7 +198,8 @@ export const TagFilterTree: React.FC<TagFilterProps> = ({
                 </div>
                 <div
                   className={`${styles["tag-info"]} ${
-                    isVisible ? "" : styles["tag-info-hidden"]
+                    !isVisible ? styles["tag-info-hidden"] : 
+                    isInheritedHidden ? styles["tag-info-inherited-hidden"] : ""
                   }`}
                   onClick={() => toggleTagVisibility(tag)}
                   onMouseEnter={() => toggleIsTarget(tag, true)}
@@ -191,6 +240,7 @@ export const TagFilterTree: React.FC<TagFilterProps> = ({
     childIndex: number = 0
   ): React.ReactElement => {
     const isVisible = tagVisibility[tag] !== false;
+    const isInheritedHidden = isTagInheritedHidden(tag);
 
     return (
       <div key={`${tag}-${level}-${childIndex}`}>
@@ -209,7 +259,8 @@ export const TagFilterTree: React.FC<TagFilterProps> = ({
           </div>
           <div
             className={`${styles["tag-info"]} ${
-              isVisible ? "" : styles["tag-info-hidden"]
+              !isVisible ? styles["tag-info-hidden"] : 
+              isInheritedHidden ? styles["tag-info-inherited-hidden"] : ""
             }`}
             onClick={() => toggleTagVisibility(tag)}
             onMouseEnter={() => toggleIsTarget(tag, true)}
@@ -277,6 +328,7 @@ export const TagFilterTree: React.FC<TagFilterProps> = ({
                   {group.map((tag: string, j: number) => {
                     // Get current visibility (default to true if not set)
                     const isVisible = tagVisibility[tag] !== false;
+                    const isInheritedHidden = isTagInheritedHidden(tag);
                     return (
                       <div className={styles["tag-item"]} key={j}>
                         <div className={styles["level-markers"]}>
@@ -294,7 +346,8 @@ export const TagFilterTree: React.FC<TagFilterProps> = ({
                         </div>
                         <div
                           className={`${styles["tag-info"]} ${
-                            isVisible ? "" : styles["tag-info-hidden"]
+                            !isVisible ? styles["tag-info-hidden"] : 
+                            isInheritedHidden ? styles["tag-info-inherited-hidden"] : ""
                           }`}
                           onClick={() => toggleTagVisibility(tag)}
                           onMouseEnter={() => toggleIsTarget(tag, true)}

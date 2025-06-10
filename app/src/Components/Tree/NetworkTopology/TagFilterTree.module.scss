@@ -29,6 +29,29 @@
       display: block;
     }
   }
+
+  // Add style for tags that are hidden due to parent being hidden
+  &.tag-info-inherited-hidden {
+    opacity: 0.24;
+    position: relative;
+    
+    .tag-btn {
+      display: block;
+    }
+    
+    // // Add a dot indicator to show inherited hidden state
+    // &::before {
+    //   content: '';
+    //   width: 4px;
+    //   height: 4px;
+    //   background-color: var(--color-neg-trans);
+    //   border-radius: 50%;
+    //   position: absolute;
+    //   left: -8px;
+    //   top: 50%;
+    //   transform: translateY(-50%);
+    // }
+  }
 }
 
 .tag-filter-container {
