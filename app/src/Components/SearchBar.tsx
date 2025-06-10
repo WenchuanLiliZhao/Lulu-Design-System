@@ -34,6 +34,7 @@ type SearchBarProps = {
   size?: "size-default" | "size-on-nav" | "size-small";
   searchHintGroups?: SearchHintGroupType[];
   onSearch: (query: string) => void;
+  defaultValue?: string;
 };
 
 export const SearchBar: React.FC<SearchBarProps> = ({
@@ -41,8 +42,9 @@ export const SearchBar: React.FC<SearchBarProps> = ({
   size = "size-default",
   searchHintGroups,
   onSearch,
+  defaultValue = "",
 }) => {
-  const [query, setQuery] = useState("");
+  const [query, setQuery] = useState(defaultValue);
   const [isFocused, setIsFocused] = useState(false);
 
   const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {

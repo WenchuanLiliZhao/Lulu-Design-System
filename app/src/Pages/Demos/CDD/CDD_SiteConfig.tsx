@@ -207,7 +207,26 @@ export const CDD_DataPageLayout: React.FC<CDD_BasicLayoutProps> = ({
                           }}
                         />,
                         <FilterableDropdown
-                          placeholder={"What do you want to learn?"}
+                          placeholder={"Data Source"}
+                          options={[
+                            "Set Theory",
+                            "Linear Algebra",
+                            "Abstract Algebra",
+                            "Geometry",
+                            "Topology",
+                            "Number Theory",
+                            "Calculus",
+                            "Probability",
+                            "Statistics",
+                            "Combinatorics",
+                          ]}
+                          onSelect={(selectedOption) => {
+                            console.log("Selected option:", selectedOption);
+                            // 在这里处理选中的选项
+                          }}
+                        />,
+                        <FilterableDropdown
+                          placeholder={"Root Nodes"}
                           options={[
                             "Set Theory",
                             "Linear Algebra",
@@ -232,8 +251,7 @@ export const CDD_DataPageLayout: React.FC<CDD_BasicLayoutProps> = ({
                       groupTitle: "Foundations of Mathematics",
                       groupItems: [
                         <FilterableDropdown
-                          defaultSelectedOption={"Abstract Algebra"}
-                          placeholder={""}
+                          placeholder={"Type"}
                           options={[
                             "Set Theory",
                             "Linear Algebra",
@@ -251,23 +269,13 @@ export const CDD_DataPageLayout: React.FC<CDD_BasicLayoutProps> = ({
                             // 在这里处理选中的选项
                           }}
                         />,
-                        <FilterableDropdown
-                          placeholder={"What do you want to learn?"}
-                          options={[
-                            "Set Theory",
-                            "Linear Algebra",
-                            "Abstract Algebra",
-                            "Geometry",
-                            "Topology",
-                            "Number Theory",
-                            "Calculus",
-                            "Probability",
-                            "Statistics",
-                            "Combinatorics",
-                          ]}
-                          onSelect={(selectedOption) => {
-                            console.log("Selected option:", selectedOption);
-                            // 在这里处理选中的选项
+                        <SearchBar
+                          defaultValue="f20966482d5784192b1041da"
+                          size="size-small"
+                          onSearch={function (query: string): void {
+                            throw new Error(
+                              `Function not implemented: ${query}`
+                            );
                           }}
                         />,
                       ],
@@ -311,19 +319,6 @@ export const CDD_DataPageLayout: React.FC<CDD_BasicLayoutProps> = ({
                           onSelect={(selectedOption) => {
                             console.log("Selected option:", selectedOption);
                             // 在这里处理选中的选项
-                          }}
-                        />,
-                      ],
-                    },
-                    {
-                      groupSpacing: "group-spacing-compact",
-                      groupItems: [
-                        <SearchBar
-                          size="size-small"
-                          onSearch={function (query: string): void {
-                            throw new Error(
-                              `Function not implemented: ${query}`
-                            );
                           }}
                         />,
                       ],
