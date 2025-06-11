@@ -37,6 +37,18 @@ const Home: PageShape = {
         >
           📧 A Demo for the Email Page
         </a>
+        <a
+          className={styles["item"]}
+          href={`/${DemoPages.DB_Timeline.info.slug}`}
+        >
+          📅 DB Timeline Demo
+        </a>
+        <a
+          className={styles["item"]}
+          href={`/${DemoPages.DepartmentTable.info.slug}`}
+        >
+          🏢 Department Table with Lucide Icons
+        </a>
       </div>
       <div className={styles["links"]}>
         <a href="https://github.com/WenchuanLiliZhao/Lulu-Design-System/tree/main/app">GitHub repository</a>
