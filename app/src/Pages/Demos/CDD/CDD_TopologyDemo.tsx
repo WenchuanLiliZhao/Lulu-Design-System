@@ -1,6 +1,5 @@
-
 import { ChatBotBtn } from "../../../Components/ChatBotBtn";
-import NetworkTopology from "../../../Components/Tree/NetworkTopology/NetworkTopology";
+import { TopologyWithControls } from "../../../Components/Tree/NetworkTopology/TopologyWithControls";
 import { mergeTagsOfTreeNodes, transformTreeNodes } from "../../../Components/Tree/TreeExplorer";
 import { Example_TreeNodeMaps } from "../../../ObjectShapes/ExampleData/Example_TreeNodes";
 import { PageShape } from "../../../ObjectShapes/PageShape";
@@ -16,7 +15,7 @@ const CDD_TopologyDemo: PageShape = {
   },
   content: (
     <CDD_TopologyLayout>
-      <NetworkTopology data={transformTreeToGraph(mergeTagsOfTreeNodes(transformTreeNodes(Example_TreeNodeMaps.Math)))} />
+      <TopologyWithControls data={transformTreeToGraph(mergeTagsOfTreeNodes(transformTreeNodes(Example_TreeNodeMaps.Math)))} />
       <ChatBotBtn />
     </CDD_TopologyLayout>
   ),

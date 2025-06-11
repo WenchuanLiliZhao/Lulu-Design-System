@@ -36,7 +36,6 @@ $$
 where $s$ is the node size, $b$ is the `baseNodeSize`, $g$ is the `sizeFactor`, $l$ is the current node level, and $c$ is the `sizePower`.  
 */}
 
-const repulsionStrength = -150; // Controls the repulsion force between nodes. More negative values = stronger repulsion
 const velocityDecay = 0.2; // Controls how quickly nodes lose momentum (0-1). Lower values = nodes move/swim faster
 const minZoom = 0.1; // Minimum zoom scale - limits how far users can zoom out
 const maxZoom = 5; // Maximum zoom scale - limits how far users can zoom in
@@ -89,6 +88,7 @@ interface NetworkTopologyProps {
   width?: number;
   height?: number;
   treeData?: NodeShape[]; // Add support for directly passing tree data
+  repulsionStrength?: number; // Add support for dynamic repulsion strength
 }
 
 // Define defaultData using existing imports
@@ -104,7 +104,8 @@ const NetworkTopology = ({
   data = defaultData, 
   width = 800, 
   height = 600, 
-  treeData 
+  treeData,
+  repulsionStrength = -150 
 }: NetworkTopologyProps) => {
   const svgRef = useRef<SVGSVGElement>(null);
   
@@ -649,7 +650,7 @@ const NetworkTopology = ({
       // Stop the simulation
       simulation.stop();
     };
-  }, [graphData, width, height]);
+  }, [graphData, width, height, repulsionStrength]);
 
   return (
     <div className={styles["network-topology-container"]}>
