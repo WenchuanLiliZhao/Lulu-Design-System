@@ -479,9 +479,163 @@ const DataSets: PageShape[] = [
   },
 ];
 
+// 更新收藏数据 - 匹配截图显示的详细结构
+const MyFavorites: PageShape[] = [
+  {
+    info: {
+      slug: "f20966482d5784192b1041da",
+      title: "China Daily Sales Report",
+      title_display: "China Daily Sales Report",
+      type: "dashboard",
+      date: new Date("2025-04-29T20:26:54Z"),
+      metadata: {
+        id: "f20966482d5784192b1041da",
+        dataName: "China Daily Sales Report",
+        dataType: "GuanDashBoard",
+        favoriteTime: "2025-04-29 20:26:54"
+      }
+    },
+    content: null,
+  },
+  {
+    info: {
+      slug: "d692b80784a88442eb59f82a",
+      title: "Daily_Report_FPA",
+      title_display: "Daily_Report_FPA",
+      type: "dashboard",
+      date: new Date("2025-04-10T11:53:17Z"),
+      metadata: {
+        id: "d692b80784a88442eb59f82a",
+        dataName: "Daily_Report_FPA",
+        dataType: "GuanDashBoard",
+        favoriteTime: "2025-04-10 11:53:17"
+      }
+    },
+    content: null,
+  },
+  {
+    info: {
+      slug: "e823c91685b99553fc68g93b",
+      title: "Weekly Performance Dashboard",
+      title_display: "Weekly Performance Dashboard",
+      type: "dashboard",
+      date: new Date("2025-04-25T14:30:00Z"),
+      metadata: {
+        id: "e823c91685b99553fc68g93b",
+        dataName: "Weekly Performance Dashboard",
+        dataType: "GuanDashBoard",
+        favoriteTime: "2025-04-25 14:30:00"
+      }
+    },
+    content: null,
+  },
+  {
+    info: {
+      slug: "f934d02796ca0664gd79h04c",
+      title: "Monthly Revenue Analysis",
+      title_display: "Monthly Revenue Analysis",
+      type: "report",
+      date: new Date("2025-04-20T09:15:30Z"),
+      metadata: {
+        id: "f934d02796ca0664gd79h04c",
+        dataName: "Monthly Revenue Analysis",
+        dataType: "ReportDashBoard",
+        favoriteTime: "2025-04-20 09:15:30"
+      }
+    },
+    content: null,
+  },
+];
+
+// 更新订阅数据 - 与收藏类似的结构但时间字段不同
+const MySubscriptions: PageShape[] = [
+  {
+    info: {
+      slug: "f20966482d5784192b1041da",
+      title: "China Daily Sales Report",
+      title_display: "China Daily Sales Report",
+      type: "dashboard",
+      date: new Date("2025-04-29T20:26:54Z"),
+      metadata: {
+        id: "f20966482d5784192b1041da",
+        dataName: "China Daily Sales Report",
+        dataType: "GuanDashBoard",
+        subscriptionTime: "2025-04-29 20:26:54"
+      }
+    },
+    content: null,
+  },
+  {
+    info: {
+      slug: "d692b80784a88442eb59f82a",
+      title: "Daily_Report_FPA",
+      title_display: "Daily_Report_FPA",
+      type: "dashboard",
+      date: new Date("2025-04-10T11:53:17Z"),
+      metadata: {
+        id: "d692b80784a88442eb59f82a",
+        dataName: "Daily_Report_FPA",
+        dataType: "GuanDashBoard",
+        subscriptionTime: "2025-04-10 11:53:17"
+      }
+    },
+    content: null,
+  },
+  {
+    info: {
+      slug: "g045e13807cb1775hd80i15d",
+      title: "Customer Engagement Metrics",
+      title_display: "Customer Engagement Metrics",
+      type: "dashboard",
+      date: new Date("2025-04-22T16:45:20Z"),
+      metadata: {
+        id: "g045e13807cb1775hd80i15d",
+        dataName: "Customer Engagement Metrics",
+        dataType: "GuanDashBoard",
+        subscriptionTime: "2025-04-22 16:45:20"
+      }
+    },
+    content: null,
+  },
+  {
+    info: {
+      slug: "h156f24918dc2886ie91j26e",
+      title: "Supply Chain Optimization",
+      title_display: "Supply Chain Optimization",
+      type: "report",
+      date: new Date("2025-04-18T11:20:45Z"),
+      metadata: {
+        id: "h156f24918dc2886ie91j26e",
+        dataName: "Supply Chain Optimization",
+        dataType: "ReportDashBoard",
+        subscriptionTime: "2025-04-18 11:20:45"
+      }
+    },
+    content: null,
+  },
+  {
+    info: {
+      slug: "i267g35029ed3997jf02k37f",
+      title: "Financial Risk Assessment",
+      title_display: "Financial Risk Assessment",
+      type: "dashboard",
+      date: new Date("2025-04-15T13:10:15Z"),
+      metadata: {
+        id: "i267g35029ed3997jf02k37f",
+        dataName: "Financial Risk Assessment",
+        dataType: "GuanDashBoard",
+        subscriptionTime: "2025-04-15 13:10:15"
+      }
+    },
+    content: null,
+  },
+];
+
 export const Example_DataPageLists = {
   ResentlyViewed,
   Reports,
   DataSets,
+  MyFavorites,
+  MySubscriptions,
   Empty: [],
 }

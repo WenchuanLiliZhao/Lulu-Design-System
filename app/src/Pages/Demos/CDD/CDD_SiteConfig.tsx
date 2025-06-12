@@ -25,6 +25,9 @@ import { FilterableDropdown } from "../../../Components/Dropdown/FilterableDropd
 import { TextSwitch } from "../../../Components/SmallElements/Switch";
 import { TagFilterTree } from "../../../Components/Tree/NetworkTopology/TagFilterTree";
 import { nodeTagMerge } from "../../../Utils/nodeTagMerge";
+import { SidebarTabs } from "../../../Components/DataShowCase/SidebarTabs";
+import { MetadataList } from "../../../Components/DataShowCase/MetadataList";
+import { Example_DataPageLists } from "../../../ObjectShapes/ExampleData/Example_DataElement";
 
 export const CDD_SiteInfo: SiteInfoType = {
   title: "China Data Discover",
@@ -169,7 +172,37 @@ export const CDD_DataPageLayout: React.FC<CDD_BasicLayoutProps> = ({
         }
         sidebar={{
           title: "Data Dictionary",
-          content: <TreeExplorer data={transformTreeNodes(Example_TreeNodeMaps.Math)} />,
+          content: (
+            <SidebarTabs
+              tabs={[
+                {
+                  title: "对象浏览",
+                  icon: "search",
+                  content: <TreeExplorer data={transformTreeNodes(Example_TreeNodeMaps.Math)} />,
+                },
+                {
+                  title: "我的收藏",
+                  icon: "star",
+                  content: (
+                    <MetadataList
+                      list={Example_DataPageLists.MyFavorites}
+                      listType="favorites"
+                    />
+                  ),
+                },
+                {
+                  title: "我的订阅",
+                  icon: "subscriptions",
+                  content: (
+                    <MetadataList
+                      list={Example_DataPageLists.MySubscriptions}
+                      listType="subscriptions"
+                    />
+                  ),
+                },
+              ]}
+            />
+          ),
           headerControls: [
             <Dropdown
               trigger={

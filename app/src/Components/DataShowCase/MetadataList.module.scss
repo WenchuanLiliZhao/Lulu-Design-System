@@ -1,0 +1,102 @@
+.metadata-list-empty {
+  padding: 24px;
+  .hint {
+    .img {
+      margin: 0 auto;
+      width: 100%;
+      height: 240px;
+      object-fit: contain;
+    }
+
+    .text {
+      .title {
+        font-size: 16px;
+        line-height: 24px;
+        color: var(--color-sec);
+        text-align: center;
+        font-weight: bold;
+      }
+
+      .subtitle {
+        font-size: 14px;
+        line-height: 22px;
+        color: var(--color-sec);
+        text-align: center;
+        margin-top: 8px;
+      }
+    }
+  }
+}
+
+.metadata-list {
+  padding: 16px;
+
+  .metadata-item {
+    position: relative;
+    background-color: var(--color-bg-sec);
+    border: 1px solid var(--color-border-main);
+    border-radius: 8px;
+    padding: 8px;
+    margin-bottom: 12px;
+    overflow: hidden;
+    
+    &:last-child {
+      margin-bottom: 0;
+    }
+
+    &:hover {
+      border-color: var(--color-semantic-active);
+      // background-color: var(--color-bg-sec-2);
+    }
+
+    .metadata-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 12px;
+
+      .metadata-id {
+        font-size: 14px;
+        font-weight: 500;
+        color: var(--color-semantic-active);
+        font-family: var(--ff-mono);
+        padding: 4px 0;
+        background-color: var(--color-semantic-active-trans);
+        border-radius: 4px;
+        border: 1px solid var(--color-semantic-active-trans);
+
+        // 限制显示为一行，超出显示省略号
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+      }
+    }
+
+    .metadata-info {
+      .info-row {
+        display: flex;
+        align-items: flex-start;
+        margin-bottom: 8px;
+        font-size: 13px;
+        line-height: 20px;
+
+        &:last-child {
+          margin-bottom: 0;
+        }
+
+        .info-label {
+          color: var(--color-sec);
+          margin-right: 8px;
+          flex-shrink: 0;
+          min-width: 80px;
+        }
+
+        .info-value {
+          color: var(--color-main);
+          font-weight: 500;
+          flex: 1;
+        }
+      }
+    }
+  }
+} 

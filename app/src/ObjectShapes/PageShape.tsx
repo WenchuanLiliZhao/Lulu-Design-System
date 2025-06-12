@@ -11,6 +11,13 @@ export interface PageInfo {
   date: Date
   type: PageType
   tags?: string[]
+  metadata?: {
+    id: string
+    dataName: string
+    dataType: string
+    favoriteTime?: string
+    subscriptionTime?: string
+  }
 }
 
 export interface PageShape {
