@@ -1,21 +1,42 @@
 import React from "react";
+import { renderToStaticMarkup } from "react-dom/server";
 import { PageShape } from "../../../ObjectShapes/PageShape";
 import { 
   ShoppingBag, 
   TrendingUp, 
-  Package, 
-  Settings, 
-  Zap, 
   Globe, 
   BarChart3, 
-  Users, 
-  ShoppingCart, 
-  Truck, 
-  CreditCard, 
-  Calculator, 
-  Monitor, 
-  Share2,
-  Download
+  Download,
+  FileText,
+  Store,
+  Megaphone,
+  Palette,
+  Star,
+  Monitor,
+  Smartphone,
+  Wifi,
+  PieChart,
+  LineChart,
+  Clipboard,
+  FolderOpen,
+  Archive,
+  BookOpen,
+  ShoppingCart,
+  CreditCard,
+  Target,
+  Zap,
+  Camera,
+  Video,
+  DollarSign,
+  Activity,
+  FileBarChart,
+  Building,
+  Truck,
+  MousePointer,
+  Laptop,
+  Tablet,
+  Calendar,
+  Settings
 } from "lucide-react";
 import JSZip from "jszip";
 import styles from "./DepartmentTable.module.scss";
@@ -23,26 +44,73 @@ import styles from "./DepartmentTable.module.scss";
 // 部门数据类型定义
 interface Department {
   name: string;
-  iconName: string;
-  IconComponent: React.ComponentType<{ size?: number; className?: string }>;
+  icons: {
+    iconName: string;
+    IconComponent: React.ComponentType<{ size?: number; className?: string }>;
+  }[];
 }
 
-// 部门数据，每个部门配对一个合适的 Lucide 图标
+// 根据实际人员信息的部门数据，每个部门配对 7-8 个合适的 Lucide 图标（无重复）
 const departments: Department[] = [
-  { name: "Retail", iconName: "shopping-bag", IconComponent: ShoppingBag },
-  { name: "Sales", iconName: "trending-up", IconComponent: TrendingUp },
-  { name: "Product", iconName: "package", IconComponent: Package },
-  { name: "Operation", iconName: "settings", IconComponent: Settings },
-  { name: "Pilot", iconName: "zap", IconComponent: Zap },
-  { name: "EC", iconName: "globe", IconComponent: Globe },
-  { name: "FP&A", iconName: "bar-chart-3", IconComponent: BarChart3 },
-  { name: "Guest", iconName: "users", IconComponent: Users },
-  { name: "Merchandising", iconName: "shopping-cart", IconComponent: ShoppingCart },
-  { name: "Fulfillment", iconName: "truck", IconComponent: Truck },
-  { name: "AP", iconName: "credit-card", IconComponent: CreditCard },
-  { name: "Accounting", iconName: "calculator", IconComponent: Calculator },
-  { name: "Tech", iconName: "monitor", IconComponent: Monitor },
-  { name: "Shared to Me", iconName: "share-2", IconComponent: Share2 },
+  { 
+    name: "Retail", 
+    icons: [
+      { iconName: "shopping-bag", IconComponent: ShoppingBag },
+      { iconName: "store", IconComponent: Store },
+      { iconName: "shopping-cart", IconComponent: ShoppingCart },
+      { iconName: "credit-card", IconComponent: CreditCard },
+      { iconName: "building", IconComponent: Building },
+      { iconName: "truck", IconComponent: Truck }
+    ]
+  },
+  { 
+    name: "Brand Marketing", 
+    icons: [
+      { iconName: "trending-up", IconComponent: TrendingUp },
+      { iconName: "megaphone", IconComponent: Megaphone },
+      { iconName: "palette", IconComponent: Palette },
+      { iconName: "star", IconComponent: Star },
+      { iconName: "target", IconComponent: Target },
+      { iconName: "zap", IconComponent: Zap },
+      { iconName: "camera", IconComponent: Camera }
+    ]
+  },
+  { 
+    name: "Ecommerce", 
+    icons: [
+      { iconName: "globe", IconComponent: Globe },
+      { iconName: "monitor", IconComponent: Monitor },
+      { iconName: "smartphone", IconComponent: Smartphone },
+      { iconName: "wifi", IconComponent: Wifi },
+      { iconName: "video", IconComponent: Video },
+      { iconName: "mouse-pointer", IconComponent: MousePointer },
+      { iconName: "laptop", IconComponent: Laptop },
+      { iconName: "tablet", IconComponent: Tablet }
+    ]
+  },
+  { 
+    name: "Business Planning & Operations", 
+    icons: [
+      { iconName: "bar-chart-3", IconComponent: BarChart3 },
+      { iconName: "pie-chart", IconComponent: PieChart },
+      { iconName: "line-chart", IconComponent: LineChart },
+      { iconName: "clipboard", IconComponent: Clipboard },
+      { iconName: "dollar-sign", IconComponent: DollarSign },
+      { iconName: "activity", IconComponent: Activity },
+      { iconName: "calendar", IconComponent: Calendar }
+    ]
+  },
+  {
+    name: "Report",
+    icons: [
+      { iconName: "file-text", IconComponent: FileText },
+      { iconName: "folder-open", IconComponent: FolderOpen },
+      { iconName: "archive", IconComponent: Archive },
+      { iconName: "book-open", IconComponent: BookOpen },
+      { iconName: "file-bar-chart", IconComponent: FileBarChart },
+      { iconName: "settings", IconComponent: Settings }
+    ]
+  }
 ];
 
 // 表格组件
@@ -56,10 +124,27 @@ const DepartmentTableComponent: React.FC = () => {
   };
 
     // 生成 SVG 内容的辅助函数
-  const generateSVGContent = (_: React.ComponentType<{ size?: number; className?: string }>, iconName: string): string => {
-    // 使用 React.renderToString 的替代方案
-    // 直接构造标准的 Lucide SVG 结构
-    return `<!-- Generated from lucide-react component: ${iconName} -->
+  const generateSVGContent = (IconComponent: React.ComponentType<{ size?: number; className?: string }>, iconName: string): string => {
+    try {
+      // 使用 renderToStaticMarkup 渲染实际的 React 组件
+      const svgMarkup = renderToStaticMarkup(
+        React.createElement(IconComponent, {
+          size: 24,
+          // 移除 className 以避免样式依赖
+        })
+      );
+      
+      // 清理生成的 SVG，移除不必要的属性
+      const cleanedSvg = svgMarkup
+        .replace(/\sclass="[^"]*"/g, '') // 移除 class 属性
+        .replace(/\sstyle="[^"]*"/g, '') // 移除 style 属性
+        .replace(/\sdata-[^=]*="[^"]*"/g, ''); // 移除 data 属性
+      
+      return `<!-- Generated from lucide-react component: ${iconName} -->\n${cleanedSvg}`;
+    } catch (error) {
+      console.error(`生成 ${iconName} SVG 失败:`, error);
+      // 如果渲染失败，返回一个基本的占位符
+      return `<!-- Error generating ${iconName} -->
 <svg
   xmlns="http://www.w3.org/2000/svg"
   width="24"
@@ -70,11 +155,11 @@ const DepartmentTableComponent: React.FC = () => {
   stroke-width="2"
   stroke-linecap="round"
   stroke-linejoin="round"
-  class="lucide lucide-${iconName}"
 >
-  <!-- Icon paths would be here -->
-  <!-- Note: This is a placeholder. For production, you'd need to extract actual path data -->
+  <circle cx="12" cy="12" r="10"/>
+  <path d="M12 6v6l4 2"/>
 </svg>`;
+    }
   };
 
   // 批量下载所有 SVG 文件
@@ -85,14 +170,24 @@ const DepartmentTableComponent: React.FC = () => {
       const zip = new JSZip();
       const svgFolder = zip.folder("department-icons");
       
-      // 为每个部门生成 SVG 内容
+      // 为每个部门的每个图标生成 SVG 内容
       departments.forEach((department) => {
-        try {
-          const svgContent = generateSVGContent(department.IconComponent, department.iconName);
-          svgFolder?.file(`${department.iconName}.svg`, svgContent);
-        } catch (error) {
-          console.error(`生成 ${department.iconName} SVG 失败:`, error);
-        }
+        // 改进文件夹名称处理，确保兼容性
+        const sanitizedName = department.name
+          .replace(/[&]/g, 'and')
+          .replace(/[^a-zA-Z0-9\s]/g, '')
+          .replace(/\s+/g, '-')
+          .toLowerCase();
+        const departmentFolder = svgFolder?.folder(sanitizedName);
+        
+        department.icons.forEach((icon) => {
+          try {
+            const svgContent = generateSVGContent(icon.IconComponent, icon.iconName);
+            departmentFolder?.file(`${icon.iconName}.svg`, svgContent);
+          } catch (error) {
+            console.error(`生成 ${icon.iconName} SVG 失败:`, error);
+          }
+        });
       });
 
       // 生成 ZIP 文件并下载
@@ -110,10 +205,12 @@ const DepartmentTableComponent: React.FC = () => {
       document.body.removeChild(link);
       URL.revokeObjectURL(url);
       
-      console.log(`成功生成 ${departments.length} 个图标的 ZIP 文件`);
+      const totalIcons = departments.reduce((sum, dept) => sum + dept.icons.length, 0);
+      console.log(`成功生成 ${totalIcons} 个图标的 ZIP 文件`);
+      alert(`✅ 成功下载 ${totalIcons} 个图标！\n文件已按部门分文件夹存储。`);
     } catch (error) {
       console.error('批量下载失败:', error);
-      alert('批量下载失败，请稍后重试');
+      alert('❌ 批量下载失败，请稍后重试');
     } finally {
       setIsDownloadingAll(false);
     }
@@ -122,7 +219,7 @@ const DepartmentTableComponent: React.FC = () => {
   return (
     <div className={styles["department-table-container"]}>
       <h1>部门图标表格</h1>
-      <p>点击任意图标可跳转到 Lucide 官网对应页面</p>
+      <p>基于实际团队成员的部门信息，每个部门提供多个备选图标，点击任意图标可跳转到 Lucide 官网对应页面</p>
       
       <div className={styles["download-section"]}>
         <button
@@ -141,7 +238,7 @@ const DepartmentTableComponent: React.FC = () => {
           <thead>
             <tr>
               <th>部门名称</th>
-              <th>Lucide Icon</th>
+              <th>备选 Lucide Icons</th>
             </tr>
           </thead>
           <tbody>
@@ -149,18 +246,26 @@ const DepartmentTableComponent: React.FC = () => {
               <tr key={index}>
                 <td className={styles["department-name"]}>
                   {department.name}
+                  <span className={styles["icon-count"]}>
+                    ({department.icons.length}个)
+                  </span>
                 </td>
                 <td className={styles["icon-cell"]}>
-                  <button
-                    className={styles["icon-button"]}
-                    onClick={() => handleIconClick(department.iconName)}
-                    title={`点击查看 ${department.iconName} 图标详情`}
-                  >
-                    <department.IconComponent 
-                      size={24} 
-                      className={styles["lucide-icon"]}
-                    />
-                  </button>
+                  <div className={styles["icons-container"]}>
+                    {department.icons.map((icon, iconIndex) => (
+                      <button
+                        key={iconIndex}
+                        className={styles["icon-button"]}
+                        onClick={() => handleIconClick(icon.iconName)}
+                        title={`点击查看 ${icon.iconName} 图标详情`}
+                      >
+                        <icon.IconComponent 
+                          size={24} 
+                          className={styles["lucide-icon"]}
+                        />
+                      </button>
+                    ))}
+                  </div>
                 </td>
               </tr>
             ))}
@@ -171,10 +276,12 @@ const DepartmentTableComponent: React.FC = () => {
       <div className={styles["info-note"]}>
         <p><strong>说明：</strong></p>
         <ul>
-          <li>每个部门都配对了一个语义化的 Lucide 图标</li>
-          <li>点击图标可以跳转到 Lucide 官方页面查看详情</li>
-          <li>使用"打包下载全部 SVG"按钮可以一次性下载所有图标的 ZIP 文件</li>
+          <li>表格展示了实际团队成员所在的部门信息</li>
+          <li>每个部门都提供了多个语义化的 Lucide 备选图标</li>
+          <li>点击任意图标可以跳转到 Lucide 官方页面查看详情</li>
+          <li>使用"打包下载全部 SVG"按钮可以一次性下载所有图标的 ZIP 文件，按部门分文件夹存储</li>
           <li>表格使用了现有的设计系统样式变量</li>
+          <li>当前共有 {departments.reduce((sum, dept) => sum + dept.icons.length, 0)} 个不重复的图标</li>
         </ul>
       </div>
     </div>
