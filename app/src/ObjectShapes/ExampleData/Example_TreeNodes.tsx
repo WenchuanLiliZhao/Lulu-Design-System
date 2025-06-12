@@ -128,6 +128,97 @@ const Math: TreeNodesShape[] = [
                     },
                     children: [],
                   },
+                  {
+                    page: {
+                      info: {
+                        slug: "examples_of_sets",
+                        title: "Examples of Sets",
+                        date: new Date("2025-04-04"),
+                        type: "database",
+                        tags: ["set-operations"],
+                      },
+                      content: <div>Examples of Sets</div>,
+                    },
+                    children: [],
+                  },
+                  {
+                    page: {
+                      info: {
+                        slug: "examples_of_sets_1",
+                        title: "Examples of Sets 1",
+                        date: new Date("2025-04-04"),
+                        type: "database",
+                        tags: ["set-operations"],
+                      },
+                      content: <div>Examples of Sets</div>,
+                    },
+                    children: [],
+                  },
+                  {
+                    page: {
+                      info: {
+                        slug: "examples_of_sets_2",
+                        title: "Examples of Sets 2",
+                        date: new Date("2025-04-04"),
+                        type: "database",
+                        tags: ["set-operations"],
+                      },
+                      content: <div>Examples of Sets</div>,
+                    },
+                    children: [],
+                  },
+                  {
+                    page: {
+                      info: {
+                        slug: "examples_of_sets_3",
+                        title: "Examples of Sets 3",
+                        date: new Date("2025-04-04"),
+                        type: "database",
+                        tags: ["set-operations"],
+                      },
+                      content: <div>Examples of Sets</div>,
+                    },
+                    children: [],
+                  },
+                  {
+                    page: {
+                      info: {
+                        slug: "examples_of_sets_4",
+                        title: "Examples of Sets 4",
+                        date: new Date("2025-04-04"),
+                        type: "database",
+                        tags: ["set-operations"],
+                      },
+                      content: <div>Examples of Sets</div>,
+                    },
+                    children: [],
+                  },
+                  {
+                    page: {
+                      info: {
+                        slug: "examples_of_sets_5",
+                        title: "Examples of Sets 5",
+                        date: new Date("2025-04-04"),
+                        type: "database",
+                        tags: ["set-operations"],
+                      },
+                      content: <div>Examples of Sets</div>,
+                    },
+                    children: [],
+                  },
+                  {
+                    page: {
+                      info: {
+                        slug: "examples_of_sets_6",
+                        title: "Examples of Sets 6",
+                        date: new Date("2025-04-04"),
+                        type: "database",
+                        tags: ["set-operations"],
+                      },
+                      content: <div>Examples of Sets</div>,
+                    },
+                    children: [],
+                  }
                 ],
               },
               {

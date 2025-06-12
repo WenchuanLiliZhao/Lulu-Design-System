@@ -1,3 +1,31 @@
+// Container for multiple sliders in grid layout
+.repulsion-slider-container {
+  .sliders-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+    gap: 12px;
+    padding: 4px;
+
+    &::-webkit-scrollbar {
+      width: 6px;
+    }
+
+    &::-webkit-scrollbar-track {
+      background: var(--color-bg-sec-trans);
+      border-radius: 3px;
+    }
+
+    &::-webkit-scrollbar-thumb {
+      background: var(--color-border-main-trans);
+      border-radius: 3px;
+    }
+
+    &::-webkit-scrollbar-thumb:hover {
+      background: var(--color-border-darken-trans);
+    }
+  }
+}
+
 .repulsion-slider {
   display: flex;
   flex-direction: column;
@@ -8,6 +36,7 @@
   border-radius: 8px;
   box-shadow: var(--pop-shaodw);
   min-width: 200px;
+  transition: all 0.2s ease;
 
   .slider-header {
     display: flex;

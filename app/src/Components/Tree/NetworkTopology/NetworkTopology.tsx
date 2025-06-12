@@ -36,7 +36,7 @@ $$
 where $s$ is the node size, $b$ is the `baseNodeSize`, $g$ is the `sizeFactor`, $l$ is the current node level, and $c$ is the `sizePower`.  
 */}
 
-const velocityDecay = 0.2; // Controls how quickly nodes lose momentum (0-1). Lower values = nodes move/swim faster
+// velocityDecay is now passed as a prop
 const minZoom = 0.1; // Minimum zoom scale - limits how far users can zoom out
 const maxZoom = 5; // Maximum zoom scale - limits how far users can zoom in
 
@@ -89,6 +89,13 @@ interface NetworkTopologyProps {
   height?: number;
   treeData?: NodeShape[]; // Add support for directly passing tree data
   repulsionStrength?: number; // Add support for dynamic repulsion strength
+  linkDistance?: number;
+  velocityDecay?: number;
+  nodeRadius?: number;
+  initialZoomLevel?: number;
+  alphaDecay?: number;
+  collideRadius?: number;
+  dynamicLinkFactor?: number; // Factor for dynamic link distance adjustment based on node degree
 }
 
 // Define defaultData using existing imports
@@ -105,7 +112,14 @@ const NetworkTopology = ({
   width = 800, 
   height = 600, 
   treeData,
-  repulsionStrength = -150 
+  repulsionStrength = -150,
+  linkDistance = 80,
+  velocityDecay = 0.2,
+  nodeRadius = 20,
+  initialZoomLevel: propInitialZoomLevel = initialZoomLevel,
+  alphaDecay = 0.00008,
+  collideRadius = 0.5,
+  dynamicLinkFactor = 0.3
 }: NetworkTopologyProps) => {
   const svgRef = useRef<SVGSVGElement>(null);
   
@@ -129,7 +143,6 @@ const NetworkTopology = ({
     // Set up SVG and container group for graph elements
     // Initialize color scheme and tracking sets/maps
     const svg = d3.select(svgRef.current);
-    const nodeRadius = 20;
     
     // Create a container group for all graph elements
     // This allows us to transform (zoom/pan) all elements together
@@ -153,7 +166,7 @@ const NetworkTopology = ({
       svgElement: svgRef.current,
       width,
       height,
-      initialZoomLevel,
+      initialZoomLevel: propInitialZoomLevel,
       minZoom,
       maxZoom,
       onZoom: (transform) => {
@@ -164,7 +177,7 @@ const NetworkTopology = ({
     if (!zoom) return;
 
     // Add double-click handler to reset zoom level
-    addDoubleClickResetHandler(svgRef.current, zoom, initialZoomLevel, width, height);
+    addDoubleClickResetHandler(svgRef.current, zoom, propInitialZoomLevel, width, height);
 
     /****************************
      * FORCE SIMULATION SETUP
@@ -176,14 +189,37 @@ const NetworkTopology = ({
      * - center: Centers the graph in the viewport
      * - collide: Prevents nodes from overlapping
      */
+    // Calculate node degrees (number of connections)
+    const nodeDegrees = new Map<string, number>();
+    graphData.nodes.forEach(node => {
+      nodeDegrees.set(node.id, 0);
+    });
+    graphData.links.forEach(link => {
+      const sourceId = typeof link.source === 'string' ? link.source : (link.source as GraphNodeShape).id;
+      const targetId = typeof link.target === 'string' ? link.target : (link.target as GraphNodeShape).id;
+      nodeDegrees.set(sourceId, (nodeDegrees.get(sourceId) || 0) + 1);
+      nodeDegrees.set(targetId, (nodeDegrees.get(targetId) || 0) + 1);
+    });
+
     const simulation = d3.forceSimulation<SimulationNode>()
       .force("link", d3.forceLink<SimulationNode, SimulationLink>()
         .id(d => d.id)
-        .distance(80))
+        .distance((d) => {
+          // Dynamic link distance based on node degrees
+          const sourceId = typeof d.source === 'string' ? d.source : (d.source as GraphNodeShape).id;
+          const targetId = typeof d.target === 'string' ? d.target : (d.target as GraphNodeShape).id;
+          const sourceDegree = nodeDegrees.get(sourceId) || 1;
+          const targetDegree = nodeDegrees.get(targetId) || 1;
+          const maxDegree = Math.max(sourceDegree, targetDegree);
+          
+          // Increase link distance for high-degree nodes to give them more space
+          // Formula: baseDistance + (maxDegree - 1) * spacing factor
+          return linkDistance + (maxDegree - 1) * (linkDistance * dynamicLinkFactor);
+        }))
       .force("charge", d3.forceManyBody().strength(repulsionStrength))
       .force("center", d3.forceCenter(width / 2, height / 2))
       .force("collide", d3.forceCollide()
-        .radius(() => nodeRadius + 0.5)
+        .radius(() => nodeRadius + collideRadius)
         .iterations(4))
       .velocityDecay(velocityDecay); // Controls node movement speed
 
@@ -562,7 +598,7 @@ const NetworkTopology = ({
     simulation.nodes(graphData.nodes as SimulationNode[])
       .on("tick", ticked)
       .alpha(1)
-      .alphaDecay(0.00008)
+      .alphaDecay(alphaDecay)
       .alphaMin(0.000001);
 
     // Configure link force with actual link data
@@ -650,7 +686,7 @@ const NetworkTopology = ({
       // Stop the simulation
       simulation.stop();
     };
-  }, [graphData, width, height, repulsionStrength]);
+  }, [graphData, width, height, repulsionStrength, linkDistance, velocityDecay, nodeRadius, propInitialZoomLevel, alphaDecay, collideRadius, dynamicLinkFactor]);
 
   return (
     <div className={styles["network-topology-container"]}>
