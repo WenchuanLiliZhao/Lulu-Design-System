@@ -1,4 +1,4 @@
-import { CDD_BasicLayout, SearchHintGroups } from "./CDD_SiteConfig";
+import { CDD_BasicLayout } from "./CDD_SiteConfig";
 import { PageShape } from "../../../ObjectShapes/PageShape";
 import styles from "./CDD_Home.module.scss";
 import React from "react";
@@ -41,7 +41,6 @@ const CDD_Home: PageShape = {
             onSearch={(query: string): void => {
               console.log("Search query:", query);
             }}
-            searchHintGroups={SearchHintGroups}
           />
 
           {/**

@@ -103,7 +103,6 @@ export const CDD_Nav: React.FC = () => {
             onSearch={function (): void {
               throw new Error("Function not implemented.");
             }}
-            searchHintGroups={SearchHintGroups}
           />,
           <BtnDivider size={"size-small"} />,
           <ThemeMenu />,

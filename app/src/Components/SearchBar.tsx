@@ -1,51 +1,112 @@
 /* 
 ## Component Overview
-- The `SearchBar` component is a React functional component designed to provide a search input field with optional grouped search hints.
-- It supports dynamic rendering of search hints based on the `searchHintGroups` prop, which allows for categorized suggestions.
-- The component includes features such as focus state management, keyboard interaction (e.g., triggering a search on pressing "Enter"), and conditional rendering of hints when the input is empty.
+- The `SearchBar` component is a React functional component designed to provide a search input field with search history functionality.
+- It supports saving search history to localStorage, displaying search history when the input is empty and focused, and clearing search history.
+- The component includes features such as focus state management, keyboard interaction (e.g., triggering a search on pressing "Enter"), and click-to-search from history.
 
 ### Key Implementation Challenges
-- **Dynamic Hint Rendering**: The component dynamically renders search hints grouped by categories. Each group includes a title and a list of clickable items, requiring careful handling of nested structures and conditional rendering logic.
-- **Focus and Blur Management**: The component manages focus and blur states to control the visibility of the hint box, ensuring a smooth user experience.
-- **Conditional Hint Display**: The search hints are displayed only when the input field is empty, requiring precise state management to toggle the visibility of the hint box.
-- **Keyboard Interaction**: The component listens for the "Enter" key to trigger the search action, ensuring seamless user interaction.
+- **Search History Management**: The component manages search history using localStorage, automatically saving new searches and limiting to 10 recent searches.
+- **Focus and Blur Management**: The component manages focus and blur states to control the visibility of the history box, ensuring a smooth user experience.
+- **Conditional History Display**: The search history is displayed only when the input field is empty and focused, requiring precise state management.
+- **Keyboard Interaction**: The component listens for the "Enter" key to trigger the search action and automatically saves to history.
 
 ## 组件功能概览
-- `SearchBar` 是一个 React 函数组件，用于提供带有可选分组搜索提示的搜索输入框。
-- 支持根据 `searchHintGroups` 属性动态渲染搜索提示，允许按类别显示建议。
-- 组件包括焦点状态管理、键盘交互（例如按下 "Enter" 键触发搜索）以及在输入框为空时条件渲染提示的功能。
+- `SearchBar` 是一个 React 函数组件，用于提供带有搜索历史功能的搜索输入框。
+- 支持将搜索历史保存到 localStorage，在输入框为空且聚焦时显示搜索历史，并可清除搜索历史。
+- 组件包括焦点状态管理、键盘交互（例如按下 "Enter" 键触发搜索）以及从历史记录点击搜索的功能。
 
 ### 主要实现难点
-- **动态提示渲染**：组件根据类别动态渲染搜索提示。每个类别包括一个标题和一组可点击的项目，需要精心处理嵌套结构和条件渲染逻辑。
-- **焦点与失焦管理**：组件管理焦点和失焦状态，以控制提示框的可见性，确保流畅的用户体验。
-- **条件提示显示**：仅当输入框为空时显示搜索提示，需要精确的状态管理来切换提示框的可见性。
-- **键盘交互**：组件监听 "Enter" 键以触发搜索操作，确保用户交互的流畅性。
+- **搜索历史管理**：组件使用 localStorage 管理搜索历史，自动保存新搜索并限制为最近 10 条搜索记录。
+- **焦点与失焦管理**：组件管理焦点和失焦状态，以控制历史框的可见性，确保流畅的用户体验。
+- **条件历史显示**：仅当输入框为空且聚焦时显示搜索历史，需要精确的状态管理。
+- **键盘交互**：组件监听 "Enter" 键以触发搜索操作并自动保存到历史记录。
 */
 
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import styles from "./SearchBar.module.scss";
 import { Icon } from "./Icon";
-import { SearchHintGroupType } from "../ObjectShapes/SearchHintShape";
-import { PageShape } from "../ObjectShapes/PageShape";
-import { HoverBox } from "./SmallElements/HoverBox";
+import { Btn } from "./SmallElements/Btn";
+import { Tag } from "./SmallElements/Tag";
+import { TagShape } from "../ObjectShapes/TagShape";
 
 type SearchBarProps = {
   placeholder?: string;
   size?: "size-default" | "size-on-nav" | "size-small";
-  searchHintGroups?: SearchHintGroupType[];
   onSearch: (query: string) => void;
   defaultValue?: string;
 };
 
+const SEARCH_HISTORY_KEY = "search_history";
+const MAX_HISTORY_ITEMS = 10;
+
+// Default demo search history data
+// 默认演示搜索历史数据
+const DEFAULT_SEARCH_HISTORY = [
+  "Machine Learning",
+  "Data Science",
+  "Artificial Intelligence", 
+  "Big Data Analytics",
+  "Neural Networks",
+  "Deep Learning",
+  "Database Management"
+];
+
 export const SearchBar: React.FC<SearchBarProps> = ({
   placeholder = "Search...",
   size = "size-default",
-  searchHintGroups,
   onSearch,
   defaultValue = "",
 }) => {
   const [query, setQuery] = useState(defaultValue);
   const [isFocused, setIsFocused] = useState(false);
+  const [searchHistory, setSearchHistory] = useState<string[]>([]);
+
+  // Load search history from localStorage on component mount
+  // 在组件挂载时从 localStorage 加载搜索历史
+  useEffect(() => {
+    const savedHistory = localStorage.getItem(SEARCH_HISTORY_KEY);
+    if (savedHistory) {
+      setSearchHistory(JSON.parse(savedHistory));
+    } else {
+      // Set default demo data if no history exists
+      // 如果没有历史记录则设置默认演示数据
+      setSearchHistory(DEFAULT_SEARCH_HISTORY.slice(0, MAX_HISTORY_ITEMS));
+      localStorage.setItem(SEARCH_HISTORY_KEY, JSON.stringify(DEFAULT_SEARCH_HISTORY.slice(0, MAX_HISTORY_ITEMS)));
+    }
+  }, []);
+
+  // Save search history to localStorage
+  // 将搜索历史保存到 localStorage
+  const saveSearchHistory = (history: string[]) => {
+    localStorage.setItem(SEARCH_HISTORY_KEY, JSON.stringify(history));
+    setSearchHistory(history);
+  };
+
+  // Add search query to history
+  // 将搜索查询添加到历史记录
+  const addToHistory = (searchQuery: string) => {
+    if (searchQuery.trim() === "") return;
+    
+    const updatedHistory = [searchQuery, ...searchHistory.filter(item => item !== searchQuery)]
+      .slice(0, MAX_HISTORY_ITEMS);
+    saveSearchHistory(updatedHistory);
+  };
+
+  // Clear all search history
+  // 清除所有搜索历史
+  const clearHistory = () => {
+    saveSearchHistory([]);
+  };
+
+  // Handle search execution
+  // 处理搜索执行
+  const executeSearch = (searchQuery: string) => {
+    if (searchQuery.trim() === "") return;
+    
+    addToHistory(searchQuery);
+    onSearch(searchQuery);
+    setIsFocused(false);
+  };
 
   const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setQuery(event.target.value);
@@ -53,7 +114,7 @@ export const SearchBar: React.FC<SearchBarProps> = ({
 
   const handleKeyDown = (event: React.KeyboardEvent<HTMLInputElement>) => {
     if (event.key === "Enter") {
-      onSearch(query);
+      executeSearch(query);
     }
   };
 
@@ -62,7 +123,16 @@ export const SearchBar: React.FC<SearchBarProps> = ({
   };
 
   const handleBlur = () => {
-    setIsFocused(false);
+    // Delay hiding to allow clicking on history items
+    // 延迟隐藏以允许点击历史记录项
+    setTimeout(() => setIsFocused(false), 150);
+  };
+
+  // Handle clicking on history tag
+  // 处理点击历史标签
+  const handleHistoryTagClick = (historyItem: string) => {
+    setQuery(historyItem);
+    executeSearch(historyItem);
   };
 
   return (
@@ -88,46 +158,53 @@ export const SearchBar: React.FC<SearchBarProps> = ({
         className={styles.input}
       />
 
-      {/* Render the hint box if searchHintGroups are provided and query is empty */}
-      {/* 如果提供了 searchHintGroups 且 query 为空，则渲染提示框 */}
-      {searchHintGroups !== undefined && query === "" && (
+      {/* Render the search history box when input is empty and focused */}
+      {/* 在输入框为空且聚焦时渲染搜索历史框 */}
+      {query === "" && isFocused && (
         <div
           className={`${styles["hint-box"]} ${
             isFocused ? styles["focused"] : ""
           }`}
         >
-          {/* Render each group of search hints */}
-          {/* 渲染每个搜索提示分组 */}
-          {searchHintGroups.map((group, i: number) => (
-            <div key={i} className={styles["hint-group"]}>
-              {/* Render the title of the hint group */}
-              {/* 渲染提示分组的标题 */}
-              <div className={styles["hint-group-title"]}>
-                {group.groupTitle}
-              </div>
-              <div className={styles["hint-list"]}>
-                {/* Render each hint item in the group */}
-                {/* 渲染分组中的每个提示项 */}
-                {group.hintList.length > 0 &&
-                  group.hintList.map((item: PageShape, k: number) => (
-                    <div key={k} className={styles["hint-item"]}>
-                      {/* Render the icon for the hint item */}
-                      {/* 渲染提示项的图标 */}
-                      <Icon
-                        className={styles["icon"]}
-                        icon={item.info.type ? item.info.type : "description"}
-                      />
-                      {/* Render the title of the hint item */}
-                      {/* 渲染提示项的标题 */}
-                      <span>{item.info.title}</span>
-                      {/* Render a hover effect for the hint item */}
-                      {/* 为提示项渲染悬停效果 */}
-                      <HoverBox />
-                    </div>
-                  ))}
-              </div>
+          {/* Search history header with clear button */}
+          {/* 搜索历史标题和清除按钮 */}
+          <div className={styles["history-header"]}>
+            <div className={styles["hint-group-title"]}>
+              搜索历史
             </div>
-          ))}
+            {searchHistory.length > 0 && (
+              <Btn
+                icon="clear"
+                size="size-tiny"
+                mode="mode-plain"
+                onClick={clearHistory}
+                className={styles["clear-btn"]}
+              />
+            )}
+          </div>
+
+          {/* Render search history tags */}
+          {/* 渲染搜索历史标签 */}
+          <div className={styles["history-tags"]}>
+            {searchHistory.length === 0 ? (
+              <div className={styles["no-history"]}>
+                暂无搜索历史
+              </div>
+            ) : (
+              searchHistory.map((item: string, index: number) => (
+                <div 
+                  key={index} 
+                  className={styles["history-tag-wrapper"]}
+                  onClick={() => handleHistoryTagClick(item)}
+                >
+                  <Tag 
+                    tag={{ name: item } as TagShape} 
+                    size="medium" 
+                  />
+                </div>
+              ))
+            )}
+          </div>
         </div>
       )}
     </div>
