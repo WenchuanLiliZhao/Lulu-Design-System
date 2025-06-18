@@ -9,6 +9,14 @@
 
   --level-markder-width: 12px;
 
+  // Add opacity modifier classes
+  &.node-hidden {
+    opacity: 0.64;
+  }
+
+  &.node-inherited-hidden {
+  }
+
   .node {
     display: flex;
     justify-content: flex-start;

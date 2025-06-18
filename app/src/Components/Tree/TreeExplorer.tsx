@@ -43,12 +43,17 @@ export interface TreeNodesShape {
   children: TreeNodesShape[]; // Array of child nodes
 }
 
-export interface NodeShape {
-  id: string; // 对应原先的 slug
-  name: string; // 对应原先的 title
+// Generic tree node interface for custom rendering
+export interface GenericTreeNode {
+  id: string;
+  name: string;
+  children: GenericTreeNode[];
+  level?: number;
+}
+
+export interface NodeShape extends GenericTreeNode {
   type: PageType; // 对应原先的 type
   children: NodeShape[]; // 子节点数组
-  level?: number; // 节点的层级
   tags?: string[]; // 节点的标签
 }
 
@@ -91,54 +96,114 @@ export function mergeTagsOfTreeNodes(
 
 // Define the props for the TreeExplorer component
 // 定义 TreeExplorer 组件的属性接口
-interface TreeExplorerProps {
-  data: NodeShape[]; // The hierarchical data structure for the tree
+interface TreeExplorerProps<T extends GenericTreeNode = NodeShape> {
+  data: T[]; // The hierarchical data structure for the tree
   expand?: boolean; // Whether the tree nodes should be expanded by default
+  defaultExpandLevel?: number; // Default expansion level (nodes at level < defaultExpandLevel will be expanded)
+  renderFromLevel?: number; // Start rendering from this level
+  // Custom rendering functions
+  renderNodeContent?: (node: T, level: number) => React.ReactNode;
+  renderNodeActions?: (node: T, level: number) => React.ReactNode;
+  // Custom callbacks
+  onNodeClick?: (node: T, level: number) => void;
+  onNodeExpand?: (node: T, level: number, isExpanded: boolean) => void;
+  // Style customization
+  className?: string;
 }
 
 // Define the TreeNodeComponent for rendering individual nodes
 // 定义 TreeNodeComponent 用于渲染单个节点
-const TreeNodeComponent: React.FC<{
-  node: NodeShape; // The data for the current node
-  expand: boolean; // Whether the node should be expanded
-  level: number; // The depth level of the node in the tree
-}> = ({ node, expand, level }) => {
-  const [isExpanded, setIsExpanded] = useState<boolean>(expand); // State for node expansion
+const TreeNodeComponent = <T extends GenericTreeNode>({
+  node,
+  expand,
+  level,
+  defaultExpandLevel = 1,
+  renderFromLevel = 0,
+  renderNodeContent,
+  renderNodeActions,
+  onNodeClick,
+  onNodeExpand,
+}: {
+  node: T;
+  expand: boolean;
+  level: number;
+  defaultExpandLevel?: number;
+  renderFromLevel?: number;
+  renderNodeContent?: (node: T, level: number) => React.ReactNode;
+  renderNodeActions?: (node: T, level: number) => React.ReactNode;
+  onNodeClick?: (node: T, level: number) => void;
+  onNodeExpand?: (node: T, level: number, isExpanded: boolean) => void;
+}) => {
+  // Use defaultExpandLevel to determine initial expansion state
+  const shouldExpandByDefault = level < defaultExpandLevel;
+  const [isExpanded, setIsExpanded] = useState<boolean>(
+    expand !== undefined ? expand : shouldExpandByDefault
+  );
 
   // Toggle the expanded state of the current node
   // 切换当前节点的展开状态
-  const toggleExpand = () => {
-    setIsExpanded((prev) => !prev);
+  const toggleExpand = (e: React.MouseEvent) => {
+    e.stopPropagation();
+    const newExpanded = !isExpanded;
+    setIsExpanded(newExpanded);
+    onNodeExpand?.(node, level, newExpanded);
+  };
+
+  const handleNodeClick = (e: React.MouseEvent) => {
+    e.stopPropagation();
+    onNodeClick?.(node, level);
   };
 
   useEffect(() => {
     // Update the expanded state when the global expand state changes
     // 当全局展开状态发生变化时更新当前节点的展开状态
-    setIsExpanded(expand);
+    if (expand !== undefined) {
+      setIsExpanded(expand);
+    }
   }, [expand]);
+
+     // Skip rendering if level is below renderFromLevel
+   if (level < renderFromLevel) {
+     return (
+       <React.Fragment>
+                    {node.children?.map((child, index) => (
+             <TreeNodeComponent
+               key={child.id || index}
+               node={child as T}
+               expand={expand}
+               level={level + 1}
+               defaultExpandLevel={defaultExpandLevel}
+               renderFromLevel={renderFromLevel}
+               renderNodeContent={renderNodeContent}
+               renderNodeActions={renderNodeActions}
+               onNodeClick={onNodeClick}
+               onNodeExpand={onNodeExpand}
+             />
+           ))}
+       </React.Fragment>
+     );
+   }
+
+  const hasChildren = node.children && node.children.length > 0;
 
   return (
     <div className={styles["tree-node"]}>
-      <div
-        className={styles["node"]}
-        onClick={toggleExpand}
-      >
+      <div className={styles["node"]} onClick={handleNodeClick}>
         {/* Render level markers to visually indicate the depth of the node */}
         {/* 渲染层级标记以直观显示节点的深度 */}
-        {Array.from({ length: level }).map((_, index) => (
+        {Array.from({ length: level - renderFromLevel }).map((_, index) => (
           <div
             key={index}
             className={`${styles["level-marker"]} ${
-              index + 1 == level ? styles["last"] : ""
+              index + 1 == level - renderFromLevel ? styles["last"] : ""
             }`}
           ></div>
         ))}
+        
         {/* Render a button to toggle the expanded/collapsed state of the node */}
         {/* 渲染一个按钮用于切换节点的展开/折叠状态 */}
-        {node.children.length > 0 ? (
-          <div
-            className={styles["node-clopener"]}
-          >
+        {hasChildren ? (
+          <div className={styles["node-clopener"]} onClick={toggleExpand}>
             <Icon
               className={`${styles["node-clopener-icon"]} ${
                 isExpanded ? styles["expanded"] : ""
@@ -151,29 +216,48 @@ const TreeNodeComponent: React.FC<{
         ) : (
           <div className={styles["node-clopener"]}></div>
         )}
-        {/* Render the node content, including the icon and title */}
-        {/* 渲染节点内容，包括图标和标题 */}
+        
+        {/* Render the node content */}
+        {/* 渲染节点内容 */}
         <div className={styles["node-content"]}>
           <div className={styles["node-title"]}>
-            <IconByType icon={node.type} className={styles["page-icon"]} />
-            {node.name}
+            {renderNodeContent ? (
+              renderNodeContent(node, level)
+            ) : (
+              <>
+                {/* Default rendering for NodeShape */}
+                {"type" in node && (
+                  <IconByType icon={node.type as PageType} className={styles["page-icon"]} />
+                )}
+                {node.name}
+              </>
+            )}
           </div>
-          <div className={styles["node-controls"]}></div>
+          <div className={styles["node-controls"]}>
+            {renderNodeActions?.(node, level)}
+          </div>
         </div>
       </div>
+      
       {/* Recursively render child nodes if the current node has child nodes */}
       {/* 如果当前节点含有子节点，则递归渲染子节点 */}
-      {node.children.length > 0 && (
+      {hasChildren && (
         <div
           className={styles["node-children"]}
           style={{ display: `${isExpanded ? "block" : "none"}` }} // Only show children if the node is expanded
         >
           {node.children.map((child, index) => (
             <TreeNodeComponent
-              key={index}
-              node={child}
+              key={child.id || index}
+              node={child as T}
               expand={expand}
-              level={level + 1} // Increment the level for child nodes
+              level={level + 1}
+              defaultExpandLevel={defaultExpandLevel}
+              renderFromLevel={renderFromLevel}
+              renderNodeContent={renderNodeContent}
+              renderNodeActions={renderNodeActions}
+              onNodeClick={onNodeClick}
+              onNodeExpand={onNodeExpand}
             />
           ))}
         </div>
@@ -184,25 +268,36 @@ const TreeNodeComponent: React.FC<{
 
 // Define the main TreeExplorer component
 // 定义主 TreeExplorer 组件
-export const TreeExplorer: React.FC<TreeExplorerProps> = ({
+export const TreeExplorer = <T extends GenericTreeNode = NodeShape>({
   data,
   expand = true,
-}) => {
+  defaultExpandLevel = 1,
+  renderFromLevel = 0,
+  renderNodeContent,
+  renderNodeActions,
+  onNodeClick,
+  onNodeExpand,
+  className,
+}: TreeExplorerProps<T>) => {
   return (
-    <>
-      <div className={styles["tree-container"]}>
-        {/* Render the root nodes of the tree */}
-        {/* 渲染树的根节点 */}
-        {data.map((node, index) => (
-          <TreeNodeComponent
-            key={index}
-            node={node}
-            expand={expand}
-            level={0} // Root nodes start at level 0
-          />
-        ))}
-      </div>
-    </>
+    <div className={`${styles["tree-container"]} ${className || ""}`}>
+      {/* Render the root nodes of the tree */}
+      {/* 渲染树的根节点 */}
+      {data.map((node, index) => (
+        <TreeNodeComponent
+          key={node.id || index}
+          node={node}
+          expand={expand}
+          level={renderFromLevel}
+          defaultExpandLevel={defaultExpandLevel}
+          renderFromLevel={renderFromLevel}
+          renderNodeContent={renderNodeContent}
+          renderNodeActions={renderNodeActions}
+          onNodeClick={onNodeClick}
+          onNodeExpand={onNodeExpand}
+        />
+      ))}
+    </div>
   );
 };
 
