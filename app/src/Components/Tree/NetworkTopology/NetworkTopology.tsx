@@ -127,6 +127,9 @@ const NetworkTopology = ({
   
   // Convert tree data to graph data if provided
   const graphData = treeData ? transformTreeToGraph(treeData) : data;
+  
+  // Track the currently focused node
+  let focusedNodeId: string | null = null;
 
   // Log debug information for tags validation
   console.log('NetworkTopology tags debug:');
@@ -240,11 +243,13 @@ const NetworkTopology = ({
       g
     });
 
-    const node = createCircles({
+    const nodeElements = createCircles({
       graphData,
       color: colorScale,
       g
     });
+    
+    const { nodeGroups, nodes: node, focusRings } = nodeElements;
 
     const labels = createLabels({
       graphData,
@@ -378,6 +383,24 @@ const NetworkTopology = ({
     node.call(dragBehavior);
 
     /****************************
+     * CLICK ON EMPTY SPACE TO REMOVE FOCUS
+     ****************************/
+    /**
+     * Add click handler to SVG background to remove focus when clicking empty space
+     */
+    svg.on("click", function(event) {
+      // Check if the click target is the SVG itself (not a node or other element)
+      if (event.target === this) {
+        // Remove focus from any currently focused node
+        if (focusedNodeId) {
+          focusRings.filter(n => n.id === focusedNodeId)
+            .style('opacity', 0);
+          focusedNodeId = null;
+        }
+      }
+    });
+
+    /****************************
      * HOVER EFFECTS
      ****************************/
     /**
@@ -391,6 +414,9 @@ const NetworkTopology = ({
      * - All other nodes stay at full opacity
      */
     node.on("mouseover", function(_event, d) {
+      // 显示 hover 的 focus ring
+      focusRings.filter(n => n.id === d.id)
+        .style('opacity', focusedNodeId === d.id ? 1 : 0.5);
       // Store the current hovered node for command key interactions
       currentlyHoveredNode = d;
       
@@ -410,7 +436,12 @@ const NetworkTopology = ({
         }
       }
     })
-    .on("mouseout", function() {
+    .on("mouseout", function(_event, d) {
+      // 仅当该节点不是 focus 节点时，隐藏 focus ring
+      if (focusedNodeId !== d.id) {
+        focusRings.filter(n => n.id === d.id)
+          .style('opacity', 0);
+      }
       // Clear the currently hovered node
       currentlyHoveredNode = null;
       
@@ -437,6 +468,9 @@ const NetworkTopology = ({
      * Also implements Command/Control+hover to temporarily show child nodes with reduced opacity.
      */
     node.on("click", function(event, d) {
+      // Prevent event from bubbling up to SVG container
+      event.stopPropagation();
+      
       // Check if Command/Control key is pressed using the ToggleChildren function
       if (TopologyShortKeys.ToggleChildren(event)) {
         // If this node already has hidden children, restore them
@@ -519,6 +553,31 @@ const NetworkTopology = ({
             node.filter(n => n.id === d.id)
               .classed(styles["child-nodes-collapsed"], true);
           }
+        }
+      }
+      // Handle regular click (focus functionality)
+      else {
+        // If this node is already focused, unfocus it
+        if (focusedNodeId === d.id) {
+          focusedNodeId = null;
+          // Hide the focus ring for this node
+          focusRings.filter(n => n.id === d.id)
+            .style('opacity', 0);
+        }
+        // Otherwise, focus this node and unfocus any previously focused node
+        else {
+          // Hide focus ring for previously focused node
+          if (focusedNodeId) {
+            focusRings.filter(n => n.id === focusedNodeId)
+              .style('opacity', 0);
+          }
+          
+          // Set new focused node
+          focusedNodeId = d.id;
+          
+          // Show focus ring for the new focused node
+          focusRings.filter(n => n.id === d.id)
+            .style('opacity', 1);
         }
       }
     });
@@ -772,9 +831,8 @@ const NetworkTopology = ({
      * based on the current simulation state.
      */
     function ticked() {
-      // Update node positions
-      node.attr("cx", d => d.x || 0)
-          .attr("cy", d => d.y || 0);
+      // Update node group positions (this will move both the main node and focus ring together)
+      nodeGroups.attr("transform", d => `translate(${d.x || 0}, ${d.y || 0})`);
 
       // Update link positions to connect nodes
       link
