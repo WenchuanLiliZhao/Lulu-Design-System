@@ -30,9 +30,11 @@
 
 **特性：**
 - 左上角显示参数控制面板
-- 实时调节7个拓扑参数
+- 实时调节8个拓扑参数
 - 半透明背景 + 毛玻璃效果
 - 保持原有的所有 topology 功能
+- **浏览器缓存**: 自动记住用户调节的参数设置
+- **恢复默认设置**: 一键恢复所有参数到默认值
 
 ### 使用方法
 
@@ -85,6 +87,17 @@ import NetworkTopology from './NetworkTopology';
 #### TopologyParaSlider Props
 - `initialValues`: 参数初始值对象（可选）
 - `onChange`: 参数变化回调函数，接收完整的参数对象
+
+#### 新功能说明
+
+**浏览器缓存功能：**
+- 用户调节的参数会自动保存到浏览器的 localStorage 中
+- 下次打开页面时会自动加载上次的设置
+- 存储键名为 `topology-parameters`
+
+**恢复默认设置：**
+- 点击"使用默认设置"按钮可以一键恢复所有参数到初始值
+- 恢复后的设置也会自动保存到缓存中
 
 #### NetworkTopology 新增 Props
 - `repulsionStrength`: 排斥力强度（默认 -150）

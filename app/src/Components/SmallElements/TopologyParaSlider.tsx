@@ -114,6 +114,15 @@ export const TopologyParaSlider: React.FC<TopologyParaSliderProps> = ({
 
   const [parameters, setParameters] = useState<TopologyParameters>(defaultParameters);
 
+  // Update internal state when initialValues change (for reset functionality)
+  React.useEffect(() => {
+    const newParameters: TopologyParameters = sliderConfigs.reduce((acc, config) => {
+      acc[config.key] = initialValues[config.key] ?? config.defaultValue;
+      return acc;
+    }, {} as TopologyParameters);
+    setParameters(newParameters);
+  }, [initialValues]);
+
   const handleSliderChange = useCallback((key: keyof TopologyParameters, value: number) => {
     const newParameters = { ...parameters, [key]: value };
     setParameters(newParameters);
@@ -180,6 +189,15 @@ export const TopologyParaSliderCompact: React.FC<TopologyParaSliderProps> = ({
   }, {} as TopologyParameters);
 
   const [parameters, setParameters] = useState<TopologyParameters>(defaultParameters);
+
+  // Update internal state when initialValues change (for reset functionality)
+  React.useEffect(() => {
+    const newParameters: TopologyParameters = sliderConfigs.reduce((acc, config) => {
+      acc[config.key] = initialValues[config.key] ?? config.defaultValue;
+      return acc;
+    }, {} as TopologyParameters);
+    setParameters(newParameters);
+  }, [initialValues]);
 
   const handleSliderChange = useCallback((key: keyof TopologyParameters, value: number) => {
     const newParameters = { ...parameters, [key]: value };
