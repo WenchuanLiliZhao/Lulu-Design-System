@@ -395,6 +395,7 @@ const NetworkTopology = ({
         if (focusedNodeId) {
           focusRings.filter(n => n.id === focusedNodeId)
             .style('opacity', 0);
+          // eslint-disable-next-line react-hooks/exhaustive-deps
           focusedNodeId = null;
         }
       }
