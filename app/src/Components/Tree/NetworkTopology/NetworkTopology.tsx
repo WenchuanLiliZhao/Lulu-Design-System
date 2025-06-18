@@ -88,6 +88,7 @@ interface NetworkTopologyProps {
   width?: number;
   height?: number;
   treeData?: NodeShape[]; // Add support for directly passing tree data
+  defaultExpandLevel?: number;
   repulsionStrength?: number; // Add support for dynamic repulsion strength
   linkDistance?: number;
   velocityDecay?: number;
@@ -112,6 +113,7 @@ const NetworkTopology = ({
   width = 800, 
   height = 600, 
   treeData,
+  defaultExpandLevel,
   repulsionStrength = -150,
   linkDistance = 80,
   velocityDecay = 0.2,
@@ -250,6 +252,103 @@ const NetworkTopology = ({
     });
 
     /****************************
+     * INITIAL EXPAND LEVEL SETUP
+     ****************************/
+    /**
+     * Initialize node visibility based on defaultExpandLevel:
+     * - If defaultExpandLevel is undefined: show all nodes (default behavior)
+     * - If defaultExpandLevel is defined: hide nodes at levels > defaultExpandLevel
+     */
+    if (defaultExpandLevel !== undefined) {
+      // Find all nodes at levels greater than defaultExpandLevel
+      const nodesToHideByLevel = new Set<string>();
+      
+      // Group nodes by level to process parent-child relationships
+      const nodesByLevel = new Map<number, GraphNodeShape[]>();
+      graphData.nodes.forEach(node => {
+        if (!nodesByLevel.has(node.level)) {
+          nodesByLevel.set(node.level, []);
+        }
+        nodesByLevel.get(node.level)!.push(node);
+      });
+      
+      // Find parent nodes at defaultExpandLevel that should have collapsed indicators
+      const parentNodesAtExpandLevel = new Set<string>();
+      
+      // Process each level starting from defaultExpandLevel + 1
+      const expandLevel = defaultExpandLevel; // Type guard: we know it's not undefined here
+      for (let level = expandLevel + 1; level <= Math.max(...graphData.nodes.map(n => n.level)); level++) {
+        const nodesAtLevel = nodesByLevel.get(level) || [];
+        
+        nodesAtLevel.forEach(nodeAtLevel => {
+          nodesToHideByLevel.add(nodeAtLevel.id);
+          
+          // Find parent nodes by traversing links backwards
+          graphData.links.forEach(link => {
+            const sourceId = typeof link.source === 'string' ? link.source : (link.source as GraphNodeShape).id;
+            const targetId = typeof link.target === 'string' ? link.target : (link.target as GraphNodeShape).id;
+            
+            // If this node is a target (child), find its source (parent)
+            if (targetId === nodeAtLevel.id) {
+              const parentNode = graphData.nodes.find(n => n.id === sourceId);
+              if (parentNode && parentNode.level === expandLevel) {
+                parentNodesAtExpandLevel.add(parentNode.id);
+              }
+            }
+          });
+        });
+      }
+      
+      // Apply collapsed classes to nodes beyond defaultExpandLevel
+      parentNodesAtExpandLevel.forEach(parentId => {
+        // Find all descendants of this parent node
+        const descendantIds = new Set<string>();
+        
+        function findAllDescendants(nodeId: string) {
+          graphData.links.forEach(link => {
+            const sourceId = typeof link.source === 'string' ? link.source : (link.source as GraphNodeShape).id;
+            const targetId = typeof link.target === 'string' ? link.target : (link.target as GraphNodeShape).id;
+            
+            if (sourceId === nodeId && !descendantIds.has(targetId)) {
+              const targetNode = graphData.nodes.find(n => n.id === targetId);
+              if (targetNode && targetNode.level > expandLevel) {
+                descendantIds.add(targetId);
+                findAllDescendants(targetId);
+              }
+            }
+          });
+        }
+        
+        findAllDescendants(parentId);
+        
+        // Apply collapsed classes to descendant nodes
+        descendantIds.forEach(childId => {
+          node.filter(n => n.id === childId)
+            .classed(`collapsed-by-father-${parentId}`, true);
+            
+          link.filter(l => {
+            const sourceId = typeof l.source === 'string' ? l.source : (l.source as GraphNodeShape).id;
+            const targetId = typeof l.target === 'string' ? l.target : (l.target as GraphNodeShape).id;
+            return sourceId === childId || targetId === childId;
+          }).classed(`collapsed-by-father-${parentId}`, true);
+          
+          labels.filter(label => label.id === childId)
+            .classed(`collapsed-by-father-${parentId}`, true);
+        });
+        
+        // Store the mapping and mark parent as having hidden children
+        if (descendantIds.size > 0) {
+          hiddenChildrenMap.set(parentId, descendantIds);
+          nodesWithHiddenChildren.add(parentId);
+          
+          // Apply visual indicator to parent node
+          node.filter(n => n.id === parentId)
+            .classed(styles["child-nodes-collapsed"], true);
+        }
+      });
+    }
+
+    /****************************
      * DRAG BEHAVIOR
      ****************************/
     /**
@@ -302,8 +401,13 @@ const NetworkTopology = ({
       }
       // Regular hover behavior (no Command/Control key)
       else {
-        // Highlight connected nodes
-        highlightConnectedNodes(d.id);
+        // Check if this node has hidden children, if so, show them with reduced opacity
+        if (nodesWithHiddenChildren.has(d.id)) {
+          showHiddenChildrenOnHover(d.id);
+        } else {
+          // Regular highlight connected nodes behavior
+          highlightConnectedNodes(d.id);
+        }
       }
     })
     .on("mouseout", function() {
@@ -312,11 +416,14 @@ const NetworkTopology = ({
       
       // Reset all classes instead of opacity
       node.classed(styles["node-to-hide"], false)
-          .classed(styles["irrelevant-node"], false);
+          .classed(styles["irrelevant-node"], false)
+          .classed(styles["hover-show-hidden"], false);
       link.classed(styles["node-to-hide"], false)
-          .classed(styles["irrelevant-node"], false);
+          .classed(styles["irrelevant-node"], false)
+          .classed(styles["hover-show-hidden"], false);
       labels.classed(styles["node-to-hide"], false)
-          .classed(styles["irrelevant-node"], false);
+          .classed(styles["irrelevant-node"], false)
+          .classed(styles["hover-show-hidden"], false);
     });
 
     /****************************
@@ -425,6 +532,27 @@ const NetworkTopology = ({
     // Track command/control key state
     let isCommandKeyPressed = false;
     
+    // Function to show hidden children on hover
+    function showHiddenChildrenOnHover(nodeId: string) {
+      // Get the hidden child nodes for this parent
+      const hiddenChildIds = hiddenChildrenMap.get(nodeId) || new Set<string>();
+      
+      // Show hidden child nodes with reduced opacity
+      hiddenChildIds.forEach(childId => {
+        node.filter(n => n.id === childId)
+          .classed(styles["hover-show-hidden"], true);
+          
+        link.filter(l => {
+          const sourceId = typeof l.source === 'string' ? l.source : (l.source as GraphNodeShape).id;
+          const targetId = typeof l.target === 'string' ? l.target : (l.target as GraphNodeShape).id;
+          return sourceId === childId || targetId === childId;
+        }).classed(styles["hover-show-hidden"], true);
+        
+        labels.filter(label => label.id === childId)
+          .classed(styles["hover-show-hidden"], true);
+      });
+    }
+
     // Function to highlight child nodes with class instead of opacity
     function highlightChildNodes(nodeId: string) {
       // Find all child nodes recursively
@@ -451,6 +579,28 @@ const NetworkTopology = ({
       
       // Start recursive search from the provided node
       findAllChildren(nodeId);
+      
+      // Also check if this node has hidden children and show them
+      if (nodesWithHiddenChildren.has(nodeId)) {
+        const hiddenChildIds = hiddenChildrenMap.get(nodeId) || new Set<string>();
+        hiddenChildIds.forEach(childId => {
+          // Add hidden children to the child nodes set for consistent highlighting
+          childNodeIds.add(childId);
+          
+          // Show hidden child nodes with the hover-show-hidden class
+          node.filter(n => n.id === childId)
+            .classed(styles["hover-show-hidden"], true);
+            
+          link.filter(l => {
+            const sourceId = typeof l.source === 'string' ? l.source : (l.source as GraphNodeShape).id;
+            const targetId = typeof l.target === 'string' ? l.target : (l.target as GraphNodeShape).id;
+            return sourceId === childId || targetId === childId;
+          }).classed(styles["hover-show-hidden"], true);
+          
+          labels.filter(label => label.id === childId)
+            .classed(styles["hover-show-hidden"], true);
+        });
+      }
       
       // Apply class to all child nodes instead of opacity
       node.classed(styles["node-to-hide"], n => childNodeIds.has(n.id));
@@ -505,11 +655,14 @@ const NetworkTopology = ({
         if (currentlyHoveredNode) {
           // Reset classes first
           node.classed(styles["node-to-hide"], false)
-              .classed(styles["irrelevant-node"], false);
+              .classed(styles["irrelevant-node"], false)
+              .classed(styles["hover-show-hidden"], false);
           link.classed(styles["node-to-hide"], false)
-              .classed(styles["irrelevant-node"], false);
+              .classed(styles["irrelevant-node"], false)
+              .classed(styles["hover-show-hidden"], false);
           labels.classed(styles["node-to-hide"], false)
-              .classed(styles["irrelevant-node"], false);
+              .classed(styles["irrelevant-node"], false)
+              .classed(styles["hover-show-hidden"], false);
           
           // Apply child nodes highlighting
           highlightChildNodes(currentlyHoveredNode.id);
@@ -525,11 +678,14 @@ const NetworkTopology = ({
         if (currentlyHoveredNode) {
           // Reset classes first
           node.classed(styles["node-to-hide"], false)
-              .classed(styles["irrelevant-node"], false);
+              .classed(styles["irrelevant-node"], false)
+              .classed(styles["hover-show-hidden"], false);
           link.classed(styles["node-to-hide"], false)
-              .classed(styles["irrelevant-node"], false);
+              .classed(styles["irrelevant-node"], false)
+              .classed(styles["hover-show-hidden"], false);
           labels.classed(styles["node-to-hide"], false)
-              .classed(styles["irrelevant-node"], false);
+              .classed(styles["irrelevant-node"], false)
+              .classed(styles["hover-show-hidden"], false);
           
           // Apply regular hover highlighting
           highlightConnectedNodes(currentlyHoveredNode.id);
@@ -686,7 +842,7 @@ const NetworkTopology = ({
       // Stop the simulation
       simulation.stop();
     };
-  }, [graphData, width, height, repulsionStrength, linkDistance, velocityDecay, nodeRadius, propInitialZoomLevel, alphaDecay, collideRadius, dynamicLinkFactor]);
+  }, [graphData, width, height, defaultExpandLevel, repulsionStrength, linkDistance, velocityDecay, nodeRadius, propInitialZoomLevel, alphaDecay, collideRadius, dynamicLinkFactor]);
 
   return (
     <div className={styles["network-topology-container"]}>

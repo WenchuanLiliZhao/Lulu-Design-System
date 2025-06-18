@@ -15,6 +15,7 @@ interface TopologyWithParameterControlsProps {
   width?: number;
   height?: number;
   treeData?: NodeShape[];
+  defaultExpandLevel?: number;
 }
 
 // 默认参数配置
@@ -34,7 +35,7 @@ const STORAGE_KEY = "topology-parameters";
 
 export const TopologyWithParameterControls: React.FC<
   TopologyWithParameterControlsProps
-> = ({ data, width = 800, height = 600, treeData }) => {
+> = ({ data, width = 800, height = 600, treeData, defaultExpandLevel }) => {
   // 从 localStorage 加载参数，如果没有则使用默认值
   const [parameters, setParameters] = useState<TopologyParameters>(() => {
     try {
@@ -111,6 +112,7 @@ export const TopologyWithParameterControls: React.FC<
           width={width}
           height={height}
           treeData={treeData}
+          defaultExpandLevel={defaultExpandLevel}
           repulsionStrength={parameters.repulsionStrength}
           linkDistance={parameters.linkDistance}
           velocityDecay={parameters.velocityDecay}

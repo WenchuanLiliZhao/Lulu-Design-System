@@ -10,6 +10,12 @@
   opacity: 0.24;
 }
 
+// 添加 hover 时显示隐藏节点的样式
+.hover-show-hidden {
+  opacity: 0.3;
+  display: block !important;
+}
+
 .network-topology-container {
   width: 100%;
   height: calc(100vh - var(--spacing-nav-size));
