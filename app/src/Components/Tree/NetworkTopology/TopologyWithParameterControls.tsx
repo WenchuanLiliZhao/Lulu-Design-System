@@ -1,8 +1,14 @@
-import React, { useState } from 'react';
-import NetworkTopology, { TopologyDataShape } from './NetworkTopology';
-import { TopologyParaSlider, TopologyParameters } from '../../SmallElements/TopologyParaSlider';
-import { NodeShape } from '../TreeExplorer';
-import styles from './TopologyWithParameterControls.module.scss';
+import React, { useState } from "react";
+import NetworkTopology, { TopologyDataShape } from "./NetworkTopology";
+import {
+  TopologyParaSliderCompact,
+  TopologyParameters,
+} from "../../SmallElements/TopologyParaSlider";
+import { Dropdown } from "../../Dropdown/Dropdown";
+import { Btn } from "../../SmallElements/Btn";
+import { NodeShape } from "../TreeExplorer";
+import styles from "./TopologyWithParameterControls.module.scss";
+import { Menu } from "../../Dropdown/Menu";
 
 interface TopologyWithParameterControlsProps {
   data?: TopologyDataShape;
@@ -11,12 +17,9 @@ interface TopologyWithParameterControlsProps {
   treeData?: NodeShape[];
 }
 
-export const TopologyWithParameterControls: React.FC<TopologyWithParameterControlsProps> = ({
-  data,
-  width = 800,
-  height = 600,
-  treeData
-}) => {
+export const TopologyWithParameterControls: React.FC<
+  TopologyWithParameterControlsProps
+> = ({ data, width = 800, height = 600, treeData }) => {
   const [parameters, setParameters] = useState<TopologyParameters>({
     repulsionStrength: -150,
     linkDistance: 80,
@@ -25,7 +28,7 @@ export const TopologyWithParameterControls: React.FC<TopologyWithParameterContro
     initialZoomLevel: 0.8,
     alphaDecay: 0.00008,
     collideRadius: 0.5,
-    dynamicLinkFactor: 0.3
+    dynamicLinkFactor: 0.3,
   });
 
   const handleParametersChange = (newParameters: TopologyParameters) => {
@@ -33,14 +36,32 @@ export const TopologyWithParameterControls: React.FC<TopologyWithParameterContro
   };
 
   return (
-    <div className={styles['topology-with-controls']}>
-      <div className={styles['controls-panel']}>
-        <TopologyParaSlider 
-          initialValues={parameters}
-          onChange={handleParametersChange}
+    <div className={styles["topology-with-controls"]}>
+      <div className={styles["dropdown-controls"]}>
+        <Dropdown
+          trigger={
+            <Btn icon="settings" size="size-medium" mode="mode-plain" />
+          }
+          dropdownContent={
+            <Menu
+              group={[
+                {
+                  groupTitle: "Theme Preferences",
+                  groupItems: [
+                    <TopologyParaSliderCompact
+                      initialValues={parameters}
+                      onChange={handleParametersChange}
+                    />,
+                  ],
+                },
+              ]}
+            />
+          }
+          dropdownSize="medium"
+          position="left"
         />
       </div>
-      <div className={styles['topology-container']}>
+      <div className={styles["topology-container"]}>
         <NetworkTopology
           data={data}
           width={width}
@@ -58,4 +79,4 @@ export const TopologyWithParameterControls: React.FC<TopologyWithParameterContro
       </div>
     </div>
   );
-}; 
+};

@@ -5,23 +5,11 @@
   display: flex;
   flex-direction: column;
 
-  .controls-panel {
+  .dropdown-controls {
     position: absolute;
     top: 16px;
     left: 16px;
     z-index: 10;
-    display: flex;
-    flex-direction: column;
-    gap: 12px;
-    max-width: 90vw;
-    max-height: 80vh;
-    overflow: visible;
-    background-color: var(--color-bg-main-trans);
-    border-radius: 12px;
-    padding: 8px;
-    box-shadow: var(--pop-shaodw);
-    -webkit-backdrop-filter: blur(8px);
-    backdrop-filter: blur(8px);
   }
 
   .topology-container {

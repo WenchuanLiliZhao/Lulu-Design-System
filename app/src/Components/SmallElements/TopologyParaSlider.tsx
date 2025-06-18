@@ -167,4 +167,71 @@ export const TopologyParaSlider: React.FC<TopologyParaSliderProps> = ({
       </div>
     </div>
   );
+};
+
+export const TopologyParaSliderCompact: React.FC<TopologyParaSliderProps> = ({
+  initialValues = {},
+  onChange
+}) => {
+  // Initialize parameters with default values
+  const defaultParameters: TopologyParameters = sliderConfigs.reduce((acc, config) => {
+    acc[config.key] = initialValues[config.key] ?? config.defaultValue;
+    return acc;
+  }, {} as TopologyParameters);
+
+  const [parameters, setParameters] = useState<TopologyParameters>(defaultParameters);
+
+  const handleSliderChange = useCallback((key: keyof TopologyParameters, value: number) => {
+    const newParameters = { ...parameters, [key]: value };
+    setParameters(newParameters);
+    onChange(newParameters);
+  }, [parameters, onChange]);
+
+  const formatValue = (value: number, step: number): string => {
+    if (step < 1) {
+      const decimals = step.toString().split('.')[1]?.length || 0;
+      return value.toFixed(decimals);
+    }
+    return value.toString();
+  };
+
+  const calculatePercentage = (value: number, min: number, max: number): number => {
+    return ((value - min) / (max - min)) * 100;
+  };
+
+  return (
+    <div className={styles['compact-slider-container']}>
+      <div className={styles['compact-sliders-grid']}>
+        {sliderConfigs.map((config) => {
+          const value = parameters[config.key];
+          const percentage = calculatePercentage(value, config.min, config.max);
+          
+          return (
+            <div key={config.key} className={styles['compact-slider']} title={config.description}>
+              <div className={styles['slider-header']}>
+                <span className={styles['label']}>{config.label}</span>
+                <span className={styles['value']}>{formatValue(value, config.step)}</span>
+              </div>
+              <div className={styles['slider-container']}>
+                <input
+                  type="range"
+                  min={config.min}
+                  max={config.max}
+                  step={config.step}
+                  value={value}
+                  onChange={(e) => handleSliderChange(config.key, parseFloat(e.target.value))}
+                  className={styles['slider-input']}
+                  aria-label={`${config.label} slider, current value: ${formatValue(value, config.step)}`}
+                />
+                <div 
+                  className={styles['slider-track']}
+                  style={{ '--slider-percentage': `${percentage}%` } as React.CSSProperties}
+                />
+              </div>
+            </div>
+          );
+        })}
+      </div>
+    </div>
+  );
 }; 

@@ -91,9 +91,11 @@ export const Dropdown: React.FC<DropdownProps> = ({
 
   // Handles clicks outside the dropdown to close it by removing the `.open` class.
   // This ensures that dropdowns close when the user clicks elsewhere on the page.
+  // Enhanced to handle SVG elements and D3.js canvases properly.
   // 处理点击下拉菜单外部的操作，通过移除 `.open` 类来关闭菜单。
   // 这确保了当用户点击页面其他地方时，下拉菜单会关闭。
-  const handleClickOutside = (event: MouseEvent) => {
+  // 增强以正确处理 SVG 元素和 D3.js 画布。
+  const handleClickOutside = (event: MouseEvent | Event) => {
     if (menuRef.current && !menuRef.current.contains(event.target as Node)) {
       setIsOpen(false); // Closes the dropdown when clicking outside. // 当点击外部时关闭下拉菜单。
       
@@ -109,13 +111,20 @@ export const Dropdown: React.FC<DropdownProps> = ({
   };
 
   useEffect(() => {
-    // Adds a global event listener to detect clicks outside the dropdown.
-    // 添加全局事件监听器以检测点击下拉菜单外部的操作。
-    document.addEventListener("mousedown", handleClickOutside);
+    // Adds multiple global event listeners to detect clicks outside the dropdown.
+    // This includes both mousedown and click events to handle SVG elements properly.
+    // Also uses capture phase to catch events before D3.js might intercept them.
+    // 添加多个全局事件监听器以检测点击下拉菜单外部的操作。
+    // 包括 mousedown 和 click 事件以正确处理 SVG 元素。
+    // 同时使用捕获阶段以在 D3.js 可能拦截事件之前捕获它们。
+    document.addEventListener("mousedown", handleClickOutside, true); // Use capture phase
+    document.addEventListener("click", handleClickOutside);
+    
     return () => {
-      // Removes the event listener to prevent memory leaks.
+      // Removes the event listeners to prevent memory leaks.
       // 移除事件监听器以防止内存泄漏。
-      document.removeEventListener("mousedown", handleClickOutside);
+      document.removeEventListener("mousedown", handleClickOutside, true);
+      document.removeEventListener("click", handleClickOutside);
     };
   }, []);
 
