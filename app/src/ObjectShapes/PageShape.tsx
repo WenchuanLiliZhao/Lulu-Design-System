@@ -11,6 +11,7 @@ export interface PageInfo {
   date: Date
   type: PageType
   tags?: string[]
+  fileCount?: number
   metadata?: {
     id: string
     dataName: string

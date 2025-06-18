@@ -33,6 +33,7 @@ const Math: TreeNodesShape[] = [
                 date: new Date("2025-01-01"),
                 type: "database",
                 tags: ["prime-numbers"],
+                fileCount: 134,
               },
               content: <div>Prime Numbers</div>,
             },
@@ -46,6 +47,7 @@ const Math: TreeNodesShape[] = [
                 date: new Date("2025-01-01"),
                 type: "database",
                 tags: ["modular-arithmetic"],
+                fileCount: 92,
               },
               content: <div>Modular Arithmetic</div>,
             },
@@ -59,6 +61,7 @@ const Math: TreeNodesShape[] = [
                 date: new Date("2025-01-01"),
                 type: "database",
                 tags: ["quadratic-residues"],
+                fileCount: 178,
               },
               content: <div>Quadratic Residues</div>,
             },
@@ -110,6 +113,7 @@ const Math: TreeNodesShape[] = [
                         date: new Date("2025-04-02"),
                         type: "key",
                         tags: ["set-operations"],
+                        fileCount: 65,
                       },
                       content: <div>Examples of Sets</div>,
                     },
@@ -123,6 +127,7 @@ const Math: TreeNodesShape[] = [
                         date: new Date("2025-04-03"),
                         type: "dashboard",
                         tags: ["relations-and-functions"],
+                        fileCount: 211,
                       },
                       content: <div>Properties of Sets</div>,
                     },
@@ -136,6 +141,7 @@ const Math: TreeNodesShape[] = [
                         date: new Date("2025-04-04"),
                         type: "database",
                         tags: ["set-operations"],
+                        fileCount: 83,
                       },
                       content: <div>Examples of Sets</div>,
                     },
@@ -149,6 +155,7 @@ const Math: TreeNodesShape[] = [
                         date: new Date("2025-04-04"),
                         type: "database",
                         tags: ["set-operations"],
+                        fileCount: 157,
                       },
                       content: <div>Examples of Sets</div>,
                     },
@@ -162,6 +169,7 @@ const Math: TreeNodesShape[] = [
                         date: new Date("2025-04-04"),
                         type: "database",
                         tags: ["set-operations"],
+                        fileCount: 109,
                       },
                       content: <div>Examples of Sets</div>,
                     },
@@ -175,6 +183,7 @@ const Math: TreeNodesShape[] = [
                         date: new Date("2025-04-04"),
                         type: "database",
                         tags: ["set-operations"],
+                        fileCount: 76,
                       },
                       content: <div>Examples of Sets</div>,
                     },
@@ -188,6 +197,7 @@ const Math: TreeNodesShape[] = [
                         date: new Date("2025-04-04"),
                         type: "database",
                         tags: ["set-operations"],
+                        fileCount: 193,
                       },
                       content: <div>Examples of Sets</div>,
                     },
@@ -201,6 +211,7 @@ const Math: TreeNodesShape[] = [
                         date: new Date("2025-04-04"),
                         type: "database",
                         tags: ["set-operations"],
+                        fileCount: 124,
                       },
                       content: <div>Examples of Sets</div>,
                     },
@@ -214,6 +225,7 @@ const Math: TreeNodesShape[] = [
                         date: new Date("2025-04-04"),
                         type: "database",
                         tags: ["set-operations"],
+                        fileCount: 68,
                       },
                       content: <div>Examples of Sets</div>,
                     },
@@ -234,30 +246,32 @@ const Math: TreeNodesShape[] = [
                 },
                 children: [
                   {
-                    page: {
-                      info: {
-                        slug: "applications_of_axiom_of_choice",
-                        title: "Applications of Axiom of Choice",
-                        date: new Date("2025-04-11"),
-                        type: "database",
-                        tags: ["topological-properties"],
-                      },
-                      content: <div>Applications of Axiom of Choice</div>,
+                                      page: {
+                    info: {
+                      slug: "applications_of_axiom_of_choice",
+                      title: "Applications of Axiom of Choice",
+                      date: new Date("2025-04-11"),
+                      type: "database",
+                      tags: ["topological-properties"],
+                      fileCount: 145,
                     },
-                    children: [],
+                    content: <div>Applications of Axiom of Choice</div>,
+                  },
+                  children: [],
                   },
                   {
-                    page: {
-                      info: {
-                        slug: "controversies_about_axiom_of_choice",
-                        title: "Controversies About Axiom of Choice",
-                        date: new Date("2025-04-12"),
-                        type: "database",
-                        tags: ["topological-structures"],
-                      },
-                      content: <div>Controversies About Axiom of Choice</div>,
+                                      page: {
+                    info: {
+                      slug: "controversies_about_axiom_of_choice",
+                      title: "Controversies About Axiom of Choice",
+                      date: new Date("2025-04-12"),
+                      type: "database",
+                      tags: ["topological-structures"],
+                      fileCount: 88,
                     },
-                    children: [],
+                    content: <div>Controversies About Axiom of Choice</div>,
+                  },
+                  children: [],
                   },
                 ],
               },
@@ -288,30 +302,32 @@ const Math: TreeNodesShape[] = [
                 },
                 children: [
                   {
-                    page: {
-                      info: {
-                        slug: "examples_of_union",
-                        title: "Examples of Union",
-                        date: new Date("2025-05-03"),
-                        type: "key",
-                        tags: ["basis-for-a-topology"],
-                      },
-                      content: <div>Examples of Union</div>,
+                                      page: {
+                    info: {
+                      slug: "examples_of_union",
+                      title: "Examples of Union",
+                      date: new Date("2025-05-03"),
+                      type: "key",
+                      tags: ["basis-for-a-topology"],
+                      fileCount: 172,
                     },
-                    children: [],
+                    content: <div>Examples of Union</div>,
+                  },
+                  children: [],
                   },
                   {
-                    page: {
-                      info: {
-                        slug: "properties_of_union",
-                        title: "Properties of Union",
-                        date: new Date("2025-05-04"),
-                        type: "dashboard",
-                        tags: ["general-topology"],
-                      },
-                      content: <div>Properties of Union</div>,
+                                      page: {
+                    info: {
+                      slug: "properties_of_union",
+                      title: "Properties of Union",
+                      date: new Date("2025-05-04"),
+                      type: "dashboard",
+                      tags: ["general-topology"],
+                      fileCount: 95,
                     },
-                    children: [],
+                    content: <div>Properties of Union</div>,
+                  },
+                  children: [],
                   },
                 ],
               },
@@ -328,30 +344,32 @@ const Math: TreeNodesShape[] = [
                 },
                 children: [
                   {
-                    page: {
-                      info: {
-                        slug: "examples_of_intersection",
-                        title: "Examples of Intersection",
-                        date: new Date("2025-05-06"),
-                        type: "database",
-                        tags: ["topological-properties"],
-                      },
-                      content: <div>Examples of Intersection</div>,
+                                      page: {
+                    info: {
+                      slug: "examples_of_intersection",
+                      title: "Examples of Intersection",
+                      date: new Date("2025-05-06"),
+                      type: "database",
+                      tags: ["topological-properties"],
+                      fileCount: 116,
                     },
-                    children: [],
+                    content: <div>Examples of Intersection</div>,
+                  },
+                  children: [],
                   },
                   {
-                    page: {
-                      info: {
-                        slug: "properties_of_intersection",
-                        title: "Properties of Intersection",
-                        date: new Date("2025-05-07"),
-                        type: "database",
-                        tags: ["topological-structures"],
-                      },
-                      content: <div>Properties of Intersection</div>,
+                                      page: {
+                    info: {
+                      slug: "properties_of_intersection",
+                      title: "Properties of Intersection",
+                      date: new Date("2025-05-07"),
+                      type: "database",
+                      tags: ["topological-structures"],
+                      fileCount: 189,
                     },
-                    children: [],
+                    content: <div>Properties of Intersection</div>,
+                  },
+                  children: [],
                   },
                 ],
               },
@@ -382,30 +400,32 @@ const Math: TreeNodesShape[] = [
                 },
                 children: [
                   {
-                    page: {
-                      info: {
-                        slug: "examples_of_cartesian_product",
-                        title: "Examples of Cartesian Product",
-                        date: new Date("2025-06-03"),
-                        type: "key",
-                        tags: ["coordinate-systems", "euclidean-spaces", "graphs"],
-                      },
-                      content: <div>Examples of Cartesian Product</div>,
+                                      page: {
+                    info: {
+                      slug: "examples_of_cartesian_product",
+                      title: "Examples of Cartesian Product",
+                      date: new Date("2025-06-03"),
+                      type: "key",
+                      tags: ["coordinate-systems", "euclidean-spaces", "graphs"],
+                      fileCount: 73,
                     },
-                    children: [],
+                    content: <div>Examples of Cartesian Product</div>,
+                  },
+                  children: [],
                   },
                   {
-                    page: {
-                      info: {
-                        slug: "properties_of_cartesian_product",
-                        title: "Properties of Cartesian Product",
-                        date: new Date("2025-06-04"),
-                        type: "dashboard",
-                        tags: ["cardinality", "distributive-laws", "relations"],
-                      },
-                      content: <div>Properties of Cartesian Product</div>,
+                                      page: {
+                    info: {
+                      slug: "properties_of_cartesian_product",
+                      title: "Properties of Cartesian Product",
+                      date: new Date("2025-06-04"),
+                      type: "dashboard",
+                      tags: ["cardinality", "distributive-laws", "relations"],
+                      fileCount: 164,
                     },
-                    children: [],
+                    content: <div>Properties of Cartesian Product</div>,
+                  },
+                  children: [],
                   },
                 ],
               },
@@ -436,30 +456,32 @@ const Math: TreeNodesShape[] = [
                 },
                 children: [
                   {
-                    page: {
-                      info: {
-                        slug: "examples_of_power_set",
-                        title: "Examples of Power Set",
-                        date: new Date("2025-07-03"),
-                        type: "database",
-                        tags: ["finite-sets", "enumeration", "binary-representation"],
-                      },
-                      content: <div>Examples of Power Set</div>,
+                                      page: {
+                    info: {
+                      slug: "examples_of_power_set",
+                      title: "Examples of Power Set",
+                      date: new Date("2025-07-03"),
+                      type: "database",
+                      tags: ["finite-sets", "enumeration", "binary-representation"],
+                      fileCount: 207,
                     },
-                    children: [],
+                    content: <div>Examples of Power Set</div>,
+                  },
+                  children: [],
                   },
                   {
-                    page: {
-                      info: {
-                        slug: "properties_of_power_set",
-                        title: "Properties of Power Set",
-                        date: new Date("2025-07-04"),
-                        type: "dataset",
-                        tags: ["cardinality", "set-operations", "boolean-algebra"],
-                      },
-                      content: <div>Properties of Power Set</div>,
+                                      page: {
+                    info: {
+                      slug: "properties_of_power_set",
+                      title: "Properties of Power Set",
+                      date: new Date("2025-07-04"),
+                      type: "dataset",
+                      tags: ["cardinality", "set-operations", "boolean-algebra"],
+                      fileCount: 131,
                     },
-                    children: [],
+                    content: <div>Properties of Power Set</div>,
+                  },
+                  children: [],
                   },
                 ],
               },
@@ -492,17 +514,18 @@ const Math: TreeNodesShape[] = [
             },
             children: [
               {
-                page: {
-                  info: {
-                    slug: "matrix_operations",
-                    title: "Matrix Operations",
-                    date: new Date("2025-08-03"),
-                    type: "dashboard",
-                    tags: ["matrix-multiplication", "determinants", "inverses"],
-                  },
-                  content: <div>Matrix Operations</div>,
+                              page: {
+                info: {
+                  slug: "matrix_operations",
+                  title: "Matrix Operations",
+                  date: new Date("2025-08-03"),
+                  type: "dashboard",
+                  tags: ["matrix-multiplication", "determinants", "inverses"],
+                  fileCount: 184,
                 },
-                children: [],
+                content: <div>Matrix Operations</div>,
+              },
+              children: [],
               },
               {
                 page: {

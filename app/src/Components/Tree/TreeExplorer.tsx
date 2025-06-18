@@ -55,6 +55,7 @@ export interface NodeShape extends GenericTreeNode {
   type: PageType; // 对应原先的 type
   children: NodeShape[]; // 子节点数组
   tags?: string[]; // 节点的标签
+  fileCount?: number; // 节点的文件数量
 }
 
 // eslint-disable-next-line react-refresh/only-export-components
@@ -68,6 +69,7 @@ export function transformTreeNodes(
     name: node.page.info.title,
     level,
     tags: node.page.info.tags,
+    fileCount: node.page.info.fileCount,
     children: transformTreeNodes(node.children, level + 1), // 递归并传递层级
   }));
 }
