@@ -1,23 +1,24 @@
-// Update colors to be inspired by Van Gogh's vibrant palette
+// Optimized color palette with maximum distinctiveness for 20 node groups
+// Colors are carefully selected to ensure good contrast and visual separation
 export const nodeGroupColors: Record<number, string> = {
-  0: '#FFB300', // Vivid Yellow
-  1: '#FF6F00', // Vivid Orange
-  2: '#D32F2F', // Vivid Red
-  3: '#1976D2', // Vivid Blue
-  4: '#388E3C', // Vivid Green
-  5: '#7B1FA2', // Vivid Purple
-  6: '#FBC02D', // Bright Yellow
-  7: '#E64A19', // Bright Orange
-  8: '#C2185B', // Bright Red
-  9: '#303F9F', // Bright Blue
-  10: '#00796B', // Bright Teal
-  11: '#512DA8', // Bright Purple
-  12: '#FFA000', // Bright Amber
-  13: '#F57C00', // Bright Deep Orange
-  14: '#C62828', // Bright Crimson
-  15: '#0288D1', // Bright Light Blue
-  16: '#388E3C', // Bright Green
-  17: '#7B1FA2', // Bright Violet
-  18: '#FBC02D', // Bright Gold
-  19: '#455A64', // Dark Slate
+  0: '#FF6B6B',  // Coral Red
+  1: '#4ECDC4',  // Turquoise
+  2: '#45B7D1',  // Sky Blue
+  3: '#96CEB4',  // Mint Green
+  4: '#FECA57',  // Golden Yellow
+  5: '#FF9FF3',  // Pink
+  6: '#54A0FF',  // Royal Blue
+  7: '#5F27CD',  // Deep Purple
+  8: '#00D2D3',  // Cyan
+  9: '#FF9F43',  // Orange
+  10: '#C44569', // Magenta
+  11: '#40407A', // Dark Blue
+  12: '#706FD3', // Lavender
+  13: '#F8B500', // Amber
+  14: '#2ED573', // Lime Green
+  15: '#FF5722', // Deep Orange
+  16: '#795548', // Brown
+  17: '#607D8B', // Blue Grey
+  18: '#E91E63', // Deep Pink
+  19: '#3F51B5', // Indigo
 }; 

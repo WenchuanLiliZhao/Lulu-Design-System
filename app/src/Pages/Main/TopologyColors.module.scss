@@ -1,0 +1,146 @@
+.topology-colors-container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: var(--spacing-lg);
+  
+  .header {
+    margin-bottom: var(--spacing-xl);
+    text-align: center;
+    
+    h1 {
+      color: var(--color-main);
+      margin-bottom: var(--spacing-md);
+      font-size: 2.5rem;
+      font-weight: 700;
+    }
+    
+    p {
+      color: var(--color-sec);
+      font-size: 1.1rem;
+      line-height: 1.6;
+      max-width: 600px;
+      margin: 0 auto;
+    }
+  }
+  
+  .colors-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: var(--spacing-lg);
+    margin-bottom: var(--spacing-xxl);
+    
+    .color-item {
+      background: var(--color-bg-sec);
+      border-radius: var(--border-radius-lg);
+      padding: var(--spacing-lg);
+      box-shadow: var(--shadow-sm);
+      border: 1px solid var(--color-border-main-trans);
+      transition: all 0.2s ease;
+      
+      &:hover {
+        transform: translateY(-2px);
+        box-shadow: var(--shadow-md);
+        border-color: var(--color-border-main);
+      }
+      
+      .color-preview {
+        width: 100%;
+        height: 80px;
+        border-radius: var(--border-radius-md);
+        margin-bottom: var(--spacing-md);
+        border: 2px solid var(--color-border-main-trans);
+        position: relative;
+        
+        &::before {
+          content: '';
+          position: absolute;
+          top: 0;
+          left: 0;
+          right: 0;
+          bottom: 0;
+          border-radius: inherit;
+          box-shadow: inset 0 0 0 1px rgba(0, 0, 0, 0.1);
+        }
+      }
+      
+      .color-info {
+        .color-name {
+          font-size: 1.2rem;
+          font-weight: 600;
+          color: var(--color-main);
+          margin-bottom: var(--spacing-xs);
+        }
+        
+        .color-hex {
+          font-size: 1rem;
+          font-family: 'Monaco', 'Menlo', 'Ubuntu Mono', monospace;
+          color: var(--color-sec);
+          background: var(--color-bg-main);
+          padding: var(--spacing-xs) var(--spacing-sm);
+          border-radius: var(--border-radius-sm);
+          display: inline-block;
+          margin-bottom: var(--spacing-sm);
+          border: 1px solid var(--color-border-main-trans);
+          font-weight: 500;
+        }
+        
+        .color-description {
+          font-size: 0.9rem;
+          color: var(--color-sec-trans);
+          font-style: italic;
+        }
+      }
+    }
+  }
+  
+  .usage-info {
+    background: var(--color-bg-sec);
+    border-radius: var(--border-radius-lg);
+    padding: var(--spacing-xl);
+    border: 1px solid var(--color-border-main-trans);
+    
+    h2 {
+      color: var(--color-main);
+      margin-bottom: var(--spacing-lg);
+      font-size: 1.5rem;
+      font-weight: 600;
+    }
+    
+    p {
+      color: var(--color-sec);
+      line-height: 1.7;
+      margin-bottom: var(--spacing-md);
+      font-size: 1rem;
+      
+      &:last-child {
+        margin-bottom: 0;
+      }
+    }
+  }
+}
+
+// 响应式设计
+@media (max-width: 768px) {
+  .topology-colors-container {
+    padding: var(--spacing-md);
+    
+    .header {
+      h1 {
+        font-size: 2rem;
+      }
+      
+      p {
+        font-size: 1rem;
+      }
+    }
+    
+    .colors-grid {
+      grid-template-columns: 1fr;
+      gap: var(--spacing-md);
+    }
+    
+    .usage-info {
+      padding: var(--spacing-lg);
+    }
+  }
+} 

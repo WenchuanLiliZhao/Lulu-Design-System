@@ -49,6 +49,12 @@ const Home: PageShape = {
         >
           🏢 Department Table with Lucide Icons
         </a>
+        <a
+          className={styles["item"]}
+          href="/topology-colors"
+        >
+          🎨 Topology Node Colors Reference
+        </a>
       </div>
       <div className={styles["links"]}>
         <a href="https://github.com/WenchuanLiliZhao/Lulu-Design-System/tree/main/app">GitHub repository</a>
