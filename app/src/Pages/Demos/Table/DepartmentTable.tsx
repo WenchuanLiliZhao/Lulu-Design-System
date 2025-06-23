@@ -36,7 +36,42 @@ import {
   Laptop,
   Tablet,
   Calendar,
-  Settings
+  Settings,
+  Calculator,
+  Receipt,
+  Coins,
+  Users,
+  Heart,
+  MessageCircle,
+  Package,
+  Tags,
+  Layers,
+  Box,
+  Send,
+  CheckCircle,
+  Award,
+  UserCheck,
+  ThumbsUp,
+  Edit,
+  Search,
+  Filter,
+  Banknote,
+  Wallet,
+  Percent,
+  UserPlus,
+  Smile,
+  Coffee,
+  Shirt,
+  Eye,
+  Sparkles,
+  Plane,
+  MapPin,
+  Clock,
+  Crown,
+  Handshake,
+  Flag,
+  Shield,
+  Lock
 } from "lucide-react";
 import JSZip from "jszip";
 import styles from "./DepartmentTable.module.scss";
@@ -50,19 +85,9 @@ interface Department {
   }[];
 }
 
-// 根据实际人员信息的部门数据，每个部门配对 7-8 个合适的 Lucide 图标（无重复）
+// 根据实际人员信息的部门数据，每个部门配对相应数量的 Lucide 图标（无重复）
 const departments: Department[] = [
-  { 
-    name: "Retail", 
-    icons: [
-      { iconName: "shopping-bag", IconComponent: ShoppingBag },
-      { iconName: "store", IconComponent: Store },
-      { iconName: "shopping-cart", IconComponent: ShoppingCart },
-      { iconName: "credit-card", IconComponent: CreditCard },
-      { iconName: "building", IconComponent: Building },
-      { iconName: "truck", IconComponent: Truck }
-    ]
-  },
+  // 原有部门保留
   { 
     name: "Brand Marketing", 
     icons: [
@@ -73,19 +98,6 @@ const departments: Department[] = [
       { iconName: "target", IconComponent: Target },
       { iconName: "zap", IconComponent: Zap },
       { iconName: "camera", IconComponent: Camera }
-    ]
-  },
-  { 
-    name: "Ecommerce", 
-    icons: [
-      { iconName: "globe", IconComponent: Globe },
-      { iconName: "monitor", IconComponent: Monitor },
-      { iconName: "smartphone", IconComponent: Smartphone },
-      { iconName: "wifi", IconComponent: Wifi },
-      { iconName: "video", IconComponent: Video },
-      { iconName: "mouse-pointer", IconComponent: MousePointer },
-      { iconName: "laptop", IconComponent: Laptop },
-      { iconName: "tablet", IconComponent: Tablet }
     ]
   },
   { 
@@ -109,6 +121,110 @@ const departments: Department[] = [
       { iconName: "book-open", IconComponent: BookOpen },
       { iconName: "file-bar-chart", IconComponent: FileBarChart },
       { iconName: "settings", IconComponent: Settings }
+    ]
+  },
+  
+  // 新增的8个图标部门
+  { 
+    name: "EC", 
+    icons: [
+      { iconName: "globe", IconComponent: Globe },
+      { iconName: "monitor", IconComponent: Monitor },
+      { iconName: "smartphone", IconComponent: Smartphone },
+      { iconName: "wifi", IconComponent: Wifi },
+      { iconName: "video", IconComponent: Video },
+      { iconName: "mouse-pointer", IconComponent: MousePointer },
+      { iconName: "laptop", IconComponent: Laptop },
+      { iconName: "tablet", IconComponent: Tablet }
+    ]
+  },
+  { 
+    name: "FPA", 
+    icons: [
+      { iconName: "calculator", IconComponent: Calculator },
+      { iconName: "receipt", IconComponent: Receipt },
+      { iconName: "coins", IconComponent: Coins },
+      { iconName: "credit-card", IconComponent: CreditCard },
+      { iconName: "building", IconComponent: Building },
+      { iconName: "truck", IconComponent: Truck },
+      { iconName: "package", IconComponent: Package },
+      { iconName: "layers", IconComponent: Layers }
+    ]
+  },
+  { 
+    name: "Retail", 
+    icons: [
+      { iconName: "shopping-bag", IconComponent: ShoppingBag },
+      { iconName: "store", IconComponent: Store },
+      { iconName: "shopping-cart", IconComponent: ShoppingCart },
+      { iconName: "users", IconComponent: Users },
+      { iconName: "heart", IconComponent: Heart },
+      { iconName: "message-circle", IconComponent: MessageCircle },
+      { iconName: "box", IconComponent: Box },
+      { iconName: "send", IconComponent: Send }
+    ]
+  },
+  { 
+    name: "Tec", 
+    icons: [
+      { iconName: "download", IconComponent: Download },
+      { iconName: "tags", IconComponent: Tags },
+      { iconName: "check-circle", IconComponent: CheckCircle },
+      { iconName: "award", IconComponent: Award },
+      { iconName: "user-check", IconComponent: UserCheck },
+      { iconName: "thumbs-up", IconComponent: ThumbsUp },
+      { iconName: "shield", IconComponent: Shield },
+      { iconName: "lock", IconComponent: Lock }
+    ]
+  },
+  
+  // 新增的3个图标部门
+  {
+    name: "AP",
+    icons: [
+      { iconName: "edit", IconComponent: Edit },
+      { iconName: "search", IconComponent: Search },
+      { iconName: "filter", IconComponent: Filter }
+    ]
+  },
+  {
+    name: "Accounting",
+    icons: [
+      { iconName: "banknote", IconComponent: Banknote },
+      { iconName: "wallet", IconComponent: Wallet },
+      { iconName: "percent", IconComponent: Percent }
+    ]
+  },
+  {
+    name: "Guest",
+    icons: [
+      { iconName: "user-plus", IconComponent: UserPlus },
+      { iconName: "smile", IconComponent: Smile },
+      { iconName: "coffee", IconComponent: Coffee }
+    ]
+  },
+  {
+    name: "Merchandising",
+    icons: [
+      { iconName: "shirt", IconComponent: Shirt },
+      { iconName: "eye", IconComponent: Eye },
+      { iconName: "sparkles", IconComponent: Sparkles }
+    ]
+  },
+  {
+    name: "Fulfillment",
+    icons: [
+      { iconName: "plane", IconComponent: Plane },
+      { iconName: "map-pin", IconComponent: MapPin },
+      { iconName: "clock", IconComponent: Clock }
+    ]
+  },
+  {
+    name: "Ambassador",
+    icons: [
+      { iconName: "crown", IconComponent: Crown },
+      { iconName: "handshake", IconComponent: Handshake },
+      { iconName: "flag", IconComponent: Flag }
     ]
   }
 ];
