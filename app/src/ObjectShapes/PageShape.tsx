@@ -12,6 +12,7 @@ export interface PageInfo {
   type: PageType
   tags?: string[]
   fileCount?: number
+  color?: string
   metadata?: {
     id: string
     dataName: string

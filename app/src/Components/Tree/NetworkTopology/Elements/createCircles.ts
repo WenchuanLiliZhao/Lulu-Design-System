@@ -22,7 +22,7 @@ export function createCircles({ graphData, color, g }: CreateCircleParams) {
   const focusRings = nodeGroups.append('circle')
     .attr('class', 'focus-ring')
     .attr('r', d => d.size * 2 + 3) // radius + 3 pixels as requested
-    .style('stroke', d => color(d.group?.toString() || ''))
+    .style('stroke', d => d.color || color(d.group?.toString() || '')) // Use node color if available, otherwise use group color
     .style('fill', 'none')
     .style('stroke-width', 2)
     .style('opacity', 0) // Initially hidden
@@ -42,7 +42,7 @@ export function createCircles({ graphData, color, g }: CreateCircleParams) {
       }
     })
     .attr('r', d => d.size * 2)
-    .style('fill', d => color(d.group?.toString() || ''));
+    .style('fill', d => d.color || color(d.group?.toString() || '')); // Use node color if available, otherwise use group color
 
   return {
     nodeGroups,

@@ -56,6 +56,7 @@ export interface NodeShape extends GenericTreeNode {
   children: NodeShape[]; // 子节点数组
   tags?: string[]; // 节点的标签
   fileCount?: number; // 节点的文件数量
+  color?: string; // 节点的颜色（hex 色值）
 }
 
 // eslint-disable-next-line react-refresh/only-export-components
@@ -70,6 +71,7 @@ export function transformTreeNodes(
     level,
     tags: node.page.info.tags,
     fileCount: node.page.info.fileCount,
+    color: node.page.info.color, // 传递颜色属性
     children: transformTreeNodes(node.children, level + 1), // 递归并传递层级
   }));
 }

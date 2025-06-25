@@ -55,6 +55,7 @@ export function transformTreeToGraph(
       name: node.name,
       type: node.type,
       group,
+      color: node.color, // Pass through the color property if available
       level: level,
       tags: node.tags,
       size: baseNodeSize * sizeFactor / (Math.pow(level, sizePower) + sizeFactor),

@@ -9,6 +9,7 @@ const Math: TreeNodesShape[] = [
         date: new Date("2025-01-01"),
         type: "database",
         tags: ["math"],
+        color: "#FF6B6B", // 添加红色
       },
       content: <div>Math</div>,
     },
@@ -21,6 +22,7 @@ const Math: TreeNodesShape[] = [
             date: new Date("2025-01-01"),
             type: "database",
             tags: ["number-theory"],
+            color: "#4ECDC4", // 添加青色
           },
           content: <div>Number Theory</div>,
         },
@@ -34,6 +36,7 @@ const Math: TreeNodesShape[] = [
                 type: "database",
                 tags: ["prime-numbers"],
                 fileCount: 134,
+                color: "#96CEB4", // 添加薄荷绿
               },
               content: <div>Prime Numbers</div>,
             },
@@ -48,6 +51,7 @@ const Math: TreeNodesShape[] = [
                 type: "database",
                 tags: ["modular-arithmetic"],
                 fileCount: 92,
+                color: "#FECA57", // 添加金黄色
               },
               content: <div>Modular Arithmetic</div>,
             },
@@ -77,6 +81,7 @@ const Math: TreeNodesShape[] = [
             date: new Date("2025-10-01"),
             type: "database",
             tags: ["set-theory"],
+            color: "#45B7D1", // 添加蓝色
           },
           content: <div>Set Theory</div>,
         },

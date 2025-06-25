@@ -49,6 +49,7 @@ const maxZoom = 5; // Maximum zoom scale - limits how far users can zoom in
 
 export interface GraphNodeShape extends Omit<NodeShape, 'children'> {
   group?: number;
+  color?: string; // Add optional color property for hex color values
   size: number;
   x?: number;
   y?: number;
