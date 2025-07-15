@@ -80,7 +80,7 @@ export const ChatBotBtn = () => {
         {/* Display the 🧠 symbol when the chatbox is open */}
         {/* 当聊天框打开时显示 🧠 符号 */}
         <div className={`${styles["symbol"]} ${isOpen ? styles["show"] : ""}`}>
-          🧠
+          🤖
         </div>
 
         {/* Render a hover effect for the button */}
